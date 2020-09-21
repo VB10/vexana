@@ -18,14 +18,19 @@ import 'model/response_model.dart';
 part 'operation/network_model_parser.dart';
 
 class NetworkManager with DioMixin implements Dio, INetworkManager {
-  NetworkManager({BaseOptions options, bool isEnableLogger}) {
+  NetworkManager({BaseOptions options, bool isEnableLogger, InterceptorsWrapper interceptor}) {
     this.options = options;
-    if (isEnableLogger) _addLoggerInterceptor();
+    _addLoggerInterceptor(isEnableLogger);
+    _addNetworkIntercaptors(interceptor);
     httpClientAdapter = DefaultHttpClientAdapter();
   }
 
-  void _addLoggerInterceptor() {
+  void _addLoggerInterceptor(bool isEnableLogger) {
     if (kDebugMode) this.interceptors.add(LogInterceptor());
+  }
+
+  void _addNetworkIntercaptors(InterceptorsWrapper interceptor) {
+    if (interceptor != null) this.interceptors.add(interceptor);
   }
 
   Future<IResponseModel<R>> fetch<T extends INetworkModel, R>(
