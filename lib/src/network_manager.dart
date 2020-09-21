@@ -18,10 +18,14 @@ import 'model/response_model.dart';
 part 'operation/network_model_parser.dart';
 
 class NetworkManager with DioMixin implements Dio, INetworkManager {
-  NetworkManager({BaseOptions options, bool isEnableLogger, InterceptorsWrapper interceptor}) {
+  INetworkModel errorModel;
+
+  NetworkManager(
+      {BaseOptions options, bool isEnableLogger, InterceptorsWrapper interceptor, INetworkModel errorModel}) {
     this.options = options;
     _addLoggerInterceptor(isEnableLogger);
     _addNetworkIntercaptors(interceptor);
+    _setBaseErrorModel(errorModel);
     httpClientAdapter = DefaultHttpClientAdapter();
   }
 
@@ -31,6 +35,16 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
 
   void _addNetworkIntercaptors(InterceptorsWrapper interceptor) {
     if (interceptor != null) this.interceptors.add(interceptor);
+  }
+
+  void _setBaseErrorModel(INetworkModel model) {
+    errorModel = model;
+  }
+
+  void _generateErrorModel(ErrorModel error, dynamic data) {
+    if (errorModel != null) {
+      error.model = errorModel.fromJson(data);
+    }
   }
 
   Future<IResponseModel<R>> fetch<T extends INetworkModel, R>(
@@ -56,10 +70,11 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
           final model = _parseBody<R, T>(response.data, parseModel);
           return ResponseModel<R>(data: model);
         default:
-          return ResponseModel(error: ErrorModel(description: "description"));
+          return ResponseModel(error: ErrorModel(description: response.data.toString()));
       }
     } on DioError catch (e) {
       final error = ErrorModel(description: e.message, statusCode: e.response.statusCode);
+      _generateErrorModel(error, e.response.data);
       return ResponseModel(error: error);
     }
   }

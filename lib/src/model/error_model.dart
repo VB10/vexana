@@ -1,3 +1,5 @@
+import 'package:vexana/src/interface/INetworkModel.dart';
+
 import '../interface/IErrorModel.dart';
 
 class ErrorModel<T> implements IErrorModel {
@@ -8,4 +10,7 @@ class ErrorModel<T> implements IErrorModel {
   String description;
 
   ErrorModel({this.statusCode, this.description});
+
+  @override
+  INetworkModel model;
 }
