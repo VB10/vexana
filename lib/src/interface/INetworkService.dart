@@ -5,7 +5,7 @@ import '../model/enum/request_type.dart';
 import 'INetworkModel.dart';
 import 'IResponseModel.dart';
 
-abstract class ICoreService {
+abstract class INetworkManager {
   Future<IResponseModel<R>> fetch<T extends INetworkModel, R>(
     String path, {
     @required T parseModel,

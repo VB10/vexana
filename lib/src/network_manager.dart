@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
 import 'extension/request_type_extension.dart';
@@ -16,20 +17,15 @@ import 'model/response_model.dart';
 
 part 'operation/network_model_parser.dart';
 
-class NetworkManager with DioMixin implements Dio, ICoreService {
-  static NetworkManager _instance;
-
-  static NetworkManager get instance {
-    if (_instance == null) _instance = NetworkManager._init();
-    return _instance;
-  }
-
-  factory NetworkManager.newInstance() {
-    return NetworkManager._init();
-  }
-
-  NetworkManager._init() {
+class NetworkManager with DioMixin implements Dio, INetworkManager {
+  NetworkManager({BaseOptions options, bool isEnableLogger}) {
+    this.options = options;
+    if (isEnableLogger) _addLoggerInterceptor();
     httpClientAdapter = DefaultHttpClientAdapter();
+  }
+
+  void _addLoggerInterceptor() {
+    if (kDebugMode) this.interceptors.add(LogInterceptor());
   }
 
   Future<IResponseModel<R>> fetch<T extends INetworkModel, R>(
