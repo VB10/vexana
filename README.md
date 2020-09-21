@@ -1,14 +1,36 @@
 # vexana
 
-A new Flutter package project.
+Vexana is easy use network proccess with dio. You can do dynamic model parse, base error model, timeout and many utitliy functions.
 
-## Getting Started
+![Vexana-Game](https://thumbs.gfycat.com/RightSoupyCrow-size_restricted.gif)
 
-This project is a starting point for a Dart
-[package](https://flutter.dev/developing-packages/),
-a library module containing code that can be shared easily across
-multiple Flutter or Dart projects.
+## Getting Started 🔥
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+Let's talk use detail.
+
+### **Network Manager**
+
+Have a a lot options: baseurl, logger, interceptors, base model etc.
+
+```dart
+        INetworkManager  networkManager =
+            NetworkManager(isEnableLogger: true, options: BaseOptions(baseUrl: "https://jsonplaceholder.typicode.com/"));
+```
+
+### **Model Parse**
+
+You have give to first parse model, second result model. (Result model could be list, model or primitive)
+
+```dart
+        final response =
+        await networkManager.fetch<Todo, List<Todo>>("/todos", parseModel: Todo(), method: RequestType.GET);
+
+```
+
+### **Network Model**
+
+You must be wrap model to INetoworkModel so we understand model has a toJson and toFrom properties.
+
+```dart
+    class Todo extends INetworkModel<Todo>
+```
