@@ -36,8 +36,22 @@ You must be wrap model to INetoworkModel so we understand model has a toJson and
 
 ### Tasks
 
+---
+
 - [ ] Example project
 - [x] Unit Test with json place holder
 - [x] Unit Test with custom api
 - [ ] Make a unit test all layers.
 - [ ] Cache Option
+
+## License
+
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](/LICENSE)
+
+2020 created for @VB10
+
+## Youtube Channel
+
+---
+
+[![Youtube](https://yt3.ggpht.com/a/AATXAJyul3hpzl86GIjF-EZxBzy6T62PJxpvzRwz9AbUOw=s288-c-k-c0xffffffff-no-rj-mo)](https://www.youtube.com/watch?v=UCdUaAKTLJrPZFStzEJnpQAg)
