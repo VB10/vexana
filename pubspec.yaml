@@ -1,12 +1,12 @@
 name: vexana
-description: A new Flutter package project.
+description: flutter network helper project..
 version: 0.0.1
-author: Veli Bacik
-homepage: null
+author: VeliBacik
+homepage: https://github.com/VB10/vexana
 
 environment:
-  sdk: '>=2.7.0 <3.0.0'
-  flutter: '>=1.17.0 <2.0.0'
+  sdk: ">=2.7.0 <3.0.0"
+  flutter: ">=1.17.0 <2.0.0"
 
 dependencies:
   flutter:
