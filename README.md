@@ -38,7 +38,7 @@ You must be wrap model to INetoworkModel so we understand model has a toJson and
 
 ---
 
-- [ ] Example project
+- [x] Example project
 - [x] Unit Test with json place holder
 - [x] Unit Test with custom api
 - [ ] Make a unit test all layers.
