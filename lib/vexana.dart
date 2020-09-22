@@ -13,3 +13,5 @@ export 'src/model/response_model.dart';
 export 'src/model/enum/request_type.dart';
 
 export 'src/network_manager.dart';
+
+export 'package:dio/src/options.dart';

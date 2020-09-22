@@ -43,6 +43,7 @@ You must be wrap model to INetoworkModel so we understand model has a toJson and
 - [x] Unit Test with custom api
 - [ ] Make a unit test all layers.
 - [ ] Cache Option
+- [ ] Usage Utility
 
 ## License
 
