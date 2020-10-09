@@ -29,24 +29,6 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
     httpClientAdapter = DefaultHttpClientAdapter();
   }
 
-  void _addLoggerInterceptor(bool isEnableLogger) {
-    if (kDebugMode) this.interceptors.add(LogInterceptor());
-  }
-
-  void _addNetworkIntercaptors(InterceptorsWrapper interceptor) {
-    if (interceptor != null) this.interceptors.add(interceptor);
-  }
-
-  void _setBaseErrorModel(INetworkModel model) {
-    errorModel = model;
-  }
-
-  void _generateErrorModel(ErrorModel error, dynamic data) {
-    if (errorModel != null) {
-      error.model = errorModel.fromJson(data);
-    }
-  }
-
   Future<IResponseModel<R>> fetch<T extends INetworkModel, R>(
     String path, {
     @required T parseModel,
@@ -76,6 +58,25 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
       final error = ErrorModel(description: e.message, statusCode: e.response.statusCode);
       _generateErrorModel(error, e.response.data);
       return ResponseModel(error: error);
+    }
+  }
+
+  void _addLoggerInterceptor(bool isEnableLogger) {
+    if (kDebugMode) this.interceptors.add(LogInterceptor());
+  }
+
+  void _addNetworkIntercaptors(InterceptorsWrapper interceptor) {
+    if (interceptor != null) this.interceptors.add(interceptor);
+  }
+
+  void _setBaseErrorModel(INetworkModel model) {
+    errorModel = model;
+  }
+
+  void _generateErrorModel(ErrorModel error, dynamic data) {
+    if (errorModel != null) {
+      final _data = data is Map ? data : jsonDecode(data);
+      error.model = errorModel.fromJson(_data);
     }
   }
 }
