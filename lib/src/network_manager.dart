@@ -55,7 +55,9 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
           return ResponseModel(error: ErrorModel(description: response.data.toString()));
       }
     } on DioError catch (e) {
-      final error = ErrorModel(description: e.message, statusCode: e.response.statusCode);
+      final error = ErrorModel(
+          description: e.message,
+          statusCode: e.response != null ? e.response.statusCode : HttpStatus.internalServerError);
       _generateErrorModel(error, e.response.data);
       return ResponseModel(error: error);
     }
