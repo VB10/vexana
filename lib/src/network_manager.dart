@@ -64,7 +64,7 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
   }
 
   void _addLoggerInterceptor(bool isEnableLogger) {
-    if (kDebugMode) this.interceptors.add(LogInterceptor());
+    if (kDebugMode && isEnableLogger) this.interceptors.add(LogInterceptor());
   }
 
   void _addNetworkIntercaptors(InterceptorsWrapper interceptor) {
