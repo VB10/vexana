@@ -23,7 +23,7 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
   NetworkManager(
       {BaseOptions options, bool isEnableLogger, InterceptorsWrapper interceptor, INetworkModel errorModel}) {
     this.options = options;
-    _addLoggerInterceptor(isEnableLogger);
+    _addLoggerInterceptor(isEnableLogger ?? false);
     _addNetworkIntercaptors(interceptor);
     _setBaseErrorModel(errorModel);
     httpClientAdapter = DefaultHttpClientAdapter();
