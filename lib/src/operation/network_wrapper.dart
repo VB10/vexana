@@ -20,7 +20,7 @@ extension _CoreServiceWrapperExtension on NetworkManager {
               options: Options(method: error.request.method, headers: error.request.headers),
             );
           } else {
-            onRefreshFail();
+            if (onRefreshFail != null) onRefreshFail();
             _retryCount = 0;
           }
         }
