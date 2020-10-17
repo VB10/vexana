@@ -16,12 +16,19 @@ import 'model/error_model.dart';
 import 'model/response_model.dart';
 
 part 'operation/network_model_parser.dart';
+part 'operation/network_wrapper.dart';
 
 class NetworkManager with DioMixin implements Dio, INetworkManager {
   INetworkModel errorModel;
+  Future<DioError> Function(DioError error, NetworkManager newService) onRefreshToken;
 
-  NetworkManager(
-      {BaseOptions options, bool isEnableLogger, InterceptorsWrapper interceptor, INetworkModel errorModel}) {
+  NetworkManager({
+    BaseOptions options,
+    bool isEnableLogger,
+    InterceptorsWrapper interceptor,
+    this.onRefreshToken,
+    INetworkModel errorModel,
+  }) {
     this.options = options;
     _addLoggerInterceptor(isEnableLogger ?? false);
     _addNetworkIntercaptors(interceptor);
@@ -69,6 +76,8 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
 
   void _addNetworkIntercaptors(InterceptorsWrapper interceptor) {
     if (interceptor != null) this.interceptors.add(interceptor);
+
+    interceptors.add(_onErrorWrapper());
   }
 
   void _setBaseErrorModel(INetworkModel model) {
