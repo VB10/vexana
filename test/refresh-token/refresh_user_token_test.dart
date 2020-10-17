@@ -12,10 +12,7 @@ main() {
   setUp(() {
     networkManager = NetworkManager(
         isEnableLogger: true,
-        onRefreshFail: () {
-          print("KKOK");
-          // Navigate to login
-        },
+        // onRefreshFail: () {  Navigate to login },
         onRefreshToken: (error, newService) async {
           // final refreshToken = await newService.fetch<Credantial, Credantial>("/token",
           //     parseModel: Credantial(), method: RequestType.GET);
