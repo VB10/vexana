@@ -10,3 +10,8 @@
 - Version 1.0.0 updated.
 - Readme and todos prepared.
 - Wiki Created.
+
+## [1.1.0] - 17/11/2020
+
+- The user gave logging options
+- Refresh token options added.

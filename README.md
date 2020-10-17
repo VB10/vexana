@@ -13,7 +13,7 @@ Let's talk use detail.
 Have a a lot options: baseurl, logger, interceptors, base model etc.
 
 ```dart
-    INetworkManager  networkManager = NetworkManager(isEnableLogger: true, options: BaseOptions(baseUrl: "https://jsonplaceholder.typicode.com/"));
+INetworkManager  networkManager = NetworkManager(isEnableLogger: true, options: BaseOptions(baseUrl: "https://jsonplaceholder.typicode.com/"));
 ```
 
 ### **Model Parse** ⚔️
@@ -21,9 +21,8 @@ Have a a lot options: baseurl, logger, interceptors, base model etc.
 You have give to first parse model, second result model. (Result model could be list, model or primitive)
 
 ```dart
-        final response =
-        await networkManager.fetch<Todo, List<Todo>>("/todos", parseModel: Todo(), method: RequestType.GET);
-
+final response =
+await networkManager.fetch<Todo, List<Todo>>("/todos", parseModel: Todo(), method: RequestType.GET);
 ```
 
 ### **Network Model** 🛒
@@ -31,7 +30,21 @@ You have give to first parse model, second result model. (Result model could be 
 You must be wrap model to INetoworkModel so we understand model has a toJson and toFrom properties.
 
 ```dart
-    class Todo extends INetworkModel<Todo>
+class Todo extends INetworkModel<Todo>
+```
+
+### **Refresh Token** ♻️
+
+Many projects use authentication structure for mobile security (like a jwt). It could need to renew an older token when the token expires. This time have a refresh token options, and I do lock all requests until the token refresh process is complete.
+
+> Since i locked all requests, I am giving a new service instance.
+
+```dart
+INetworkManager  networkManager = NetworkManager(isEnableLogger: true, options: BaseOptions(baseUrl: "https://jsonplaceholder.typicode.com/", onRefreshToken: (error, newService) async {
+    <!-- Write your refresh token business -->
+    <!-- Then update error.req.headers to new token -->
+    return error;
+}));
 ```
 
 ### Tasks
@@ -43,6 +56,7 @@ You must be wrap model to INetoworkModel so we understand model has a toJson and
 - [x] Unit Test with custom api
 - [ ] Make a unit test all layers.
 - [ ] Cache Option
+- [x] Refresh Token Architecture
 - [ ] Usage Utility
 
 ## License
