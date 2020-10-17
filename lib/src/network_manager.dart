@@ -23,6 +23,7 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
   Future<DioError> Function(DioError error, NetworkManager newService) onRefreshToken;
   VoidCallback onRefreshFail;
   int _retryCount = 0;
+  final int maxCount = 3;
 
   NetworkManager({
     BaseOptions options,

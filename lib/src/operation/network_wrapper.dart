@@ -5,7 +5,7 @@ extension _CoreServiceWrapperExtension on NetworkManager {
     return InterceptorsWrapper(
       onError: (e) async {
         if (e.response.statusCode == HttpStatus.unauthorized && onRefreshToken != null) {
-          if (_retryCount < 3) {
+          if (_retryCount < maxCount) {
             _retryCount++;
             interceptors.responseLock.lock();
             interceptors.requestLock.lock();
@@ -24,7 +24,6 @@ extension _CoreServiceWrapperExtension on NetworkManager {
             _retryCount = 0;
           }
         }
-
         return e;
       },
     );
