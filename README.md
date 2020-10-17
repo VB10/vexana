@@ -13,7 +13,8 @@ Let's talk use detail.
 Have a a lot options: baseurl, logger, interceptors, base model etc.
 
 ```dart
-INetworkManager  networkManager = NetworkManager(isEnableLogger: true, options: BaseOptions(baseUrl: "https://jsonplaceholder.typicode.com/"));
+INetworkManager  networkManager = NetworkManager(isEnableLogger: true, errorModel: UserErrorModel(),
+ options: BaseOptions(baseUrl: "https://jsonplaceholder.typicode.com/"));
 ```
 
 ### **Model Parse** ⚔️

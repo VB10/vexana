@@ -15,3 +15,8 @@
 
 - The user gave logging options
 - Refresh token options added.
+
+## [1.1.5] - 18/11/2020
+
+- Retry options add on refresh token mechanism
+- On Refresh Fail added.
