@@ -21,12 +21,15 @@ part 'operation/network_wrapper.dart';
 class NetworkManager with DioMixin implements Dio, INetworkManager {
   INetworkModel errorModel;
   Future<DioError> Function(DioError error, NetworkManager newService) onRefreshToken;
+  VoidCallback onRefreshFail;
+  int _retryCount = 0;
 
   NetworkManager({
     BaseOptions options,
     bool isEnableLogger,
     InterceptorsWrapper interceptor,
     this.onRefreshToken,
+    this.onRefreshFail,
     INetworkModel errorModel,
   }) {
     this.options = options;
