@@ -6,17 +6,6 @@ extension _CoreServiceWrapperExtension on NetworkManager {
     interceptors.add(_onErrorWrapper());
   }
 
-  void _setBaseErrorModel(INetworkModel model) {
-    errorModel = model;
-  }
-
-  void _generateErrorModel(ErrorModel error, dynamic data) {
-    if (errorModel != null) {
-      final _data = data is Map ? data : jsonDecode(data);
-      error.model = errorModel.fromJson(_data);
-    }
-  }
-
   InterceptorsWrapper _onErrorWrapper() {
     return InterceptorsWrapper(
       onError: (e) async {
