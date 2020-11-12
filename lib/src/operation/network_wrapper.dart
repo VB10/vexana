@@ -1,15 +1,33 @@
 part of "../network_manager.dart";
 
 extension _CoreServiceWrapperExtension on NetworkManager {
+  void _addNetworkIntercaptors(InterceptorsWrapper interceptor) {
+    if (interceptor != null) this.interceptors.add(interceptor);
+    interceptors.add(_onErrorWrapper());
+  }
+
+  void _setBaseErrorModel(INetworkModel model) {
+    errorModel = model;
+  }
+
+  void _generateErrorModel(ErrorModel error, dynamic data) {
+    if (errorModel != null) {
+      final _data = data is Map ? data : jsonDecode(data);
+      error.model = errorModel.fromJson(_data);
+    }
+  }
+
   InterceptorsWrapper _onErrorWrapper() {
     return InterceptorsWrapper(
       onError: (e) async {
-        if (e.response.statusCode == HttpStatus.unauthorized && onRefreshToken != null) {
+        if (e.response.statusCode == HttpStatus.unauthorized &&
+            onRefreshToken != null) {
           if (_retryCount < maxCount) {
             _retryCount++;
             interceptors.responseLock.lock();
             interceptors.requestLock.lock();
-            final error = await onRefreshToken(e, NetworkManager(options: options));
+            final error =
+                await onRefreshToken(e, NetworkManager(options: options));
             interceptors.responseLock.unlock();
             interceptors.requestLock.unlock();
 
@@ -17,7 +35,8 @@ extension _CoreServiceWrapperExtension on NetworkManager {
               error.request.path,
               queryParameters: error.request.queryParameters,
               data: error.request.data,
-              options: Options(method: error.request.method, headers: error.request.headers),
+              options: Options(
+                  method: error.request.method, headers: error.request.headers),
             );
           } else {
             if (onRefreshFail != null) onRefreshFail();

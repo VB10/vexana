@@ -1,4 +1,4 @@
-part of '../local_preferences.dart';
+part of 'local_preferences.dart';
 
 class _LocalManager {
   static _LocalManager get instance {
@@ -25,8 +25,8 @@ class _LocalManager {
     if (duration == null)
       return false;
     else {
-      BaseLocal local =
-          BaseLocal(model: body, time: DateTime.now().add(duration));
+      LocalModel local =
+          LocalModel(model: body, time: DateTime.now().add(duration));
       final json = jsonEncode(local.toJson());
       if (body != null && json.isNotEmpty) {
         return await _pref.setString(url, json);
@@ -40,9 +40,9 @@ class _LocalManager {
     final jsonString = _pref.getString(url);
     if (jsonString != null) {
       final jsonModel = jsonDecode(jsonString);
-      final model = BaseLocal.fromJson(jsonModel);
+      final model = LocalModel.fromJson(jsonModel);
       if (DateTime.now().isAfter(model.time)) {
-        return BaseLocal.fromJson(jsonModel).model;
+        return LocalModel.fromJson(jsonModel).model;
       } else {
         await removeModel(url);
       }

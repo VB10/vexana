@@ -2,13 +2,17 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../model/local_data.dart';
-import 'IFileManager.dart';
+import '../../interface/IFileManager.dart';
+import '../../model/local_data.dart';
 
-part 'core/preferences.dart';
+part 'preferences.dart';
 
-class LocalPreferences implements IFileManager {
+class LocalPreferences extends IFileManager {
+  final Duration duration;
+
+  LocalPreferences(this.duration) : super(duration);
   _LocalManager manager = _LocalManager.instance;
+
   @override
   Future<String> getUserRequestDataOnString(String key) async {
     return await manager.getModelString(key);
