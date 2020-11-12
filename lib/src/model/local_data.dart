@@ -1,10 +1,10 @@
-class BaseLocal {
+class LocalModel {
   DateTime time;
   String model;
 
-  BaseLocal({this.time, this.model});
+  LocalModel({this.time, this.model});
 
-  BaseLocal.fromJson(Map<String, dynamic> json) {
+  LocalModel.fromJson(Map<String, dynamic> json) {
     time = DateTime.parse(json['time']);
     model = json['model'];
   }

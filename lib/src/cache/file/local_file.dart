@@ -2,13 +2,16 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:path_provider/path_provider.dart';
+import 'package:vexana/src/interface/IFileManager.dart';
+import 'package:vexana/src/model/local_data.dart';
 
-import '../model/local_data.dart';
-import 'IFileManager.dart';
+part 'file.dart';
 
-part 'core/file.dart';
+class LocalFile extends IFileManager {
+  final Duration duration;
 
-class LocalFile implements IFileManager {
+  LocalFile(this.duration) : super(duration);
+
   _FileManager _fileManager = _FileManager.instance;
 
   @override
@@ -23,7 +26,7 @@ class LocalFile implements IFileManager {
       return false;
     else {
       final _localModel =
-          BaseLocal(model: model, time: DateTime.now().add(time));
+          LocalModel(model: model, time: DateTime.now().add(time));
       await _fileManager.writeLocalModelInFile(key, _localModel);
       return true;
     }

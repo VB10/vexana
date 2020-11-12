@@ -1,4 +1,4 @@
-part of '../local_file.dart';
+part of 'local_file.dart';
 
 class _FileManager {
   final String fileName = "fireball.json";
@@ -41,7 +41,7 @@ class _FileManager {
     }
   }
 
-  Future<File> writeLocalModelInFile(String key, BaseLocal local) async {
+  Future<File> writeLocalModelInFile(String key, LocalModel local) async {
     String _filePath = await filePath();
     final sample = local.toJson();
     final Map<String, dynamic> model = {key: sample};
@@ -59,7 +59,7 @@ class _FileManager {
     Map datas = await fileReadAllData();
     if (datas != null && datas[key] != null) {
       final model = datas[key] ?? {};
-      final item = BaseLocal.fromJson(model);
+      final item = LocalModel.fromJson(model);
       if (DateTime.now().isBefore(item.time)) {
         return item.model;
       } else {
