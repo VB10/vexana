@@ -1,6 +1,6 @@
 part of "../network_manager.dart";
 
-extension _CoreServiceWrapperExtension on NetworkManager {
+extension _CoreServiceCacheExtension on NetworkManager {
   String urlKeyOnLocalData(RequestType type) =>
       "${options.baseUrl}-${type.stringValue}";
 
