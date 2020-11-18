@@ -117,4 +117,7 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
     final _data = data is Map ? data : jsonDecode(data);
     error.model = errorModel.fromJson(_data);
   }
+
+  @override
+  Future<bool> removeAllCache() async => await _removeAllCache();
 }

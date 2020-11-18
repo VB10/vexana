@@ -23,4 +23,9 @@ extension _CoreServiceCacheExtension on NetworkManager {
     else
       return null;
   }
+
+  Future<bool> _removeAllCache() async {
+    if (fileManager == null) return false;
+    return await fileManager.removeUserRequestCache(options.baseUrl);
+  }
 }
