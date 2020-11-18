@@ -8,9 +8,7 @@ import '../../model/local_data.dart';
 part 'preferences.dart';
 
 class LocalPreferences extends IFileManager {
-  final Duration duration;
-
-  LocalPreferences(this.duration) : super(duration);
+  LocalPreferences();
   _LocalManager manager = _LocalManager.instance;
 
   @override

@@ -13,6 +13,7 @@ abstract class INetworkManager {
     String urlSuffix,
     Map<String, dynamic> queryParameters,
     Options options,
+    Duration expiration,
     CancelToken cancelToken,
     dynamic data,
     ProgressCallback onReceiveProgress,
