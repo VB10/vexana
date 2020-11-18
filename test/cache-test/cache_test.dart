@@ -26,7 +26,8 @@ main() {
         expiration: Duration(seconds: 3),
         method: RequestType.GET);
 
-    await Future.delayed(Duration(seconds: 4));
+    await Future.delayed(Duration(seconds: 2));
+    networkManager.removeAllCache();
 
     final response2 = await networkManager.fetch<Todo, List<Todo>>("/todos",
         parseModel: Todo(),
@@ -42,6 +43,7 @@ main() {
         method: RequestType.GET);
 
     await Future.delayed(Duration(seconds: 1));
+    networkManager.removeAllCache();
 
     final response2 = await networkManager.fetch<Todo, List<Todo>>("/todos",
         parseModel: Todo(),
