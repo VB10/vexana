@@ -2,16 +2,13 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:path_provider/path_provider.dart';
-import 'package:vexana/src/interface/IFileManager.dart';
-import 'package:vexana/src/model/local_data.dart';
+
+import '../../interface/IFileManager.dart';
+import '../../model/local_data.dart';
 
 part 'file.dart';
 
 class LocalFile extends IFileManager {
-  final Duration duration;
-
-  LocalFile(this.duration) : super(duration);
-
   _FileManager _fileManager = _FileManager.instance;
 
   @override

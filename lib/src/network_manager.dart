@@ -14,7 +14,6 @@ import 'interface/INetworkService.dart';
 import 'interface/IResponseModel.dart';
 import 'model/empty_model.dart';
 import 'model/enum/request_type.dart';
-import 'model/enum/request_type.dart';
 import 'model/error/file_manager_not_foud.dart';
 import 'model/error_model.dart';
 import 'model/response_model.dart';
