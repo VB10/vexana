@@ -18,4 +18,6 @@ abstract class INetworkManager {
     dynamic data,
     ProgressCallback onReceiveProgress,
   });
+
+  Future<bool> removeAllCache();
 }
