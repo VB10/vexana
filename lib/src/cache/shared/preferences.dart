@@ -41,7 +41,7 @@ class _LocalManager {
     if (jsonString != null) {
       final jsonModel = jsonDecode(jsonString);
       final model = LocalModel.fromJson(jsonModel);
-      if (DateTime.now().isAfter(model.time)) {
+      if (DateTime.now().isBefore(model.time)) {
         return LocalModel.fromJson(jsonModel).model;
       } else {
         await removeModel(url);
