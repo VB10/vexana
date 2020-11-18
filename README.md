@@ -25,10 +25,28 @@ You have give to first parse model, second result model. (Result model could be 
 final response =
 await networkManager.fetch<Todo, List<Todo>>("/todos", parseModel: Todo(), method: RequestType.GET);
 ```
+### **HTTP Post Request with Request Body** 🚀
+
+The model to be found in the request body must extends the INetworkModel abstract class as follows.
+
+```dart
+class TodoPostRequestData extends INetworkModel<TodoPostRequestData>
+```
+
+Then, since the model will have toJson and fromJson properties, you can create the object and pass it directly to the fetch method.
+
+> So, it is sufficient to send only the request body object into the fetch method. You don't need to use toJson.
+
+
+```dart
+final todoPostRequestBody = TodoPostRequestData();
+final response =
+await networkManager.fetch<Todo, List<Todo>>("/todosPost", parseModel: Todo(), method: RequestType.POST, data: todoPostRequestBody);
+```
 
 ### **Network Model** 🛒
 
-You must be wrap model to INetoworkModel so we understand model has a toJson and toFrom properties.
+You must be wrap model to INetworkModel so we understand model has a toJson and fromJson properties.
 
 ```dart
 class Todo extends INetworkModel<Todo>
