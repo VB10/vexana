@@ -17,4 +17,6 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-flutter: null
+  mockito: ^4.1.1
+  path_provider_platform_interface: ^1.0.1
+  plugin_platform_interface: ^1.0.2
