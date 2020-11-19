@@ -25,3 +25,7 @@
 
 - Network cache options added project.
 - Remove all cache options added.
+
+## [1.2.1] - 20/11/2020
+
+- Cache use detail added to the documentation.
