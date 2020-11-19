@@ -20,3 +20,8 @@
 
 - Retry options add on refresh token mechanism
 - On Refresh Fail added.
+
+## [1.2.0] - 20/11/2020
+
+- Network cache options added project.
+- Remove all cache options added.
