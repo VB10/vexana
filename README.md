@@ -68,6 +68,22 @@ onRefreshFail: () {  //Navigate to login },
 }));
 ```
 
+### **Caching** 🧲
+
+You need to write a response model in the mobile device cache sometimes. It's here now. You can say expiration date and lay back 🙏 
+
+```dart
+    await networkManager.fetch<Todo, List<Todo>>("/todos",
+        parseModel: Todo(),
+        expiration: Duration(seconds: 3),
+        method: RequestType.GET);
+```
+
+> You must be declare caching type. It has FileCache and SharedCache options now. `NetworkManager(fileManager: LocalFile());`
+
+> If you want to more deatil for cache, you should read [this article](https://medium.com/flutter-community/cache-manager-with-flutter-5a5db0d3a3e6)
+
+
 ### Tasks
 
 ---
@@ -76,7 +92,8 @@ onRefreshFail: () {  //Navigate to login },
 - [x] Unit Test with json place holder
 - [x] Unit Test with custom api
 - [ ] Make a unit test all layers.
-- [ ] Cache Option
+- [x] Cache Option
+  - [ ] SQlite Support
 - [x] Refresh Token Architecture
 - [ ] Usage Utility
 

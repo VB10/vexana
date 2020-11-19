@@ -32,7 +32,7 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
   IFileManager fileManager;
 
   NetworkManager({
-    BaseOptions options,
+    @required BaseOptions options,
     bool isEnableLogger,
     InterceptorsWrapper interceptor,
     this.onRefreshToken,
