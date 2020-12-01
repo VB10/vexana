@@ -29,3 +29,7 @@
 ## [1.2.1] - 20/11/2020
 
 - Cache use detail added to the documentation.
+
+## [1.2.2] - 20/11/2020
+
+- Minor fix and export options added.
