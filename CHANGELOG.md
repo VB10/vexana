@@ -33,3 +33,7 @@
 ## [1.2.2] - 20/11/2020
 
 - Minor fix and export options added.
+
+## [1.3.0] - 05/01/2021
+
+- Response and Request preivew on editor null fixed.
