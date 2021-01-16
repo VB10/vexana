@@ -7,7 +7,7 @@ main() {
   setUp(() {
     networkManager = NetworkManager(isEnableLogger: true, options: BaseOptions(baseUrl: "https://hwasampleapi.firebaseio.com"));
   });
-  test("Json Place Holder Todos", () async {
+  test("Primitve Type", () async {
     final response = await networkManager.fetch<EmptyModel, EmptyModel>("/dogs/0/code.json", parseModel: EmptyModel(), method: RequestType.GET);
 
     expect(response.data, isList);
