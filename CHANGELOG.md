@@ -37,3 +37,7 @@
 ## [1.3.0] - 05/01/2021
 
 - Response and Request preivew on editor null fixed.
+
+## [1.3.1] - 05/01/2021
+
+- Fixed primitive type response and added test.
