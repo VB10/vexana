@@ -12,11 +12,10 @@ extension _CoreServiceExtension on NetworkManager {
 
   R _parseBody<R, T extends INetworkModel>(dynamic responseBody, T model) {
     if (responseBody is List)
-      return responseBody.map((data) => model.fromJson(data)).cast<T>().toList()
-          as R;
+      return responseBody.map((data) => model.fromJson(data)).cast<T>().toList() as R;
     else if (responseBody is Map)
       return model.fromJson(responseBody) as R;
     else
-      return EmptyModel(name: responseBody) as R;
+      return EmptyModel(name: responseBody.toString()) as R;
   }
 }
