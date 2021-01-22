@@ -1,18 +1,18 @@
-import 'package:vexana/src/model/enum/request_type.dart';
+import '../model/enum/request_type.dart';
 
 extension NetworkTypeExtension on RequestType {
   String get stringValue {
     switch (this) {
       case RequestType.GET:
-        return "GET";
+        return 'GET';
       case RequestType.POST:
-        return "POST";
+        return 'POST';
       case RequestType.DELETE:
-        return "DELETE";
+        return 'DELETE';
       case RequestType.PUT:
-        return "PUT";
+        return 'PUT';
       default:
-        throw "Method Not Found";
+        throw 'Method Not Found';
     }
   }
 }

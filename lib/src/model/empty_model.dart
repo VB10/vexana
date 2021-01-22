@@ -9,9 +9,10 @@ class EmptyModel extends INetworkModel<EmptyModel> {
     name = json['name'];
   }
 
+  @override
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
+    final data = <String, dynamic>{};
+    data['name'] = name;
     return data;
   }
 

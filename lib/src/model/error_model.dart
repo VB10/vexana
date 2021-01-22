@@ -1,4 +1,4 @@
-import 'package:vexana/src/interface/INetworkModel.dart';
+import '../interface/INetworkModel.dart';
 
 import '../interface/IErrorModel.dart';
 

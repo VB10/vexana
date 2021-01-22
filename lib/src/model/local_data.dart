@@ -10,9 +10,9 @@ class LocalModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['time'] = this.time.toString();
-    data['model'] = this.model;
+    final data = <String, dynamic>{};
+    data['time'] = time.toString();
+    data['model'] = model;
     return data;
   }
 }

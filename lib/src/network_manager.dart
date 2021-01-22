@@ -24,11 +24,10 @@ part 'operation/network_wrapper.dart';
 
 class NetworkManager with DioMixin implements Dio, INetworkManager {
   INetworkModel errorModel;
-  Future<DioError> Function(DioError error, NetworkManager newService)
-      onRefreshToken;
+  Future<DioError> Function(DioError error, NetworkManager newService) onRefreshToken;
   VoidCallback onRefreshFail;
-  int _retryCount = 0;
   final int maxCount = 3;
+  int _retryCount;
   IFileManager fileManager;
 
   NetworkManager({
@@ -46,14 +45,15 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
     httpClientAdapter = DefaultHttpClientAdapter();
   }
   void _addLoggerInterceptor(bool isEnableLogger) {
-    if (isEnableLogger) this.interceptors.add(LogInterceptor());
+    if (isEnableLogger) interceptors.add(LogInterceptor());
   }
 
+  @override
   Future<IResponseModel<R>> fetch<T extends INetworkModel, R>(
     String path, {
     @required T parseModel,
     @required RequestType method,
-    String urlSuffix = "",
+    String urlSuffix = '',
     Map<String, dynamic> queryParameters,
     Options options,
     Duration expiration,
@@ -64,50 +64,41 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
     final cacheData = await getCacheData<R, T>(expiration, method, parseModel);
     if (cacheData != null) return cacheData;
 
-    if (options == null) options = Options();
+    options ??= Options();
     options.method = method.stringValue;
     final body = _getBodyModel(data);
 
     try {
-      Response response = await request("$path$urlSuffix",
-          data: body, options: options, queryParameters: queryParameters);
+      final response = await request('$path$urlSuffix', data: body, options: options, queryParameters: queryParameters);
       switch (response.statusCode) {
         case HttpStatus.ok:
-          writeCache(expiration, response.data, method);
+          await writeCache(expiration, response.data, method);
           return getResponseResult<T, R>(response.data, parseModel);
         default:
-          return ResponseModel(
-            error: ErrorModel(description: response.data.toString()),
-          );
+          return ResponseModel(error: ErrorModel(description: response.data.toString()));
       }
     } on DioError catch (e) {
       return _onError<R>(e);
     }
   }
 
-  Future<ResponseModel<R>> getCacheData<R, T extends INetworkModel>(
-      Duration expiration, RequestType type, T responseModel) async {
+  Future<ResponseModel<R>> getCacheData<R, T extends INetworkModel>(Duration expiration, RequestType type, T responseModel) async {
     if (expiration == null) return null;
     final cacheDataString = await getLocalData(type);
-    if (cacheDataString == null)
+    if (cacheDataString == null) {
       return null;
-    else
-      return getResponseResult<T, R>(
-          jsonDecode(cacheDataString), responseModel);
+    } else {
+      return getResponseResult<T, R>(jsonDecode(cacheDataString), responseModel);
+    }
   }
 
-  ResponseModel<R> getResponseResult<T extends INetworkModel, R>(
-      dynamic data, T parserModel) {
+  ResponseModel<R> getResponseResult<T extends INetworkModel, R>(dynamic data, T parserModel) {
     final model = _parseBody<R, T>(data, parserModel);
     return ResponseModel<R>(data: model);
   }
 
   ResponseModel<R> _onError<R>(DioError e) {
-    final error = ErrorModel(
-        description: e.message,
-        statusCode: e.response != null
-            ? e.response.statusCode
-            : HttpStatus.internalServerError);
+    final error = ErrorModel(description: e.message, statusCode: e.response != null ? e.response.statusCode : HttpStatus.internalServerError);
     _generateErrorModel(error, e.response.data);
     return ResponseModel<R>(error: error);
   }

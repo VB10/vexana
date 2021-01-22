@@ -1,12 +1,10 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:vexana/vexana.dart';
 
-import 'credantial.dart';
 import 'user.dart';
 
+// ignore: always_declare_return_types
 main() {
   INetworkManager networkManager;
   setUp(() {
@@ -19,13 +17,11 @@ main() {
           // error.request.headers = {HttpHeaders.authorizationHeader: "Bearer ${refreshToken.data.token}"};
           return error;
         },
-        options: BaseOptions(baseUrl: "http://localhost:3000"));
+        options: BaseOptions(baseUrl: 'http://localhost:3000'));
   });
 
-  test("Json Place Holder Todos", () async {
-    final response = await networkManager.fetch<User, User>("/user", parseModel: User(), method: RequestType.GET);
-
-    final response2 = await networkManager.fetch<User, User>("/user", parseModel: User(), method: RequestType.GET);
+  test('Json Place Holder Todos', () async {
+    final response = await networkManager.fetch<User, User>('/user', parseModel: User(), method: RequestType.GET);
 
     expect(response.data, isNotNull);
   });

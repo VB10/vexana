@@ -25,6 +25,7 @@ First, you have to provide the parse model, then the result model. (Result model
 final response =
 await networkManager.fetch<Todo, List<Todo>>("/todos", parseModel: Todo(), method: RequestType.GET);
 ```
+
 ### **HTTP Post Request with Request Body** 🚀
 
 The model found in the request body must extend the abstract class INetworkModel, as follows.
@@ -36,7 +37,6 @@ class TodoPostRequestData extends INetworkModel<TodoPostRequestData>
 Then, since the model will have toJson and fromJson properties, you can create the object and pass it directly to the fetch method.
 
 > So, it is sufficient to send only the request body object into the fetch method. You don't need to use toJson.
-
 
 ```dart
 final todoPostRequestBody = TodoPostRequestData();
@@ -70,7 +70,7 @@ onRefreshFail: () {  //Navigate to login },
 
 ### **Caching** 🧲
 
-You need to write a response model in the mobile device cache sometimes. It's here now. You can say expiration date and lay back 🙏 
+You need to write a response model in the mobile device cache sometimes. It's here now. You can say expiration date and lay back 🙏
 
 ```dart
     await networkManager.fetch<Todo, List<Todo>>("/todos",
@@ -80,7 +80,6 @@ You need to write a response model in the mobile device cache sometimes. It's he
 ```
 
 > You must declare a caching type. It has FileCache and SharedCache options now. `NetworkManager(fileManager: LocalFile());`
-
 > If you want more implementation details about the cache, you should read [this article](https://medium.com/flutter-community/cache-manager-with-flutter-5a5db0d3a3e6)
 
 ### Tasks

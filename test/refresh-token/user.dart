@@ -13,11 +13,12 @@ class User extends INetworkModel<User> {
     place = json['place'];
   }
 
+  @override
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['date'] = this.date;
-    data['place'] = this.place;
+    final data = <String, dynamic>{};
+    data['name'] = name;
+    data['date'] = date;
+    data['place'] = place;
     return data;
   }
 
