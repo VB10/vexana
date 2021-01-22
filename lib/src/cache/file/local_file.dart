@@ -9,7 +9,7 @@ import '../../model/local_data.dart';
 part 'file.dart';
 
 class LocalFile extends IFileManager {
-  _FileManager _fileManager = _FileManager.instance;
+  final _FileManager _fileManager = _FileManager.instance;
 
   @override
   Future<String> getUserRequestDataOnString(String key) {
@@ -17,13 +17,11 @@ class LocalFile extends IFileManager {
   }
 
   @override
-  Future<bool> writeUserRequestDataWithTime(
-      String key, String model, Duration time) async {
-    if (time == null)
+  Future<bool> writeUserRequestDataWithTime(String key, String model, Duration time) async {
+    if (time == null) {
       return false;
-    else {
-      final _localModel =
-          LocalModel(model: model, time: DateTime.now().add(time));
+    } else {
+      final _localModel = LocalModel(model: model, time: DateTime.now().add(time));
       await _fileManager.writeLocalModelInFile(key, _localModel);
       return true;
     }

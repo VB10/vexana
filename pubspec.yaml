@@ -1,5 +1,6 @@
 name: vexana
-description: Manage your network layer with dio. You can use more network operations.
+description: Manage your network layer with dio. You will be able to use it very
+  easily network operations.
 author: Veli Bacik <vbacik.10@gmail.com>
 version: 1.3.1
 homepage: https://github.com/VB10/vexana
@@ -12,8 +13,9 @@ dependencies:
   flutter:
     sdk: flutter
   dio: ^3.0.10
-  shared_preferences: ^0.5.12+4
   path_provider: ^1.6.5
+  pedantic: ^1.9.2
+  shared_preferences: ^0.5.12+4
 
 dev_dependencies:
   flutter_test:

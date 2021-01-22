@@ -1,4 +1,4 @@
-import 'package:vexana/src/interface/INetworkModel.dart';
+import 'INetworkModel.dart';
 
 abstract class IErrorModel<T> {
   int statusCode;

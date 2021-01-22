@@ -13,11 +13,12 @@ class BasicErrorModel extends INetworkModel<BasicErrorModel> {
     screenMessage = json['screenMessage'];
   }
 
+  @override
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['statusCode'] = this.statusCode;
-    data['message'] = this.message;
-    data['screenMessage'] = this.screenMessage;
+    final data = <String, dynamic>{};
+    data['statusCode'] = statusCode;
+    data['message'] = message;
+    data['screenMessage'] = screenMessage;
     return data;
   }
 

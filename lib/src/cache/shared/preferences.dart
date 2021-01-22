@@ -2,31 +2,25 @@ part of 'local_preferences.dart';
 
 class _LocalManager {
   static _LocalManager get instance {
-    if (_instance == null) {
-      _instance = _LocalManager._init();
-    }
+    _instance ??= _LocalManager._init();
     return _instance;
   }
 
   static _LocalManager _instance;
   SharedPreferences _preferences;
   Future<SharedPreferences> get preferences async {
-    if (_preferences == null) {
-      _preferences = await SharedPreferences.getInstance();
-    }
+    _preferences ??= await SharedPreferences.getInstance();
     return _preferences;
   }
 
   _LocalManager._init();
 
-  Future<bool> writeModelInJson(
-      dynamic body, String url, Duration duration) async {
+  Future<bool> writeModelInJson(dynamic body, String url, Duration duration) async {
     final _pref = await preferences;
-    if (duration == null)
+    if (duration == null) {
       return false;
-    else {
-      LocalModel local =
-          LocalModel(model: body, time: DateTime.now().add(duration));
+    } else {
+      final local = LocalModel(model: body, time: DateTime.now().add(duration));
       final json = jsonEncode(local.toJson());
       if (body != null && json.isNotEmpty) {
         return await _pref.setString(url, json);
@@ -53,7 +47,9 @@ class _LocalManager {
 
   Future<bool> removeAllLocalData(String url) async {
     final _pref = await preferences;
-    _pref.getKeys().removeWhere((element) => element.contains(url));
+    _pref.getKeys().where((element) => element.contains(url)).forEach((element) async {
+      await removeModel(element);
+    });
     return true;
   }
 

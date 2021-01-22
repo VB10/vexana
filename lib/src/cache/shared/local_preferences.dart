@@ -27,11 +27,11 @@ class LocalPreferences extends IFileManager {
   }
 
   @override
-  Future<bool> writeUserRequestDataWithTime(
-      String key, Object model, Duration time) async {
-    if (time == null)
+  Future<bool> writeUserRequestDataWithTime(String key, Object model, Duration time) async {
+    if (time == null) {
       return false;
-    else
+    } else {
       return await manager.writeModelInJson(model, key, time);
+    }
   }
 }
