@@ -11,10 +11,11 @@ class Credantial extends INetworkModel<Credantial> {
     token = json['token'];
   }
 
+  @override
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['token'] = this.token;
+    final data = <String, dynamic>{};
+    data['name'] = name;
+    data['token'] = token;
     return data;
   }
 

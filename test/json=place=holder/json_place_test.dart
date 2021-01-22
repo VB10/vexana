@@ -4,15 +4,14 @@ import 'package:vexana/vexana.dart';
 
 import 'todo.dart';
 
+// ignore: always_declare_return_types
 main() {
   INetworkManager networkManager;
   setUp(() {
-    networkManager =
-        NetworkManager(isEnableLogger: true, options: BaseOptions(baseUrl: "https://jsonplaceholder.typicode.com/"));
+    networkManager = NetworkManager(isEnableLogger: true, options: BaseOptions(baseUrl: 'https://jsonplaceholder.typicode.com/'));
   });
-  test("Json Place Holder Todos", () async {
-    final response =
-        await networkManager.fetch<Todo, List<Todo>>("/todos", parseModel: Todo(), method: RequestType.GET);
+  test('Json Place Holder Todos', () async {
+    final response = await networkManager.fetch<Todo, List<Todo>>('/todos', parseModel: Todo(), method: RequestType.GET);
 
     expect(response.data, isList);
   });

@@ -9,9 +9,10 @@ class BasicUser extends INetworkModel<BasicUser> {
     user = json['user'];
   }
 
+  @override
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['user'] = this.user;
+    final data = <String, dynamic>{};
+    data['user'] = user;
     return data;
   }
 
