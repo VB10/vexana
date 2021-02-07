@@ -46,3 +46,7 @@
 
 - Shared preferences remove options fixed.
 - Pedantic package added for fix the problem in project.
+
+## [1.4.1] - 07/02/2021
+
+- Local cache url path added.
