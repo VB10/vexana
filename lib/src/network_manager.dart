@@ -61,7 +61,8 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
     dynamic data,
     ProgressCallback onReceiveProgress,
   }) async {
-    final cacheData = await getCacheData<R, T>(expiration, method, parseModel);
+    final _urlPath = '$path$urlSuffix';
+    final cacheData = await getCacheData<R, T>(expiration, _urlPath, method, parseModel);
     if (cacheData != null) return cacheData;
 
     options ??= Options();
@@ -69,10 +70,10 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
     final body = _getBodyModel(data);
 
     try {
-      final response = await request('$path$urlSuffix', data: body, options: options, queryParameters: queryParameters);
+      final response = await request(_urlPath, data: body, options: options, queryParameters: queryParameters);
       switch (response.statusCode) {
         case HttpStatus.ok:
-          await writeCache(expiration, response.data, method);
+          await writeCache(expiration, response.data, method, _urlPath);
           return getResponseResult<T, R>(response.data, parseModel);
         default:
           return ResponseModel(error: ErrorModel(description: response.data.toString()));
@@ -82,9 +83,9 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
     }
   }
 
-  Future<ResponseModel<R>> getCacheData<R, T extends INetworkModel>(Duration expiration, RequestType type, T responseModel) async {
+  Future<ResponseModel<R>> getCacheData<R, T extends INetworkModel>(Duration expiration, String path, RequestType type, T responseModel) async {
     if (expiration == null) return null;
-    final cacheDataString = await getLocalData(type);
+    final cacheDataString = await getLocalData(type, path);
     if (cacheDataString == null) {
       return null;
     } else {

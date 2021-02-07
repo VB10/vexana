@@ -1,4 +1,4 @@
-## [0.0.1] - 20/10/2020
+# [0.0.1] - 20/10/2020
 
 - Project template created.
 - Base models has been defined.
@@ -41,3 +41,8 @@
 ## [1.3.1] - 05/01/2021
 
 - Fixed primitive type response and added test.
+
+## [1.4.0] - 05/01/2021
+
+- Shared preferences remove options fixed.
+- Pedantic package added for fix the problem in project.
