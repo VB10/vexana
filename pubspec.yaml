@@ -12,14 +12,14 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  dio: ^3.0.10
-  path_provider: ^1.6.5
-  pedantic: ^1.9.2
-  shared_preferences: ^0.5.12+4
+  dio: ^4.0.0-beta2
+  path_provider: ^2.0.0
+  pedantic: ^1.10.0
+  shared_preferences: ^2.0.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  mockito: ^4.1.1
-  path_provider_platform_interface: ^1.0.1
-  plugin_platform_interface: ^1.0.2
+  mockito: ^5.0.0
+  path_provider_platform_interface: ^2.0.0
+  plugin_platform_interface: ^2.0.0

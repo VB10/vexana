@@ -22,7 +22,7 @@ part 'operation/network_cache.dart';
 part 'operation/network_model_parser.dart';
 part 'operation/network_wrapper.dart';
 
-class NetworkManager with DioMixin implements Dio, INetworkManager {
+ class NetworkManager with DioMixin implements Dio, INetworkManager {
   INetworkModel errorModel;
   Future<DioError> Function(DioError error, NetworkManager newService) onRefreshToken;
   VoidCallback onRefreshFail;
@@ -111,4 +111,9 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
 
   @override
   Future<bool> removeAllCache() async => await _removeAllCache();
+}
+
+
+class  A extends Dio.mx implements Dio {
+
 }
