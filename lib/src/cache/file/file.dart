@@ -2,7 +2,7 @@ part of 'local_file.dart';
 
 class _FileManager {
   final String fileName = 'fireball.json';
-  static _FileManager _instance;
+  static _FileManager? _instance;
   _FileManager._init();
 
   static _FileManager get instance {
@@ -10,7 +10,7 @@ class _FileManager {
   }
 
   Future<Directory> documentsPath() async {
-    final tempPath = (await getApplicationDocumentsDirectory())?.path;
+    final tempPath = (await getApplicationDocumentsDirectory()).path;
     return Directory('$tempPath').create();
   }
 
@@ -25,11 +25,11 @@ class _FileManager {
     return userDocumentFile;
   }
 
-  Future<Map> fileReadAllData() async {
+  Future<Map?> fileReadAllData() async {
     try {
       var _filePath = await filePath();
       var userDocumentFile = File(_filePath);
-      final data = await userDocumentFile?.readAsString();
+      final data = await userDocumentFile.readAsString();
       final jsonData = jsonDecode(data);
 
       return jsonData;
@@ -44,19 +44,19 @@ class _FileManager {
     final model = <String, dynamic>{key: sample};
 
     final oldData = await fileReadAllData();
-    model.addAll(oldData ?? {});
+    model.addAll(oldData as Map<String, dynamic>? ?? {});
     final newLocalData = jsonEncode(model);
 
     final userDocumentFile = File(_filePath);
     return await userDocumentFile.writeAsString(newLocalData, flush: true, mode: FileMode.write);
   }
 
-  Future<String> readOnlyKeyData(String key) async {
+  Future<String?> readOnlyKeyData(String key) async {
     final datas = await fileReadAllData();
     if (datas != null && datas[key] != null) {
       final model = datas[key] ?? {};
       final item = LocalModel.fromJson(model);
-      if (DateTime.now().isBefore(item.time)) {
+      if (DateTime.now().isBefore(item.time!)) {
         return item.model;
       } else {
         await removeSingleItem(key);
@@ -67,9 +67,12 @@ class _FileManager {
   }
 
   /// Remove old key in  [Directory].
-  Future removeSingleItem(String key) async {
-    Map<String, Object> tempDirectory = await fileReadAllData();
-    final _key = tempDirectory.keys.isNotEmpty ? tempDirectory.keys.singleWhere((element) => element == key, orElse: () => null) : '';
+  Future<File?> removeSingleItem(String key) async {
+    final tempDirectory = await fileReadAllData();
+    if (tempDirectory == null) {
+      return null;
+    }
+    final _key = tempDirectory.keys.isNotEmpty ? tempDirectory.keys.singleWhereOrNull((element) => element == key) : '';
     tempDirectory.remove(_key);
     final _filePath = await filePath();
     final userDocumentFile = File(_filePath);

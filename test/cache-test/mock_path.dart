@@ -44,7 +44,7 @@ class MockPathProviderPlatform extends Mock with MockPlatformInterfaceMixin impl
 
   @override
   Future<List<String>> getExternalStoragePaths({
-    StorageDirectory type,
+    StorageDirectory? type,
   }) async {
     return <String>[kExternalStoragePath];
   }

@@ -2,7 +2,7 @@ import 'IErrorModel.dart';
 
 abstract class IResponseModel<T> {
   T data;
-  IErrorModel error;
+  IErrorModel? error;
 
   IResponseModel(this.data, this.error);
 }

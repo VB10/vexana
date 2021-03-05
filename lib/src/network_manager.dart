@@ -23,17 +23,17 @@ part 'operation/network_model_parser.dart';
 part 'operation/network_wrapper.dart';
 
 class NetworkManager with DioMixin implements Dio, INetworkManager {
-  INetworkModel errorModel;
-  Future<DioError> Function(DioError error, NetworkManager newService) onRefreshToken;
-  VoidCallback onRefreshFail;
-  final int maxCount = 3;
-  int _retryCount;
-  IFileManager fileManager;
+  late Future<DioError> Function(DioError error, NetworkManager newService)? onRefreshToken;
+  late VoidCallback? onRefreshFail;
+  late final int maxCount = 3;
+  late int _retryCount;
+  late IFileManager? fileManager;
+  late INetworkModel? errorModel;
 
   NetworkManager({
-    @required BaseOptions options,
-    bool isEnableLogger,
-    InterceptorsWrapper interceptor,
+    required BaseOptions options,
+    bool? isEnableLogger,
+    InterceptorsWrapper? interceptor,
     this.onRefreshToken,
     this.onRefreshFail,
     this.fileManager,
@@ -49,20 +49,22 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
   }
 
   @override
-  Future<IResponseModel<R>> fetch<T extends INetworkModel, R>(
+  Future<IResponseModel<R?>> send<T extends INetworkModel, R>(
     String path, {
-    @required T parseModel,
-    @required RequestType method,
-    String urlSuffix = '',
-    Map<String, dynamic> queryParameters,
-    Options options,
-    Duration expiration,
-    CancelToken cancelToken,
+    required T parseModel,
+    required RequestType method,
+    String? urlSuffix = '',
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    Duration? expiration,
+    CancelToken? cancelToken,
     dynamic data,
-    ProgressCallback onReceiveProgress,
+    ProgressCallback? onReceiveProgress,
   }) async {
     final cacheData = await getCacheData<R, T>(expiration, method, parseModel);
-    if (cacheData != null) return cacheData;
+    if (cacheData is ResponseModel<R>) {
+      return cacheData;
+    }
 
     options ??= Options();
     options.method = method.stringValue;
@@ -82,7 +84,7 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
     }
   }
 
-  Future<ResponseModel<R>> getCacheData<R, T extends INetworkModel>(Duration expiration, RequestType type, T responseModel) async {
+  Future<ResponseModel<R>?> getCacheData<R, T extends INetworkModel>(Duration? expiration, RequestType type, T responseModel) async {
     if (expiration == null) return null;
     final cacheDataString = await getLocalData(type);
     if (cacheDataString == null) {
@@ -98,15 +100,19 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
   }
 
   ResponseModel<R> _onError<R>(DioError e) {
-    final error = ErrorModel(description: e.message, statusCode: e.response != null ? e.response.statusCode : HttpStatus.internalServerError);
-    _generateErrorModel(error, e.response.data);
+    final errorResponse = e.response;
+
+    final error = ErrorModel(description: e.message, statusCode: errorResponse != null ? errorResponse.statusCode : HttpStatus.internalServerError);
+    if (errorResponse != null) {
+      _generateErrorModel(error, errorResponse.data);
+    }
     return ResponseModel<R>(error: error);
   }
 
   void _generateErrorModel(ErrorModel error, dynamic data) {
     if (errorModel == null) return;
     final _data = data is Map ? data : jsonDecode(data);
-    error.model = errorModel.fromJson(_data);
+    error.model = errorModel!.fromJson(_data);
   }
 
   @override

@@ -4,12 +4,12 @@ import 'package:vexana/vexana.dart';
 
 // ignore: always_declare_return_types
 main() {
-  INetworkManager networkManager;
+  late INetworkManager networkManager;
   setUp(() {
     networkManager = NetworkManager(isEnableLogger: true, options: BaseOptions(baseUrl: 'https://hwasampleapi.firebaseio.com'));
   });
   test('Primitve Type', () async {
-    final response = await networkManager.fetch<EmptyModel, EmptyModel>('/dogs/0/code.json', parseModel: EmptyModel(), method: RequestType.GET);
+    final response = await networkManager.send<EmptyModel, EmptyModel>('/dogs/0/code.json', parseModel: EmptyModel(), method: RequestType.GET);
 
     expect(response.data, isList);
   });

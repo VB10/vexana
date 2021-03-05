@@ -12,7 +12,7 @@ class LocalPreferences extends IFileManager {
   _LocalManager manager = _LocalManager.instance;
 
   @override
-  Future<String> getUserRequestDataOnString(String key) async {
+  Future<String?> getUserRequestDataOnString(String key) async {
     return await manager.getModelString(key);
   }
 
@@ -27,7 +27,7 @@ class LocalPreferences extends IFileManager {
   }
 
   @override
-  Future<bool> writeUserRequestDataWithTime(String key, Object model, Duration time) async {
+  Future<bool> writeUserRequestDataWithTime(String key, Object model, Duration? time) async {
     if (time == null) {
       return false;
     } else {

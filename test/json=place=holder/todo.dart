@@ -1,18 +1,21 @@
 import 'package:vexana/src/interface/INetworkModel.dart';
 
 class Todo extends INetworkModel<Todo> {
-  int userId;
-  int id;
-  String title;
-  bool completed;
+  int? userId;
+  int? id;
+  String? title;
+  bool? completed;
 
   Todo({this.userId, this.id, this.title, this.completed});
 
-  Todo.fromJson(Map<String, dynamic> json) {
-    userId = json['userId'];
-    id = json['id'];
-    title = json['title'];
-    completed = json['completed'];
+  Todo.fromJson(Map<String, dynamic>? json) {
+    if (json == null) {
+      return;
+    }
+    userId = json['userId'] as int?;
+    id = json['id'] as int?;
+    title = json['title'] as String?;
+    completed = json['completed'] as bool?;
   }
 
   @override
@@ -26,7 +29,7 @@ class Todo extends INetworkModel<Todo> {
   }
 
   @override
-  Todo fromJson(Map<String, Object> json) {
+  Todo fromJson(Map<String, Object>? json) {
     return Todo.fromJson(json);
   }
 }

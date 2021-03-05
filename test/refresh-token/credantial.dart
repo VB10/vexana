@@ -1,14 +1,14 @@
 import 'package:vexana/vexana.dart';
 
 class Credantial extends INetworkModel<Credantial> {
-  String name;
-  String token;
+  String? name;
+  String? token;
 
   Credantial({this.name, this.token});
 
-  Credantial.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-    token = json['token'];
+  Credantial.fromJson(Map<String, dynamic>? json) {
+    name = json!['name'] as String?;
+    token = json['token'] as String?;
   }
 
   @override
@@ -20,7 +20,7 @@ class Credantial extends INetworkModel<Credantial> {
   }
 
   @override
-  Credantial fromJson(Map<String, Object> json) {
+  Credantial fromJson(Map<String, Object>? json) {
     return Credantial.fromJson(json);
   }
 }

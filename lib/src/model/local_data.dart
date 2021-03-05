@@ -1,6 +1,6 @@
 class LocalModel {
-  DateTime time;
-  String model;
+  DateTime? time;
+  String? model;
 
   LocalModel({this.time, this.model});
 
