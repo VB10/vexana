@@ -1,12 +1,15 @@
 import '../interface/INetworkModel.dart';
 
 class EmptyModel extends INetworkModel<EmptyModel> {
-  String name;
+  String? name;
 
   EmptyModel({this.name});
 
-  EmptyModel.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
+  EmptyModel.fromJson(Map<String, dynamic>? json) {
+    if (json == null) {
+      return;
+    }
+    name = json['name'] as String?;
   }
 
   @override
@@ -17,7 +20,7 @@ class EmptyModel extends INetworkModel<EmptyModel> {
   }
 
   @override
-  EmptyModel fromJson(Map<String, Object> json) {
+  EmptyModel fromJson(Map<String, Object>? json) {
     return EmptyModel.fromJson(json);
   }
 }

@@ -23,7 +23,7 @@ First, you have to provide the parse model, then the result model. (Result model
 
 ```dart
 final response =
-await networkManager.fetch<Todo, List<Todo>>("/todos", parseModel: Todo(), method: RequestType.GET);
+await networkManager.send<Todo, List<Todo>>("/todos", parseModel: Todo(), method: RequestType.GET);
 ```
 
 ### **HTTP Post Request with Request Body** 🚀
@@ -34,14 +34,14 @@ The model found in the request body must extend the abstract class INetworkModel
 class TodoPostRequestData extends INetworkModel<TodoPostRequestData>
 ```
 
-Then, since the model will have toJson and fromJson properties, you can create the object and pass it directly to the fetch method.
+Then, since the model will have toJson and fromJson properties, you can create the object and pass it directly to the send method.
 
-> So, it is sufficient to send only the request body object into the fetch method. You don't need to use toJson.
+> So, it is sufficient to send only the request body object into the send method. You don't need to use toJson.
 
 ```dart
 final todoPostRequestBody = TodoPostRequestData();
 final response =
-await networkManager.fetch<Todo, List<Todo>>("/todosPost", parseModel: Todo(), method: RequestType.POST, data: todoPostRequestBody);
+await networkManager.send<Todo, List<Todo>>("/todosPost", parseModel: Todo(), method: RequestType.POST, data: todoPostRequestBody);
 ```
 
 ### **Network Model** 🛒
@@ -73,7 +73,7 @@ onRefreshFail: () {  //Navigate to login },
 You need to write a response model in the mobile device cache sometimes. It's here now. You can say expiration date and lay back 🙏
 
 ```dart
-    await networkManager.fetch<Todo, List<Todo>>("/todos",
+    await networkManager.send<Todo, List<Todo>>("/todos",
         parseModel: Todo(),
         expiration: Duration(seconds: 3),
         method: RequestType.GET);

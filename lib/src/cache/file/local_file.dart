@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:collection/collection.dart' show IterableExtension;
 import 'package:path_provider/path_provider.dart';
 
 import '../../interface/IFileManager.dart';
@@ -12,12 +13,12 @@ class LocalFile extends IFileManager {
   final _FileManager _fileManager = _FileManager.instance;
 
   @override
-  Future<String> getUserRequestDataOnString(String key) {
+  Future<String?> getUserRequestDataOnString(String key) {
     return _fileManager.readOnlyKeyData(key);
   }
 
   @override
-  Future<bool> writeUserRequestDataWithTime(String key, String model, Duration time) async {
+  Future<bool> writeUserRequestDataWithTime(String key, String model, Duration? time) async {
     if (time == null) {
       return false;
     } else {

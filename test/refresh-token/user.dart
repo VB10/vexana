@@ -1,16 +1,19 @@
 import 'package:vexana/src/interface/INetworkModel.dart';
 
 class User extends INetworkModel<User> {
-  String name;
-  String date;
-  String place;
+  String? name;
+  String? date;
+  String? place;
 
   User({this.name, this.date, this.place});
 
-  User.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-    date = json['date'];
-    place = json['place'];
+  User.fromJson(Map<String, dynamic>? json) {
+    if (json == null) {
+      return;
+    }
+    name = json['name'] as String?;
+    date = json['date'] as String?;
+    place = json['place'] as String?;
   }
 
   @override
@@ -23,7 +26,7 @@ class User extends INetworkModel<User> {
   }
 
   @override
-  User fromJson(Map<String, Object> json) {
+  User fromJson(Map<String, Object>? json) {
     return User.fromJson(json);
   }
 }

@@ -10,7 +10,7 @@ import 'mock_path.dart';
 
 // ignore: always_declare_return_types
 main() {
-  INetworkManager networkManager;
+  late INetworkManager networkManager;
   setUp(() {
     SharedPreferences.setMockInitialValues({}); //set values here
     PathProviderPlatform.instance = MockPathProviderPlatform();
@@ -19,24 +19,24 @@ main() {
   });
 
   test('Json Place Shared Test Holder Todos', () async {
-    await networkManager.fetch<Todo, List<Todo>>('/todos', parseModel: Todo(), expiration: Duration(seconds: 3), method: RequestType.GET);
+    await networkManager.send<Todo, List<Todo>>('/todos', parseModel: Todo(), expiration: Duration(seconds: 3), method: RequestType.GET);
 
     await Future.delayed(Duration(seconds: 2));
     await networkManager.removeAllCache();
 
     final response2 =
-        await networkManager.fetch<Todo, List<Todo>>('/todos', parseModel: Todo(), expiration: Duration(seconds: 3), method: RequestType.GET);
+        await networkManager.send<Todo, List<Todo>>('/todos', parseModel: Todo(), expiration: Duration(seconds: 3), method: RequestType.GET);
     expect(response2.data, isList);
   });
 
   test('Json Place Files Test Holder Todos', () async {
-    await networkManager.fetch<Todo, List<Todo>>('/todos', parseModel: Todo(), expiration: Duration(seconds: 3), method: RequestType.GET);
+    await networkManager.send<Todo, List<Todo>>('/todos', parseModel: Todo(), expiration: Duration(seconds: 3), method: RequestType.GET);
 
     await Future.delayed(Duration(seconds: 1));
     await networkManager.removeAllCache();
 
     final response2 =
-        await networkManager.fetch<Todo, List<Todo>>('/todos', parseModel: Todo(), expiration: Duration(seconds: 2), method: RequestType.GET);
+        await networkManager.send<Todo, List<Todo>>('/todos', parseModel: Todo(), expiration: Duration(seconds: 2), method: RequestType.GET);
 
     expect(response2.data, isList);
   });

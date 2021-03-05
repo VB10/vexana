@@ -6,13 +6,13 @@ import 'user.dart';
 
 // ignore: always_declare_return_types
 main() {
-  INetworkManager networkManager;
+  late INetworkManager networkManager;
   setUp(() {
     networkManager = NetworkManager(
         isEnableLogger: true,
         // onRefreshFail: () {  Navigate to login },
         onRefreshToken: (error, newService) async {
-          // final refreshToken = await newService.fetch<Credantial, Credantial>("/token",
+          // final refreshToken = await newService.send<Credantial, Credantial>("/token",
           //     parseModel: Credantial(), method: RequestType.GET);
           // error.request.headers = {HttpHeaders.authorizationHeader: "Bearer ${refreshToken.data.token}"};
           return error;
@@ -21,7 +21,7 @@ main() {
   });
 
   test('Json Place Holder Todos', () async {
-    final response = await networkManager.fetch<User, User>('/user', parseModel: User(), method: RequestType.GET);
+    final response = await networkManager.send<User, User>('/user', parseModel: User(), method: RequestType.GET);
 
     expect(response.data, isNotNull);
   });
