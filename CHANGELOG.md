@@ -1,6 +1,7 @@
-# [2.0.0-nullsafety.1] - 27/2/2021
 
-* Null safety versioning added migration complete
+# [2.0.0-nullsafety.1] - 05/01/2021
+
+- Vexana adapt to null safety.
 
 # [1.3.1] - 05/01/2021
 
