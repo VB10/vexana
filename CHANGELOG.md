@@ -1,7 +1,16 @@
 
-# [2.0.0-nullsafety.2] - 05/01/2021
+# [2.0.0-nullsafety.4] - 05/01/2021
+
+- Object type conver to dynamic.
+
+## [2.0.0-nullsafety.3] - 05/01/2021
+
+- To json and From Json Model architecture fixed.
+
+## [2.0.0-nullsafety.2] - 05/01/2021
 
 - Map parsing error has fixed with null safety.
+
 ## [2.0.0-nullsafety.1] - 05/01/2021
 
 - Vexana adapt to null safety.

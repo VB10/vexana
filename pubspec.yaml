@@ -2,7 +2,7 @@ name: vexana
 description: Manage your network layer with dio. You will be able to use it very
   easily network operations.
 author: Veli Bacik <vbacik.10@gmail.com>
-version: 2.0.0-nullsafety.2
+version: 2.0.0-nullsafety.3
 homepage: https://github.com/VB10/vexana
 
 environment:
