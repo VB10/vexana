@@ -17,11 +17,11 @@ class User extends INetworkModel<User> {
   }
 
   @override
-  Map<String, dynamic> toJson() {
-    final data = <String, dynamic>{};
-    data['name'] = name;
-    data['date'] = date;
-    data['place'] = place;
+  Map<String, Object> toJson() {
+    final data = <String, Object>{};
+    data['name'] = name ?? '';
+    data['date'] = date ?? '';
+    data['place'] = place ?? '';
     return data;
   }
 

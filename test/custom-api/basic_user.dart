@@ -13,9 +13,9 @@ class BasicUser extends INetworkModel<BasicUser> {
   }
 
   @override
-  Map<String, dynamic> toJson() {
-    final data = <String, dynamic>{};
-    data['user'] = user;
+  Map<String, Object> toJson() {
+    final data = <String, Object>{};
+    data['user'] = user ?? '';
     return data;
   }
 

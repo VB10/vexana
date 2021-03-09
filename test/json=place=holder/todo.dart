@@ -19,12 +19,14 @@ class Todo extends INetworkModel<Todo> {
   }
 
   @override
-  Map<String, dynamic> toJson() {
-    final data = <String, dynamic>{};
-    data['userId'] = userId;
-    data['id'] = id;
-    data['title'] = title;
-    data['completed'] = completed;
+  Map<String, Object> toJson() {
+    final data = <String, Object>{};
+    data['userId'] = userId ?? '';
+    data['id'] = id ?? '';
+    data['title'] = title ?? '';
+    ;
+    data['completed'] = completed ?? '';
+    ;
     return data;
   }
 

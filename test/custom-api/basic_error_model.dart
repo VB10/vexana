@@ -14,11 +14,11 @@ class BasicErrorModel extends INetworkModel<BasicErrorModel> {
   }
 
   @override
-  Map<String, dynamic> toJson() {
-    final data = <String, dynamic>{};
-    data['statusCode'] = statusCode;
-    data['message'] = message;
-    data['screenMessage'] = screenMessage;
+  Map<String, Object> toJson() {
+    final data = <String, Object>{};
+    data['statusCode'] = statusCode ?? '';
+    data['message'] = message ?? '';
+    data['screenMessage'] = screenMessage ?? '';
     return data;
   }
 
