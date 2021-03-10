@@ -20,5 +20,5 @@ class BasicUser extends INetworkModel<BasicUser> {
   }
 
   @override
-  BasicUser fromJson(Map<String, Object>? json) => BasicUser.fromJson(json);
+  BasicUser fromJson(Map<String, dynamic>? json) => BasicUser.fromJson(json);
 }

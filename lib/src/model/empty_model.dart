@@ -20,7 +20,7 @@ class EmptyModel extends INetworkModel<EmptyModel> {
   }
 
   @override
-  EmptyModel fromJson(Map<String, Object>? json) {
+  EmptyModel fromJson(Map<String, dynamic>? json) {
     return EmptyModel.fromJson(json);
   }
 }

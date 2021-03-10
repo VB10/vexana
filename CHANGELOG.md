@@ -1,5 +1,8 @@
+# [2.0.0-nullsafety.5] - 10/01/2021
 
-# [2.0.0-nullsafety.4] - 05/01/2021
+- Object mapper fixed
+
+## [2.0.0-nullsafety.4] - 05/01/2021
 
 - Object type conver to dynamic.
 
@@ -15,7 +18,7 @@
 
 - Vexana adapt to null safety.
 
-# [1.3.1] - 05/01/2021
+## [1.3.1] - 05/01/2021
 
 - Fixed primitive type response and added test.
 

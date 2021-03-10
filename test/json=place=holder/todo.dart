@@ -31,7 +31,7 @@ class Todo extends INetworkModel<Todo> {
   }
 
   @override
-  Todo fromJson(Map<String, Object>? json) {
+  Todo fromJson(Map<String, dynamic>? json) {
     return Todo.fromJson(json);
   }
 }

@@ -20,7 +20,7 @@ class Credantial extends INetworkModel<Credantial> {
   }
 
   @override
-  Credantial fromJson(Map<String, Object>? json) {
+  Credantial fromJson(Map<String, dynamic>? json) {
     return Credantial.fromJson(json);
   }
 }

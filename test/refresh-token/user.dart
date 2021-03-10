@@ -26,7 +26,7 @@ class User extends INetworkModel<User> {
   }
 
   @override
-  User fromJson(Map<String, Object>? json) {
+  User fromJson(Map<String, dynamic>? json) {
     return User.fromJson(json);
   }
 }
