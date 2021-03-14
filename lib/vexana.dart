@@ -17,3 +17,4 @@ export 'src/model/error_model.dart';
 export 'src/model/response_model.dart';
 // NETWORK
 export 'src/network_manager.dart';
+export 'package:dio/src/interceptor.dart';

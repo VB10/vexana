@@ -1,4 +1,7 @@
-# [2.0.0-nullsafety.5] - 10/01/2021
+# [2.0.0-nullsafety.6] - 10/01/2021
+
+- Interceptor export add library.
+## [2.0.0-nullsafety.5] - 10/01/2021
 
 - Object mapper fixed
 
