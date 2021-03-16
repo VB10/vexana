@@ -1,4 +1,4 @@
 abstract class INetworkModel<T> {
-  Map<String, Object?> toJson();
-  T fromJson(Map<String, Object>? json);
+  Map<String, dynamic> toJson();
+  T fromJson(Map<String, dynamic> json);
 }

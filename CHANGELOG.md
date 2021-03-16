@@ -1,9 +1,27 @@
+# [2.0.0-nullsafety.6] - 10/01/2021
 
-# [2.0.0-nullsafety.1] - 05/01/2021
+- Interceptor export add library.
+## [2.0.0-nullsafety.5] - 10/01/2021
+
+- Object mapper fixed
+
+## [2.0.0-nullsafety.4] - 05/01/2021
+
+- Object type conver to dynamic.
+
+## [2.0.0-nullsafety.3] - 05/01/2021
+
+- To json and From Json Model architecture fixed.
+
+## [2.0.0-nullsafety.2] - 05/01/2021
+
+- Map parsing error has fixed with null safety.
+
+## [2.0.0-nullsafety.1] - 05/01/2021
 
 - Vexana adapt to null safety.
 
-# [1.3.1] - 05/01/2021
+## [1.3.1] - 05/01/2021
 
 - Fixed primitive type response and added test.
 
@@ -46,4 +64,3 @@
 - Base models has been defined.
 - Logger options added,
 - User custom error model added.
-  
