@@ -53,9 +53,11 @@ packages:
   dio:
     dependency: transitive
     description:
-      path: "/Users/IBT111542/Desktop/development/dio/dio"
-      relative: false
-    source: path
+      path: dio
+      ref: "4.0"
+      resolved-ref: "10c180a2f14be495bc001f875bb523bd990b6c25"
+      url: "https://github.com/VB10/dio"
+    source: git
     version: "4.0.0-prev3"
   fake_async:
     dependency: transitive
