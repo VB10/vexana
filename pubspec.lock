@@ -126,7 +126,7 @@ packages:
       name: dio
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.0-beta4"
+    version: "4.0.0-prev2"
   fake_async:
     dependency: transitive
     description:

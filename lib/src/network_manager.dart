@@ -2,7 +2,10 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/adapter.dart';
+import 'package:dio/adapter_browser.dart';
+import 'package:dio/browser_imp.dart';
 import 'package:dio/dio.dart';
+import 'package:dio/native_imp.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
@@ -42,7 +45,7 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
     this.options = options;
     _addLoggerInterceptor(isEnableLogger ?? false);
     _addNetworkIntercaptors(interceptor);
-    httpClientAdapter = DefaultHttpClientAdapter();
+    httpClientAdapter = kIsWeb ? BrowserHttpClientAdapter() : DefaultHttpClientAdapter();
   }
   void _addLoggerInterceptor(bool isEnableLogger) {
     if (isEnableLogger) interceptors.add(LogInterceptor());
@@ -85,6 +88,8 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
   }
 
   Future<ResponseModel<R>?> getCacheData<R, T extends INetworkModel>(Duration? expiration, RequestType type, T responseModel) async {
+    // TODO: Web Cache support
+    if (kIsWeb) return null;
     if (expiration == null) return null;
     final cacheDataString = await getLocalData(type);
     if (cacheDataString == null) {

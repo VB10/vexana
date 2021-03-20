@@ -8,10 +8,9 @@ extension _CoreServiceWrapperExtension on NetworkManager {
 
   InterceptorsWrapper _onErrorWrapper() {
     return InterceptorsWrapper(
-      onError: (e) async {
+      onError: (e, handler) async {
         final errorResponse = e.response;
         if (errorResponse == null) {
-          return e;
         } else {
           if (errorResponse.statusCode == HttpStatus.unauthorized && onRefreshToken != null) {
             if (_retryCount < maxCount) {
@@ -21,16 +20,16 @@ extension _CoreServiceWrapperExtension on NetworkManager {
               final error = await onRefreshToken!(e, NetworkManager(options: options));
               interceptors.responseLock.unlock();
               interceptors.requestLock.unlock();
-              final requestModel = error.request;
-              if (requestModel == null) {
-                return e;
-              }
-              return await request(
+              final requestModel = error.requestOptions;
+
+              await request(
                 requestModel.path,
                 queryParameters: requestModel.queryParameters,
                 data: requestModel.data,
                 options: Options(method: requestModel.method, headers: requestModel.headers),
               );
+
+              return handler.next(e);
             } else {
               if (onRefreshFail != null) onRefreshFail!();
               _retryCount = 0;
@@ -38,7 +37,7 @@ extension _CoreServiceWrapperExtension on NetworkManager {
           }
         }
 
-        return e;
+        return handler.next(e);
       },
     );
   }
