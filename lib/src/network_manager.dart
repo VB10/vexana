@@ -1,11 +1,30 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:dio/adapter.dart';
-import 'package:dio/adapter_browser.dart';
-import 'package:dio/browser_imp.dart';
-import 'package:dio/dio.dart';
-import 'package:dio/native_imp.dart';
+// import 'package:dio/adapter.dart';
+// import 'package:dio/adapter_browser.dart';
+// import 'package:dio/adapter.dart';
+// import 'package:dio/dio.dart'
+// // ignore: uri_does_not_exist
+//     if (dart.library.html) 'package:dio/adapter_browser.dart'
+// // ignore: uri_does_not_exist
+//     if (dart.library.io) 'package:dio/adapter.dart';
+
+import 'package:dio/src/adapter.dart'
+    if (dart.library.io) 'package:dio/src/adapters/io_adapter.dart'
+    if (dart.library.js) 'package:dio/src/adapters/browser_adapter.dart';
+
+import 'package:dio/src/dio_mixin.dart';
+import 'package:dio/src/dio.dart';
+import 'package:dio/src/dio_error.dart';
+import 'package:dio/src/interceptors/log.dart';
+import 'package:dio/src/cancel_token.dart';
+
+// import 'package:dio/dio.dart';
+
+// import 'package:dio/dio.dart';
+
+// import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
@@ -33,6 +52,9 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
   late IFileManager? fileManager;
   late INetworkModel? errorModel;
 
+  /// [Client] has be set deafult client adapter
+  bool isEnableTest;
+
   NetworkManager({
     required BaseOptions options,
     bool? isEnableLogger,
@@ -41,11 +63,12 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
     this.onRefreshFail,
     this.fileManager,
     this.errorModel,
+    this.isEnableTest = false,
   }) {
     this.options = options;
     _addLoggerInterceptor(isEnableLogger ?? false);
     _addNetworkIntercaptors(interceptor);
-    httpClientAdapter = kIsWeb ? BrowserHttpClientAdapter() : DefaultHttpClientAdapter();
+    httpClientAdapter = createAdapter();
   }
   void _addLoggerInterceptor(bool isEnableLogger) {
     if (isEnableLogger) interceptors.add(LogInterceptor());

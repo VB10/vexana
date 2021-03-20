@@ -1,6 +1,12 @@
-# [2.0.0-nullsafety.6] - 10/01/2021
+# [2.1.0] - 10/01/2021
+
+- Web support added.
+- NoSQL db added for cache @ahm3tcelik with sembast.
+
+## [2.0.0-nullsafety.6] - 10/01/2021
 
 - Interceptor export add library.
+
 ## [2.0.0-nullsafety.5] - 10/01/2021
 
 - Object mapper fixed

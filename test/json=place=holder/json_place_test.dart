@@ -8,7 +8,7 @@ import 'todo.dart';
 main() {
   late INetworkManager networkManager;
   setUp(() {
-    networkManager = NetworkManager(isEnableLogger: true, options: BaseOptions(baseUrl: 'https://jsonplaceholder.typicode.com/'));
+    networkManager = NetworkManager(isEnableLogger: true, options: BaseOptions(baseUrl: 'https://jsonplaceholder.typicode.com/'), isEnableTest: true);
   });
   test('Json Place Holder Todos', () async {
     final response = await networkManager.send<Todo, List<Todo>>('/todos', parseModel: Todo(), method: RequestType.GET);
