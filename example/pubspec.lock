@@ -53,12 +53,10 @@ packages:
   dio:
     dependency: transitive
     description:
-      path: dio
-      ref: "4.0"
-      resolved-ref: "10c180a2f14be495bc001f875bb523bd990b6c25"
-      url: "https://github.com/VB10/dio"
-    source: git
-    version: "4.0.0-prev3"
+      name: dio
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.0.0"
   fake_async:
     dependency: transitive
     description:
@@ -316,7 +314,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "2.1.0"
+    version: "2.0.0-nullsafety.7"
   win32:
     dependency: transitive
     description:

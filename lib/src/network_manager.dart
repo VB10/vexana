@@ -10,6 +10,7 @@ import 'dart:io';
 // // ignore: uri_does_not_exist
 //     if (dart.library.io) 'package:dio/adapter.dart';
 
+import 'package:dio/adapter.dart';
 import 'package:dio/src/adapter.dart'
     if (dart.library.io) 'package:dio/src/adapters/io_adapter.dart'
     if (dart.library.js) 'package:dio/src/adapters/browser_adapter.dart';
@@ -68,7 +69,8 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
     this.options = options;
     _addLoggerInterceptor(isEnableLogger ?? false);
     _addNetworkIntercaptors(interceptor);
-    httpClientAdapter = createAdapter();
+    //TODO: Http adapter has come
+    httpClientAdapter = DefaultHttpClientAdapter();
   }
   void _addLoggerInterceptor(bool isEnableLogger) {
     if (isEnableLogger) interceptors.add(LogInterceptor());

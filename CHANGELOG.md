@@ -1,7 +1,11 @@
-# [2.1.0] - 10/01/2021
+# [2.0.0-nullsafety.7] - 10/01/2021
+
+- Dio null safety migration
+
+<!-- # [2.1.0] - 10/01/2021
 
 - Web support added.
-- NoSQL db added for cache @ahm3tcelik with sembast.
+- NoSQL db added for cache @ahm3tcelik with sembast. -->
 
 ## [2.0.0-nullsafety.6] - 10/01/2021
 
