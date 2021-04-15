@@ -1,4 +1,10 @@
-# [2.0.0-nullsafety.7] - 10/01/2021
+
+# [2.0.0-nullsafety.8] - 10/01/2021
+
+- Export to intercaptors values
+- Add more public documentation
+
+## [2.0.0-nullsafety.7] - 10/01/2021
 
 - Dio null safety migration
 
