@@ -3,7 +3,7 @@ part of '../network_manager.dart';
 extension _CoreServiceCacheExtension on NetworkManager {
   String _urlKeyOnLocalData(RequestType type) => '${options.baseUrl}-${type.stringValue}';
 
-  Future<void> _writeCache(Duration? expiration, dynamic body, RequestType type) async {
+  Future<void> writeCacheAll(Duration? expiration, dynamic body, RequestType type) async {
     if (expiration == null) return;
     if (fileManager == null) throw FileManagerNotFound();
     final _stringValues = jsonEncode(body);

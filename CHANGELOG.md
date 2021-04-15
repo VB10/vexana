@@ -1,5 +1,12 @@
+# [2.0.0-nullsafety.10] - 15/04/2021
 
-# [2.0.0-nullsafety.8] - 10/01/2021
+- Some bug fix lasttt :)
+
+## [2.0.0-nullsafety.9] - 15/04/2021
+
+- Some bug fix.
+
+## [2.0.0-nullsafety.8] - 10/01/2021
 
 - Export to intercaptors values
 - Add more public documentation
