@@ -43,12 +43,8 @@ main() {
   });
 
   test('Json Place Sembast Database Test Holder Todos', () async {
-
-    networkManager = NetworkManager(
-        fileManager: LocalSembast(),
-        isEnableLogger: true,
-        options: BaseOptions(baseUrl: 'https://jsonplaceholder.typicode.com/')
-    );
+    networkManager =
+        NetworkManager(fileManager: LocalSembast(), isEnableLogger: true, options: BaseOptions(baseUrl: 'https://jsonplaceholder.typicode.com/'));
 
     await networkManager.send<Todo, List<Todo>>('/todos', parseModel: Todo(), expiration: Duration(seconds: 3), method: RequestType.GET);
 
@@ -56,7 +52,7 @@ main() {
     await networkManager.removeAllCache();
 
     final response2 =
-    await networkManager.send<Todo, List<Todo>>('/todos', parseModel: Todo(), expiration: Duration(seconds: 2), method: RequestType.GET);
+        await networkManager.send<Todo, List<Todo>>('/todos', parseModel: Todo(), expiration: Duration(seconds: 2), method: RequestType.GET);
 
     expect(response2.data, isList);
   });

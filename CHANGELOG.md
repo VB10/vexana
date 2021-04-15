@@ -1,4 +1,8 @@
-# [2.0.0-nullsafety.10] - 15/04/2021
+# [2.1.0] - 15/04/2021
+
+- Cache operation has fixed for null safety.
+
+## [2.0.0-nullsafety.10] - 15/04/2021
 
 - Some bug fix lasttt :)
 

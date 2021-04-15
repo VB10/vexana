@@ -7,17 +7,17 @@ class _LocalManager {
   }
 
   static _LocalManager? _instance;
-  late SharedPreferences? _preferences;
+  SharedPreferences? _preferences;
 
-  Future<SharedPreferences?> get preferences async {
+  Future<SharedPreferences> get preferences async {
     _preferences ??= await SharedPreferences.getInstance();
-    return _preferences;
+    return _preferences!;
   }
 
   _LocalManager._init();
 
   Future<bool> writeModelInJson(dynamic body, String url, Duration? duration) async {
-    final _pref = await (preferences as Future<SharedPreferences>);
+    final _pref = await preferences;
 
     if (duration == null) {
       return false;
@@ -32,7 +32,7 @@ class _LocalManager {
   }
 
   Future<String?> getModelString(String url) async {
-    final _pref = await (preferences as Future<SharedPreferences>);
+    final _pref = await preferences;
 
     final jsonString = _pref.getString(url);
     if (jsonString != null) {
@@ -50,7 +50,7 @@ class _LocalManager {
   }
 
   Future<bool> removeAllLocalData(String url) async {
-    final _pref = await (preferences as Future<SharedPreferences>);
+    final _pref = await preferences;
 
     _pref.getKeys().where((element) => element.contains(url)).forEach((element) async {
       await removeModel(element);
@@ -59,7 +59,7 @@ class _LocalManager {
   }
 
   Future<bool> removeModel(String url) async {
-    final _pref = await (preferences as Future<SharedPreferences>);
+    final _pref = await preferences;
     return await _pref.remove(url);
   }
 }
