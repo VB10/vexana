@@ -1,6 +1,7 @@
 import '../model/enum/request_type.dart';
 
 extension NetworkTypeExtension on RequestType {
+  /// [RequestType] convert to string value.
   String get stringValue {
     switch (this) {
       case RequestType.GET:
