@@ -1,4 +1,8 @@
-# [2.1.0] - 15/04/2021
+# [2.1.5] - 15/04/2021
+
+- Added simple download manager
+
+## [2.1.0] - 15/04/2021
 
 - Cache operation has fixed for null safety.
 

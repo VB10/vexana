@@ -11,6 +11,8 @@ import 'dart:io';
 //     if (dart.library.io) 'package:dio/adapter.dart';
 
 import 'package:dio/adapter.dart';
+import 'package:dio/dio.dart';
+import 'package:dio/native_imp.dart';
 import 'package:dio/src/adapter.dart'
     if (dart.library.io) 'package:dio/src/adapters/io_adapter.dart'
     if (dart.library.js) 'package:dio/src/adapters/browser_adapter.dart';
@@ -79,6 +81,7 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
   bool isEnableTest;
 
   /// [Interceptors] return dio client interceptors list
+  @override
   Interceptors get dioIntercaptors => interceptors;
 
   NetworkManager({
@@ -136,7 +139,6 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
     if (cacheData is ResponseModel<R>) {
       return cacheData;
     }
-
     options ??= Options();
     options.method = method.stringValue;
     final body = _getBodyModel(data);
@@ -153,6 +155,12 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
     } on DioError catch (e) {
       return _onError<R>(e);
     }
+  }
+
+  @override
+  Future<Response<dynamic>> downloadFileSimle(String path, ProgressCallback? callback) async {
+    final response = await Dio().get(path, options: Options(followRedirects: false, responseType: ResponseType.bytes));
+    return response;
   }
 
   Future<ResponseModel<R>?> _getCacheData<R, T extends INetworkModel>(Duration? expiration, RequestType type, T responseModel) async {
