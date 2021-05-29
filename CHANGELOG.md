@@ -1,4 +1,10 @@
-# [2.1.5] - 15/04/2021
+
+# [2.2.0] - 30/05/2021
+
+- File download wih progress callback.
+- Error log message added with logger package
+
+## [2.1.5] - 15/04/2021
 
 - Added simple download manager
 

@@ -23,7 +23,7 @@ import 'package:dio/src/dio_error.dart';
 import 'package:dio/src/interceptors/log.dart';
 import 'package:dio/src/cancel_token.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
+import 'package:logger/logger.dart';
 
 import '../vexana.dart';
 import 'extension/request_type_extension.dart';
@@ -158,8 +158,8 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
   }
 
   @override
-  Future<Response<dynamic>> downloadFileSimle(String path, ProgressCallback? callback) async {
-    final response = await Dio().get(path, options: Options(followRedirects: false, responseType: ResponseType.bytes));
+  Future<Response<dynamic>> downloadFileSimple(String path, ProgressCallback? callback) async {
+    final response = await Dio().get(path, options: Options(followRedirects: false, responseType: ResponseType.bytes), onReceiveProgress: callback);
     return response;
   }
 
@@ -182,12 +182,16 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
 
   ResponseModel<R> _onError<R>(DioError e) {
     final errorResponse = e.response;
-
+    _printErrorMessage(e.message);
     final error = ErrorModel(description: e.message, statusCode: errorResponse != null ? errorResponse.statusCode : HttpStatus.internalServerError);
     if (errorResponse != null) {
       _generateErrorModel(error, errorResponse.data);
     }
     return ResponseModel<R>(error: error);
+  }
+
+  void _printErrorMessage(String message) {
+    Logger().e(message);
   }
 
   void _generateErrorModel(ErrorModel error, dynamic data) {
