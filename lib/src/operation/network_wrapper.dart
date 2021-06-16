@@ -13,7 +13,7 @@ extension _CoreServiceWrapperExtension on NetworkManager {
         if (errorResponse == null) {
         } else {
           if (errorResponse.statusCode == HttpStatus.unauthorized && onRefreshToken != null) {
-            if (_retryCount < maxCount) {
+            if (_retryCount < _maxCount) {
               _retryCount++;
               interceptors.responseLock.lock();
               interceptors.requestLock.lock();

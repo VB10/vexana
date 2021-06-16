@@ -11,13 +11,18 @@ extension _CoreServiceExtension on NetworkManager {
     }
   }
 
-  R _parseBody<R, T extends INetworkModel>(dynamic responseBody, T model) {
+  R? _parseBody<R, T extends INetworkModel>(dynamic responseBody, T model) {
     if (responseBody is List) {
       return responseBody.map((data) => model.fromJson(data)).cast<T>().toList() as R;
     } else if (responseBody is Map<String, dynamic>) {
       return model.fromJson(responseBody) as R;
     } else {
-      return EmptyModel(name: responseBody.toString()) as R;
+      try {
+        return EmptyModel(name: responseBody.toString()) as R;
+      } catch (e) {
+        print('Exception Vexana: $e');
+        return null;
+      }
     }
   }
 }
