@@ -12,27 +12,30 @@ extension _CoreServiceWrapperExtension on NetworkManager {
         final errorResponse = e.response;
         if (errorResponse == null) {
         } else {
-          if (errorResponse.statusCode == HttpStatus.unauthorized && onRefreshToken != null) {
-            if (_retryCount < maxCount) {
-              _retryCount++;
+          if (errorResponse.statusCode == HttpStatus.unauthorized &&
+              onRefreshToken != null) {
+            if (retryCount < maxCount) {
+              retryCount++;
               interceptors.responseLock.lock();
               interceptors.requestLock.lock();
-              final error = await onRefreshToken!(e, NetworkManager(options: options));
+              final error =
+                  await onRefreshToken!(e, NetworkManager(options: options));
               interceptors.responseLock.unlock();
               interceptors.requestLock.unlock();
               final requestModel = error.requestOptions;
 
-              await request(
+              final response = await request(
                 requestModel.path,
                 queryParameters: requestModel.queryParameters,
                 data: requestModel.data,
-                options: Options(method: requestModel.method, headers: requestModel.headers),
+                options: Options(
+                    method: requestModel.method, headers: requestModel.headers),
               );
 
-              return handler.next(e);
+              return handler.resolve(response);
             } else {
               if (onRefreshFail != null) onRefreshFail!();
-              _retryCount = 0;
+              retryCount = 0;
             }
           }
         }

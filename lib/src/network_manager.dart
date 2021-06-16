@@ -26,10 +26,11 @@ part 'operation/network_model_parser.dart';
 part 'operation/network_wrapper.dart';
 
 class NetworkManager with DioMixin implements Dio, INetworkManager {
-  late Future<DioError> Function(DioError error, NetworkManager newService)? onRefreshToken;
+  late Future<DioError> Function(DioError error, NetworkManager newService)?
+      onRefreshToken;
   late VoidCallback? onRefreshFail;
   late final int maxCount = 3;
-  late int _retryCount;
+  var retryCount = 0;
   late IFileManager? fileManager;
   late INetworkModel? errorModel;
 
@@ -45,7 +46,8 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
     this.options = options;
     _addLoggerInterceptor(isEnableLogger ?? false);
     _addNetworkIntercaptors(interceptor);
-    httpClientAdapter = kIsWeb ? BrowserHttpClientAdapter() : DefaultHttpClientAdapter();
+    httpClientAdapter =
+        kIsWeb ? BrowserHttpClientAdapter() : DefaultHttpClientAdapter();
   }
   void _addLoggerInterceptor(bool isEnableLogger) {
     if (isEnableLogger) interceptors.add(LogInterceptor());
@@ -74,20 +76,23 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
     final body = _getBodyModel(data);
 
     try {
-      final response = await request('$path$urlSuffix', data: body, options: options, queryParameters: queryParameters);
+      final response = await request('$path$urlSuffix',
+          data: body, options: options, queryParameters: queryParameters);
       switch (response.statusCode) {
         case HttpStatus.ok:
           await writeCache(expiration, response.data, method);
           return getResponseResult<T, R>(response.data, parseModel);
         default:
-          return ResponseModel(error: ErrorModel(description: response.data.toString()));
+          return ResponseModel(
+              error: ErrorModel(description: response.data.toString()));
       }
     } on DioError catch (e) {
       return _onError<R>(e);
     }
   }
 
-  Future<ResponseModel<R>?> getCacheData<R, T extends INetworkModel>(Duration? expiration, RequestType type, T responseModel) async {
+  Future<ResponseModel<R>?> getCacheData<R, T extends INetworkModel>(
+      Duration? expiration, RequestType type, T responseModel) async {
     // TODO: Web Cache support
     if (kIsWeb) return null;
     if (expiration == null) return null;
@@ -95,11 +100,13 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
     if (cacheDataString == null) {
       return null;
     } else {
-      return getResponseResult<T, R>(jsonDecode(cacheDataString), responseModel);
+      return getResponseResult<T, R>(
+          jsonDecode(cacheDataString), responseModel);
     }
   }
 
-  ResponseModel<R> getResponseResult<T extends INetworkModel, R>(dynamic data, T parserModel) {
+  ResponseModel<R> getResponseResult<T extends INetworkModel, R>(
+      dynamic data, T parserModel) {
     final model = _parseBody<R, T>(data, parserModel);
     return ResponseModel<R>(data: model);
   }
@@ -107,7 +114,11 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
   ResponseModel<R> _onError<R>(DioError e) {
     final errorResponse = e.response;
 
-    final error = ErrorModel(description: e.message, statusCode: errorResponse != null ? errorResponse.statusCode : HttpStatus.internalServerError);
+    final error = ErrorModel(
+        description: e.message,
+        statusCode: errorResponse != null
+            ? errorResponse.statusCode
+            : HttpStatus.internalServerError);
     if (errorResponse != null) {
       _generateErrorModel(error, errorResponse.data);
     }
