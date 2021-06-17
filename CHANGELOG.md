@@ -1,6 +1,43 @@
-# [2.0.0-nullsafety.6] - 10/01/2021
+
+# [2.2.0] - 30/05/2021
+
+- File download wih progress callback.
+- Error log message added with logger package
+
+## [2.1.5] - 15/04/2021
+
+- Added simple download manager
+
+## [2.1.0] - 15/04/2021
+
+- Cache operation has fixed for null safety.
+
+## [2.0.0-nullsafety.10] - 15/04/2021
+
+- Some bug fix lasttt :)
+
+## [2.0.0-nullsafety.9] - 15/04/2021
+
+- Some bug fix.
+
+## [2.0.0-nullsafety.8] - 10/01/2021
+
+- Export to intercaptors values
+- Add more public documentation
+
+## [2.0.0-nullsafety.7] - 10/01/2021
+
+- Dio null safety migration
+
+<!-- # [2.1.0] - 10/01/2021
+
+- Web support added.
+- NoSQL db added for cache @ahm3tcelik with sembast. -->
+
+## [2.0.0-nullsafety.6] - 10/01/2021
 
 - Interceptor export add library.
+
 ## [2.0.0-nullsafety.5] - 10/01/2021
 
 - Object mapper fixed

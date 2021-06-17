@@ -126,7 +126,7 @@ packages:
       name: dio
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.0-prev2"
+    version: "4.0.0"
   fake_async:
     dependency: transitive
     description:
@@ -191,6 +191,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.3"
+  logger:
+    dependency: "direct main"
+    description:
+      name: logger
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
   logging:
     dependency: transitive
     description:
@@ -218,7 +225,7 @@ packages:
       name: mockito
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.0.10"
+    version: "5.0.8"
   package_config:
     dependency: transitive
     description:
