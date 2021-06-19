@@ -14,8 +14,8 @@ extension _CoreServiceWrapperExtension on NetworkManager {
         } else {
           if (errorResponse.statusCode == HttpStatus.unauthorized &&
               onRefreshToken != null) {
-            if (retryCount < _maxCount) {
-              retryCount++;
+            if (_retryCount < _maxCount) {
+              _retryCount++;
               interceptors.responseLock.lock();
               interceptors.requestLock.lock();
               final error =
@@ -35,7 +35,7 @@ extension _CoreServiceWrapperExtension on NetworkManager {
               return handler.resolve(response);
             } else {
               if (onRefreshFail != null) onRefreshFail!();
-              retryCount = 0;
+              _retryCount = 0;
             }
           }
         }

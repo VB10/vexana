@@ -29,7 +29,7 @@ class JsonPlaceHolderView extends JsonPlaceHolderViewModel {
           ? CircularProgressIndicator(
               valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
             )
-          : Text("Vexana Project"),
+          : Text('Vexana Project'),
     );
   }
 }

@@ -50,7 +50,8 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
   /// [Future<DioError> Function(DioError error, NetworkManager newService)] of retry service request with new instance
   ///
   /// Default value function is null until to define your business.
-  late Future<DioError> Function(DioError error, NetworkManager newService)? onRefreshToken;
+  late Future<DioError> Function(DioError error, NetworkManager newService)?
+      onRefreshToken;
 
   /// [VoidCallback?] has send error if it has [onRefreshToken] callback after has problem.
   ///
@@ -58,12 +59,10 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
   late VoidCallback? onRefreshFail;
 
   /// [int?] retry maxiumum count at refresh function.
-  late final int _maxCount = 3;
+  final int _maxCount = 3;
 
-  /// [int?] retry  count at per refresh call.
-  ///
-  /// This increment with [onRefreshToken]
-  var retryCount = 0;
+  // ignore: prefer_final_fields
+  int _retryCount = 0;
 
   /// [IFileManager?] manage cache operation with this.
   ///
@@ -160,12 +159,17 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
   }
 
   @override
-  Future<Response<dynamic>> downloadFileSimple(String path, ProgressCallback? callback) async {
-    final response = await Dio().get(path, options: Options(followRedirects: false, responseType: ResponseType.bytes), onReceiveProgress: callback);
+  Future<Response<dynamic>> downloadFileSimple(
+      String path, ProgressCallback? callback) async {
+    final response = await Dio().get(path,
+        options:
+            Options(followRedirects: false, responseType: ResponseType.bytes),
+        onReceiveProgress: callback);
     return response;
   }
 
-  Future<ResponseModel<R>?> _getCacheData<R, T extends INetworkModel>(Duration? expiration, RequestType type, T responseModel) async {
+  Future<ResponseModel<R>?> _getCacheData<R, T extends INetworkModel>(
+      Duration? expiration, RequestType type, T responseModel) async {
     // TODO: Web Cache support
     if (kIsWeb) return null;
     if (expiration == null) return null;
@@ -173,11 +177,13 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
     if (cacheDataString == null) {
       return null;
     } else {
-      return _getResponseResult<T, R>(jsonDecode(cacheDataString), responseModel);
+      return _getResponseResult<T, R>(
+          jsonDecode(cacheDataString), responseModel);
     }
   }
 
-  ResponseModel<R> _getResponseResult<T extends INetworkModel, R>(dynamic data, T parserModel) {
+  ResponseModel<R> _getResponseResult<T extends INetworkModel, R>(
+      dynamic data, T parserModel) {
     final model = _parseBody<R, T>(data, parserModel);
     return ResponseModel<R>(data: model);
   }
@@ -185,7 +191,11 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
   ResponseModel<R> _onError<R>(DioError e) {
     final errorResponse = e.response;
     _printErrorMessage(e.message);
-    final error = ErrorModel(description: e.message, statusCode: errorResponse != null ? errorResponse.statusCode : HttpStatus.internalServerError);
+    final error = ErrorModel(
+        description: e.message,
+        statusCode: errorResponse != null
+            ? errorResponse.statusCode
+            : HttpStatus.internalServerError);
     if (errorResponse != null) {
       _generateErrorModel(error, errorResponse.data);
     }
