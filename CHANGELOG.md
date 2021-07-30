@@ -1,7 +1,11 @@
+# [2.2.2] - 30/07/2021
+
+- Successful response code range added.(200> &300<)
 
 # [2.2.1] - 20/06/2021
 
 - Refresh token veriable problem has fixed
+
 ## [2.2.0] - 30/05/2021
 
 - File download wih progress callback.
