@@ -145,7 +145,7 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
 
     try {
       final response = await request('$path$urlSuffix', data: body, options: options, queryParameters: queryParameters);
-      if(response.statusCode == 200 || response.statusCode! < 300) {
+      if(response.statusCode! >= HttpStatus.ok && response.statusCode! <= HttpStatus.multipleChoices) {
         await writeCacheAll(expiration, response.data, method);
         return _getResponseResult<T, R>(response.data, parseModel);
       } else {
