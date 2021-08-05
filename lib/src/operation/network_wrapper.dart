@@ -1,7 +1,7 @@
 part of '../network_manager.dart';
 
 extension _CoreServiceWrapperExtension on NetworkManager {
-  void _addNetworkIntercaptors(InterceptorsWrapper? interceptor) {
+  void _addNetworkInterceptors(InterceptorsWrapper? interceptor) {
     if (interceptor != null) interceptors.add(interceptor);
     interceptors.add(_onErrorWrapper());
   }
@@ -12,14 +12,12 @@ extension _CoreServiceWrapperExtension on NetworkManager {
         final errorResponse = e.response;
         if (errorResponse == null) {
         } else {
-          if (errorResponse.statusCode == HttpStatus.unauthorized &&
-              onRefreshToken != null) {
+          if (errorResponse.statusCode == HttpStatus.unauthorized && onRefreshToken != null) {
             if (_retryCount < _maxCount) {
               _retryCount++;
               interceptors.responseLock.lock();
               interceptors.requestLock.lock();
-              final error =
-                  await onRefreshToken!(e, NetworkManager(options: options));
+              final error = await onRefreshToken!(e, NetworkManager(options: options));
               interceptors.responseLock.unlock();
               interceptors.requestLock.unlock();
               final requestModel = error.requestOptions;
@@ -28,8 +26,7 @@ extension _CoreServiceWrapperExtension on NetworkManager {
                 requestModel.path,
                 queryParameters: requestModel.queryParameters,
                 data: requestModel.data,
-                options: Options(
-                    method: requestModel.method, headers: requestModel.headers),
+                options: Options(method: requestModel.method, headers: requestModel.headers),
               );
 
               return handler.resolve(response);
