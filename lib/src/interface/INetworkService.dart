@@ -21,4 +21,8 @@ abstract class INetworkManager {
   Future<bool> removeAllCache();
   Interceptors get dioIntercaptors;
   Future<Response<dynamic>> downloadFileSimple(String path, ProgressCallback? callback);
+
+  void addBaseHeader(MapEntry<String, String> key);
+  void removeHeader(String key);
+  void clearHeader();
 }
