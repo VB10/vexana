@@ -1,4 +1,10 @@
-# [2.2.2] - 30/07/2021
+# [2.3.0] - 21/08/2021
+
+- Base headers control has added.
+- File download options has return byte array fixed.
+- Web export problem fixed.
+
+## [2.2.2] - 30/07/2021
 
 - Successful response code range added.(200> &300<)
 

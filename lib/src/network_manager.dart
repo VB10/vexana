@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 // import 'package:dio/adapter.dart';
 // import 'package:dio/adapter_browser.dart';
@@ -177,9 +178,10 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
   }
 
   @override
-  Future<Response<dynamic>> downloadFileSimple(String path, ProgressCallback? callback) async {
-    final response = await Dio().get(path,
+  Future<Response<Uint8List>> downloadFileSimple(String path, ProgressCallback? callback) async {
+    final response = await Dio().get<Uint8List>(path,
         options: Options(followRedirects: false, responseType: ResponseType.bytes), onReceiveProgress: callback);
+
     return response;
   }
 
