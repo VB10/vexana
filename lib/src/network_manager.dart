@@ -13,9 +13,13 @@ import 'dart:io';
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:dio/native_imp.dart';
-import 'package:dio/src/adapter.dart'
-    if (dart.library.io) 'package:dio/src/adapters/io_adapter.dart'
-    if (dart.library.js) 'package:dio/src/adapters/browser_adapter.dart';
+
+import 'package:dio/src/adapters/io_adapter.dart' if (dart.library.html) 'package:dio/src/adapters/browser_adapter.dart'
+    as adapter;
+
+// import 'package:dio/src/adapter.dart'
+//     if (dart.library.io) 'package:dio/src/adapters/io_adapter.dart'
+//     if (dart.library.html) 'package:dio/src/adapters/browser_adapter.dart';
 
 import 'package:dio/src/dio_mixin.dart';
 import 'package:dio/src/dio.dart';
@@ -96,8 +100,7 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
 
     _addLoggerInterceptor(isEnableLogger ?? false);
     _addNetworkIntercaptors(interceptor);
-    //TODO: Http adapter has come
-    httpClientAdapter = DefaultHttpClientAdapter();
+    httpClientAdapter = adapter.createAdapter();
   }
 
   void _addLoggerInterceptor(bool isEnableLogger) {
