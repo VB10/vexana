@@ -12,13 +12,19 @@ abstract class JsonPlaceHolderViewModel extends State<JsonPlaceHolder> {
 
   bool isLoading = false;
 
+  // You don't have to set this parameter in your project. We used that for showing two different case at the same time.
+  bool setCustomHttpClientExample = false;
+
   @override
   void initState() {
     super.initState();
-    networkManager = NetworkManager(isEnableLogger: true, options: BaseOptions(baseUrl: 'https://jsonplaceholder.typicode.com'));
-
-    //for example: you can add your custom http client adapter when initializing manager
-    //networkManager = NetworkManager(isEnableLogger: true, options: BaseOptions(baseUrl: 'https://jsonplaceholder.typicode.com'), customHttpClientAdapter: CustomHttpClientAdapter());
+    // Default usage:
+    // networkManager = NetworkManager(isEnableLogger: true, options: BaseOptions(baseUrl: 'https://jsonplaceholder.typicode.com'), customHttpClientAdapter: CustomHttpClientAdapter());
+    networkManager = setCustomHttpClientExample
+        ? NetworkManager(isEnableLogger: true, options: BaseOptions(baseUrl: 'https://jsonplaceholder.typicode.com'), customHttpClientAdapter: CustomHttpClientAdapter())
+        :
+        //for example: you can add your custom http client adapter when initializing manager
+        NetworkManager(isEnableLogger: true, options: BaseOptions(baseUrl: 'https://jsonplaceholder.typicode.com'));
   }
 
   Future<void> getAllPosts() async {

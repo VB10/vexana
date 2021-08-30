@@ -26,6 +26,31 @@ final response =
 await networkManager.send<Todo, List<Todo>>("/todos", parseModel: Todo(), method: RequestType.GET);
 ```
 
+### **Base Headers** 📍
+
+You could be add key values to your every request directly.(add authhentication key)
+
+```dart
+
+networkManager.addBaseHeader(MapEntry(HttpHeaders.authorizationHeader, response.data?.first.title ?? ''));
+// Clear singlhe header
+networkManager.removeHeader('\${response.data?.first.id}');
+// Clear all hader
+networkManager.clearHeader();
+```
+
+### **Download File** 📍
+
+You can download any file format like pdf, png or etc with progress indicator.
+
+```dart
+final response = await networkManager.downloadFileSimple('http://www.africau.edu/images/default/sample.pdf', (count, total) {
+      print('${count}');
+});
+
+//Example: Image.memory(response.data)
+```
+
 ### **HTTP Post Request with Request Body** 🚀
 
 The model found in the request body must extend the abstract class INetworkModel, as follows.
@@ -92,6 +117,7 @@ You need to write a response model in the mobile device cache sometimes. It's he
 - [ ] Make a unit test all layers.
 - [x] Cache Option
   - [ ] SQlite Support
+  - [ ] Web Cache Support
 - [x] Refresh Token Architecture
 - [ ] Usage Utility
 

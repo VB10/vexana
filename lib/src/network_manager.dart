@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 // import 'package:dio/adapter.dart';
 // import 'package:dio/adapter_browser.dart';
@@ -10,10 +11,12 @@ import 'dart:io';
 // // ignore: uri_does_not_exist
 //     if (dart.library.io) 'package:dio/adapter.dart';
 
-import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
-import 'package:dio/native_imp.dart';
-import 'package:dio/src/adapter.dart' if (dart.library.io) 'package:dio/src/adapters/io_adapter.dart' if (dart.library.js) 'package:dio/src/adapters/browser_adapter.dart';
+import 'package:dio/src/adapters/io_adapter.dart' if (dart.library.html) 'package:dio/src/adapters/browser_adapter.dart' as adapter;
+
+// import 'package:dio/src/adapter.dart'
+//     if (dart.library.io) 'package:dio/src/adapters/io_adapter.dart'
+//     if (dart.library.html) 'package:dio/src/adapters/browser_adapter.dart';
 
 import 'package:dio/src/dio_mixin.dart';
 import 'package:dio/src/dio.dart';
@@ -95,10 +98,11 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
       this.isEnableTest = false,
       this.customHttpClientAdapter}) {
     this.options = options;
+
     _addLoggerInterceptor(isEnableLogger ?? false);
     _addNetworkInterceptors(interceptor);
-    //TODO: Http adapter has come
-    httpClientAdapter = customHttpClientAdapter ?? DefaultHttpClientAdapter();
+
+    httpClientAdapter = (!kIsWeb && customHttpClientAdapter != null) ? customHttpClientAdapter! : adapter.createAdapter();
   }
 
   void _addLoggerInterceptor(bool isEnableLogger) {
@@ -109,6 +113,24 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
 
   /// [bool] clear all cache on network manager.
   Future<bool> removeAllCache() async => await _removeAllCache();
+
+  @override
+  //  Add key,value from base request.
+  void addBaseHeader(MapEntry<String, String> mapEntry) {
+    options.headers[mapEntry.key] = mapEntry.value;
+  }
+
+  @override
+  // Remove base header every values.
+  void clearHeader() {
+    options.headers.clear();
+  }
+
+  @override
+  // Remove base header value from key.
+  void removeHeader(String key) {
+    options.headers.remove(key);
+  }
 
   /// [Future<IResponseModel<R?>> send<T extends INetworkModel, R>] will complete your request with paramaters
   ///
@@ -157,8 +179,9 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
   }
 
   @override
-  Future<Response<dynamic>> downloadFileSimple(String path, ProgressCallback? callback) async {
-    final response = await Dio().get(path, options: Options(followRedirects: false, responseType: ResponseType.bytes), onReceiveProgress: callback);
+  Future<Response<Uint8List>> downloadFileSimple(String path, ProgressCallback? callback) async {
+    final response = await Dio().get<Uint8List>(path, options: Options(followRedirects: false, responseType: ResponseType.bytes), onReceiveProgress: callback);
+
     return response;
   }
 
