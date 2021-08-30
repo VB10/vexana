@@ -9,9 +9,9 @@ class CustomHttpClientAdapter extends HttpClientAdapter {
 
   @override
   Future<ResponseBody> fetch(RequestOptions options, Stream<Uint8List>? requestStream, Future? cancelFuture) async {
-    // example for turning off SSL checking:
+    // example config for including proxy:
     _adapter.onHttpClientCreate = (HttpClient client) {
-      // config the http client
+      // configure the http client
       client.findProxy = (uri) {
         //proxy all request to localhost:8888 or whatever you want
         return 'PROXY localhost:8888';
