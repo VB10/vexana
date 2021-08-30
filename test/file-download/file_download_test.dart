@@ -6,13 +6,13 @@ import 'package:vexana/vexana.dart';
 main() {
   late INetworkManager networkManager;
   setUp(() {
-    networkManager =
-        NetworkManager(isEnableLogger: true, options: BaseOptions(baseUrl: 'https://hwasampleapi.firebaseio.com'));
+    networkManager = NetworkManager(isEnableLogger: true, options: BaseOptions(baseUrl: 'aaaa'));
   });
   test('Primitve Type', () async {
-    final response = await networkManager.send<EmptyModel, EmptyModel>('/dogs/0/code.json',
-        parseModel: EmptyModel(), method: RequestType.GET);
-
+    final response =
+        await networkManager.downloadFileSimple('http://www.africau.edu/images/default/sample.pdf', (count, total) {
+      print('${count}');
+    });
     expect(response.data, isList);
   });
 }
