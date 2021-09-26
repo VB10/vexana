@@ -2,25 +2,14 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
-// import 'package:dio/adapter.dart';
-// import 'package:dio/adapter_browser.dart';
-// import 'package:dio/adapter.dart';
-// import 'package:dio/dio.dart'
-// // ignore: uri_does_not_exist
-//     if (dart.library.html) 'package:dio/adapter_browser.dart'
-// // ignore: uri_does_not_exist
-//     if (dart.library.io) 'package:dio/adapter.dart';
-
-import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
-import 'package:dio/native_imp.dart';
 
 import 'package:dio/src/adapters/io_adapter.dart' if (dart.library.html) 'package:dio/src/adapters/browser_adapter.dart'
     as adapter;
 
-// import 'package:dio/src/adapter.dart'
-//     if (dart.library.io) 'package:dio/src/adapters/io_adapter.dart'
-//     if (dart.library.html) 'package:dio/src/adapters/browser_adapter.dart';
+// dart:io html, mobil
+//       pwa html css js, apk ipa
+// dart:html
 
 import 'package:dio/src/dio_mixin.dart';
 import 'package:dio/src/dio.dart';
