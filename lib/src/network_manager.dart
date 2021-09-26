@@ -3,19 +3,13 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
-
+// ignore: implementation_imports
 import 'package:dio/src/adapters/io_adapter.dart' if (dart.library.html) 'package:dio/src/adapters/browser_adapter.dart'
     as adapter;
-
 // dart:io html, mobil
 //       pwa html css js, apk ipa
 // dart:html
 
-import 'package:dio/src/dio_mixin.dart';
-import 'package:dio/src/dio.dart';
-import 'package:dio/src/dio_error.dart';
-import 'package:dio/src/interceptors/log.dart';
-import 'package:dio/src/cancel_token.dart';
 import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
 
