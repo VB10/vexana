@@ -1,3 +1,7 @@
+# [2.3.2] - 21/08/2021
+
+- INetwork Model problem fixed so it's accept null return.
+
 # [2.3.1] - 21/08/2021
 
 - Parse exception log added.
