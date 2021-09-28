@@ -2,7 +2,7 @@ name: vexana
 description: Manage your network layer with dio. You will be able to use it very
   easily network operations.
 author: Veli Bacik <vbacik.10@gmail.com>
-version: 2.3.0
+version: 2.3.2
 homepage: https://github.com/VB10/vexana
 
 environment:
@@ -23,6 +23,6 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   mockito: ^5.0.0
-  pedantic: ^1.11.0
   path_provider_platform_interface: ^2.0.1
   plugin_platform_interface: ^2.0.0
+  flutter_lints: ^1.0.4
