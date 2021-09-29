@@ -1,8 +1,12 @@
-# [2.3.2] - 21/08/2021
+# [2.3.2] - 29/08/2021
+
+- MultipartFile options exported to outside.
+
+## [2.3.2] - 21/08/2021
 
 - INetwork Model problem fixed so it's accept null return.
 
-# [2.3.1] - 21/08/2021
+## [2.3.1] - 21/08/2021
 
 - Parse exception log added.
 - Network Model accept to nullable map object.
