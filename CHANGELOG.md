@@ -1,4 +1,8 @@
-# [2.3.2] - 29/08/2021
+# [2.3.4] - 29/08/2021
+
+- Formdata exported for public acsess.
+
+## [2.3.3] - 29/08/2021
 
 - MultipartFile options exported to outside.
 
