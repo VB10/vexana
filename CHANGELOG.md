@@ -1,4 +1,8 @@
-# [2.3.5] - 29/09/2021
+# [2.4.0] - 29/09/2021
+
+- uploadFile method added, it able to upload file.
+
+## [2.3.5] - 29/09/2021
 
 - Every multipart file exported for Multipart request.
 
