@@ -168,6 +168,16 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
     return response;
   }
 
+  /// Simple file upload
+  ///
+  /// Path [String], Data [FormData], Headers [Map]
+  /// It is file upload function then it'll be return primitive type.
+
+  @override
+  Future<Response<T>> uploadFile<T>(String path, FormData data, {Map<String, dynamic>? headers}) async {
+    return await post<T>(path, data: data, options: Options(headers: headers));
+  }
+
   Future<ResponseModel<R>?> _getCacheData<R, T extends INetworkModel>(
       Duration? expiration, RequestType type, T responseModel) async {
     // TODO: Web Cache support
@@ -206,10 +216,5 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
     if (errorModel == null) return;
     final _data = data is Map ? data : jsonDecode(data);
     error.model = errorModel!.fromJson(_data);
-  }
-
-  @override
-  Future<Response<T>> uploadFile<T>(String path, FormData data, {Map<String, dynamic>? headers}) async {
-    return await post<T>(path, data: data, options: Options(headers: headers));
   }
 }
