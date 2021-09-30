@@ -207,4 +207,9 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
     final _data = data is Map ? data : jsonDecode(data);
     error.model = errorModel!.fromJson(_data);
   }
+
+  @override
+  Future<Response<T>> uploadFile<T>(String path, FormData data, {Map<String, dynamic>? headers}) async {
+    return await post<T>(path, data: data, options: Options(headers: headers));
+  }
 }
