@@ -1,4 +1,8 @@
-# [2.3.4] - 29/08/2021
+# [2.3.5] - 29/09/2021
+
+- Every multipart file exported for Multipart request.
+
+## [2.3.4] - 29/08/2021
 
 - Formdata exported for public acsess.
 
