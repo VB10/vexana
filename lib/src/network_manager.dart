@@ -199,11 +199,11 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
   ResponseModel<R> _onError<R>(DioError e) {
     final errorResponse = e.response;
     _printErrorMessage(e.message);
-    final error = ErrorModel(
+    var error = ErrorModel(
         description: e.message,
         statusCode: errorResponse != null ? errorResponse.statusCode : HttpStatus.internalServerError);
     if (errorResponse != null) {
-      _generateErrorModel(error, errorResponse.data);
+      error = _generateErrorModel(error, errorResponse.data);
     }
     return ResponseModel<R>(error: error);
   }
@@ -212,9 +212,13 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
     Logger().e(message);
   }
 
-  void _generateErrorModel(ErrorModel error, dynamic data) {
-    if (errorModel == null) return;
-    final _data = data is Map ? data : jsonDecode(data);
-    error.model = errorModel!.fromJson(_data);
+  ErrorModel _generateErrorModel(ErrorModel error, dynamic data) {
+    ErrorModel();
+    if (errorModel == null) {
+      error.response = data;
+    } else {
+      error.model = errorModel?.fromJson(jsonDecode(data));
+    }
+    return error;
   }
 }
