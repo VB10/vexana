@@ -1,4 +1,8 @@
-# [2.4.0] - 29/09/2021
+# [2.4.1] - 29/09/2021
+
+- error model parse has added.
+
+## [2.4.0] - 29/09/2021
 
 - uploadFile method added, it able to upload file.
 
