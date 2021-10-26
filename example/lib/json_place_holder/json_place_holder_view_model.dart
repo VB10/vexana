@@ -21,15 +21,23 @@ abstract class JsonPlaceHolderViewModel extends State<JsonPlaceHolder> {
     // Default usage:
     // networkManager = NetworkManager(isEnableLogger: true, options: BaseOptions(baseUrl: 'https://jsonplaceholder.typicode.com'), customHttpClientAdapter: CustomHttpClientAdapter());
     networkManager = setCustomHttpClientExample
-        ? NetworkManager(isEnableLogger: true, options: BaseOptions(baseUrl: 'https://jsonplaceholder.typicode.com'), customHttpClientAdapter: CustomHttpClientAdapter())
+        ? NetworkManager(
+            isEnableLogger: true,
+            options:
+                BaseOptions(baseUrl: 'https://jsonplaceholder.typicode.com'),
+            customHttpClientAdapter: CustomHttpClientAdapter())
         :
         //for example: you can add your custom http client adapter when initializing manager
-        NetworkManager(isEnableLogger: true, options: BaseOptions(baseUrl: 'https://jsonplaceholder.typicode.com'));
+        NetworkManager(
+            isEnableLogger: true,
+            options:
+                BaseOptions(baseUrl: 'https://jsonplaceholder.typicode.com'));
   }
 
   Future<void> getAllPosts() async {
     changeLoading();
-    final response = await networkManager.send<Post, List<Post>>('/posts', parseModel: Post(), method: RequestType.GET);
+    final response = await networkManager.send<Post, List<Post>>('/posts',
+        parseModel: Post(), method: RequestType.GET);
 
     if (response.data is List) {
       posts = response.data!;

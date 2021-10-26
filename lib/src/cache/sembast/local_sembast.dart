@@ -17,13 +17,11 @@ class LocalSembast extends IFileManager {
   }
 
   @override
-  Future<bool> writeUserRequestDataWithTime(
-      String key, String model, Duration? time) async {
+  Future<bool> writeUserRequestDataWithTime(String key, String model, Duration? time) async {
     if (time == null) {
       return false;
     } else {
-      final _localModel =
-          LocalModel(model: model, time: DateTime.now().add(time));
+      final _localModel = LocalModel(model: model, time: DateTime.now().add(time));
       await _sembastManager.writeLocalModelInStore(key, _localModel);
       return true;
     }

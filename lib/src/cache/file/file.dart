@@ -11,7 +11,7 @@ class _FileManager {
 
   Future<Directory> documentsPath() async {
     final tempPath = (await getApplicationDocumentsDirectory()).path;
-    return Directory('$tempPath').create();
+    return Directory(tempPath).create();
   }
 
   Future<String> filePath() async {

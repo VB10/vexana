@@ -26,10 +26,10 @@ class JsonPlaceHolderView extends JsonPlaceHolderViewModel {
   AppBar buildAppBar() {
     return AppBar(
       title: isLoading
-          ? CircularProgressIndicator(
+          ? const CircularProgressIndicator(
               valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
             )
-          : Text('Vexana Project'),
+          : const Text('Vexana Project'),
     );
   }
 }

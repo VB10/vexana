@@ -1,4 +1,14 @@
-# [2.3.0] - 21/08/2021
+# [2.3.2] - 21/08/2021
+
+- INetwork Model problem fixed so it's accept null return.
+
+# [2.3.1] - 21/08/2021
+
+- Parse exception log added.
+- Network Model accept to nullable map object.
+- Flutter lints improvment.
+
+## [2.3.0] - 21/08/2021
 
 - Base headers control has added.
 - File download options has return byte array fixed.
