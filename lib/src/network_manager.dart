@@ -12,6 +12,7 @@ import 'package:dio/src/adapters/io_adapter.dart' if (dart.library.html) 'packag
 
 import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
+import 'package:vexana/src/utility/custom_logger.dart';
 
 import '../vexana.dart';
 import 'extension/request_type_extension.dart';
@@ -200,7 +201,7 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
 
   ResponseModel<R> _onError<R>(DioError e) {
     final errorResponse = e.response;
-    _printErrorMessage(e.message);
+    CustomLogger(isEnabled: isEnableLogger).printError(e.message);
     var error = ErrorModel(
         description: e.message,
         statusCode: errorResponse != null ? errorResponse.statusCode : HttpStatus.internalServerError);
@@ -208,10 +209,6 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
       error = _generateErrorModel(error, errorResponse.data);
     }
     return ResponseModel<R>(error: error);
-  }
-
-  void _printErrorMessage(String message) {
-    Logger().e(message);
   }
 
   ErrorModel _generateErrorModel(ErrorModel error, dynamic data) {

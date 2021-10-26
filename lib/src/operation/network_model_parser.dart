@@ -21,14 +21,13 @@ extension _CoreServiceExtension on NetworkManager {
         if (R is EmptyModel) {
           return EmptyModel(name: responseBody.toString()) as R;
         } else {
-          if (isEnableLogger ?? false) Logger().i('Becareful your data $responseBody, I could not parse it');
+          CustomLogger(isEnabled: isEnableLogger).printError('Becareful your data $responseBody, I could not parse it');
           return null;
         }
       }
     } catch (e) {
-      if (isEnableLogger ?? false) {
-        Logger().e('Parse Error: $e - response body: $responseBody T model: $T , R model: $R ');
-      }
+      CustomLogger(isEnabled: isEnableLogger)
+          .printError('Parse Error: $e - response body: $responseBody T model: $T , R model: $R ');
     }
   }
 }
