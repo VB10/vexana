@@ -66,13 +66,15 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
   /// [Client] has be set deafult client adapter
   bool isEnableTest;
 
+  final bool? isEnableLogger;
+
   /// [Interceptors] return dio client interceptors list
   @override
   Interceptors get dioIntercaptors => interceptors;
 
   NetworkManager({
     required BaseOptions options,
-    bool? isEnableLogger,
+    this.isEnableLogger,
     InterceptorsWrapper? interceptor,
     this.onRefreshToken,
     this.onRefreshFail,
