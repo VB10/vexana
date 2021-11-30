@@ -1,4 +1,8 @@
-# [2.4.2] - 29/09/2021
+# [2.4.3] - 29/09/2021
+
+- Empty model compare problems has fixed.
+
+## [2.4.2] - 29/09/2021
 
 - Error log has linked to enable logger property.
 

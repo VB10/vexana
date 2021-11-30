@@ -13,6 +13,6 @@ main() {
     final response = await networkManager.send<EmptyModel, EmptyModel>('/dogs/0/code.json',
         parseModel: EmptyModel(), method: RequestType.GET);
 
-    expect(response.data, isList);
+    expect(response.data, isNotNull);
   });
 }
