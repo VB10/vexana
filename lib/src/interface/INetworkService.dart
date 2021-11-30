@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
@@ -24,6 +25,7 @@ abstract class INetworkManager {
   Interceptors get dioIntercaptors;
   Future<Response<Uint8List?>> downloadFileSimple(String path, ProgressCallback? callback);
 
+  Future<Response<T>> uploadFile<T>(String path, FormData data, {Map<String, dynamic>? headers});
   void addBaseHeader(MapEntry<String, String> key);
   void removeHeader(String key);
   void clearHeader();

@@ -18,10 +18,16 @@ extension _CoreServiceExtension on NetworkManager {
       } else if (responseBody is Map<String, dynamic>) {
         return model.fromJson(responseBody) as R;
       } else {
-        return EmptyModel(name: responseBody.toString()) as R;
+        if (R is EmptyModel) {
+          return EmptyModel(name: responseBody.toString()) as R;
+        } else {
+          CustomLogger(isEnabled: isEnableLogger).printError('Becareful your data $responseBody, I could not parse it');
+          return null;
+        }
       }
     } catch (e) {
-      Logger().e('Parse Error: $e - response body: $responseBody T model: $T , R model: $R ');
+      CustomLogger(isEnabled: isEnableLogger)
+          .printError('Parse Error: $e - response body: $responseBody T model: $T , R model: $R ');
     }
   }
 }

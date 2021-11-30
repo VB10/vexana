@@ -13,4 +13,8 @@ class ErrorModel<T> implements IErrorModel {
 
   @override
   INetworkModel? model;
+
+  // Generic Response from Service
+  @override
+  dynamic response;
 }

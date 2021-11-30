@@ -1,8 +1,32 @@
-# [2.3.2] - 21/08/2021
+# [2.4.2] - 29/09/2021
+
+- Error log has linked to enable logger property.
+
+## [2.4.1] - 29/09/2021
+
+- error model parse has added.
+
+## [2.4.0] - 29/09/2021
+
+- uploadFile method added, it able to upload file.
+
+## [2.3.5] - 29/09/2021
+
+- Every multipart file exported for Multipart request.
+
+## [2.3.4] - 29/08/2021
+
+- Formdata exported for public acsess.
+
+## [2.3.3] - 29/08/2021
+
+- MultipartFile options exported to outside.
+
+## [2.3.2] - 21/08/2021
 
 - INetwork Model problem fixed so it's accept null return.
 
-# [2.3.1] - 21/08/2021
+## [2.3.1] - 21/08/2021
 
 - Parse exception log added.
 - Network Model accept to nullable map object.

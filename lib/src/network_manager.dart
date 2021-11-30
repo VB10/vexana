@@ -12,6 +12,7 @@ import 'package:dio/src/adapters/io_adapter.dart' if (dart.library.html) 'packag
 
 import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
+import 'package:vexana/src/utility/custom_logger.dart';
 
 import '../vexana.dart';
 import 'extension/request_type_extension.dart';
@@ -66,13 +67,15 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
   /// [Client] has be set deafult client adapter
   bool isEnableTest;
 
+  final bool? isEnableLogger;
+
   /// [Interceptors] return dio client interceptors list
   @override
   Interceptors get dioIntercaptors => interceptors;
 
   NetworkManager({
     required BaseOptions options,
-    bool? isEnableLogger,
+    this.isEnableLogger,
     InterceptorsWrapper? interceptor,
     this.onRefreshToken,
     this.onRefreshFail,
@@ -168,6 +171,16 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
     return response;
   }
 
+  /// Simple file upload
+  ///
+  /// Path [String], Data [FormData], Headers [Map]
+  /// It is file upload function then it'll be return primitive type.
+
+  @override
+  Future<Response<T>> uploadFile<T>(String path, FormData data, {Map<String, dynamic>? headers}) async {
+    return await post<T>(path, data: data, options: Options(headers: headers));
+  }
+
   Future<ResponseModel<R>?> _getCacheData<R, T extends INetworkModel>(
       Duration? expiration, RequestType type, T responseModel) async {
     // TODO: Web Cache support
@@ -188,23 +201,23 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
 
   ResponseModel<R> _onError<R>(DioError e) {
     final errorResponse = e.response;
-    _printErrorMessage(e.message);
-    final error = ErrorModel(
+    CustomLogger(isEnabled: isEnableLogger).printError(e.message);
+    var error = ErrorModel(
         description: e.message,
         statusCode: errorResponse != null ? errorResponse.statusCode : HttpStatus.internalServerError);
     if (errorResponse != null) {
-      _generateErrorModel(error, errorResponse.data);
+      error = _generateErrorModel(error, errorResponse.data);
     }
     return ResponseModel<R>(error: error);
   }
 
-  void _printErrorMessage(String message) {
-    Logger().e(message);
-  }
-
-  void _generateErrorModel(ErrorModel error, dynamic data) {
-    if (errorModel == null) return;
-    final _data = data is Map ? data : jsonDecode(data);
-    error.model = errorModel!.fromJson(_data);
+  ErrorModel _generateErrorModel(ErrorModel error, dynamic data) {
+    ErrorModel();
+    if (errorModel == null) {
+      error.response = data;
+    } else {
+      error.model = errorModel?.fromJson(jsonDecode(data));
+    }
+    return error;
   }
 }
