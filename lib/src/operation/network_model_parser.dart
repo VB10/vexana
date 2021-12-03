@@ -18,7 +18,7 @@ extension _CoreServiceExtension on NetworkManager {
       } else if (responseBody is Map<String, dynamic>) {
         return model.fromJson(responseBody) as R;
       } else {
-        if (R == EmptyModel) {
+        if (R is EmptyModel || R == EmptyModel) {
           return EmptyModel(name: responseBody.toString()) as R;
         } else {
           CustomLogger(isEnabled: isEnableLogger).printError('Becareful your data $responseBody, I could not parse it');

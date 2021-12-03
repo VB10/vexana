@@ -9,18 +9,17 @@ main() {
   setUp(() {
     networkManager = NetworkManager(
         isEnableLogger: true,
-        interceptor: InterceptorsWrapper(
-          onRequest: (options, handler) {
-            print(options.data);
-            handler.next(options);
-          },
-        ),
+        onRefreshToken: (error, newService) async {
+          await Future.delayed(const Duration(seconds: 1));
+          error.requestOptions.path = '/products.json';
+          return error;
+        },
         options: BaseOptions(
-          baseUrl: 'https://hwasampleapi.firebaseio.com',
+          baseUrl: 'https://fluttertr-ead5c.firebaseio.com',
         ));
   });
-  test('Primitve Type', () async {
-    final response = await networkManager.send<EmptyModel, EmptyModel>('/dogs/0/code.json',
+  test('Retry Auth Test', () async {
+    final response = await networkManager.send<EmptyModel, EmptyModel>('/words.json',
         parseModel: EmptyModel(), method: RequestType.GET);
 
     expect(response.data, isNotNull);
