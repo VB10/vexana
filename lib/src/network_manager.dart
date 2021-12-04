@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -11,6 +13,7 @@ import 'package:dio/src/adapters/io_adapter.dart' if (dart.library.html) 'packag
 // dart:html
 
 import 'package:flutter/foundation.dart';
+import 'package:retry/retry.dart';
 import 'package:vexana/src/utility/custom_logger.dart';
 
 import '../vexana.dart';
@@ -151,7 +154,8 @@ class NetworkManager with dio.DioMixin implements dio.Dio, INetworkManager {
 
     try {
       final response = await request('$path$urlSuffix', data: body, options: options, queryParameters: queryParameters);
-      if (response.statusCode! >= HttpStatus.ok && response.statusCode! <= HttpStatus.multipleChoices) {
+      final responseStatusCode = response.statusCode ?? HttpStatus.notFound;
+      if (responseStatusCode >= HttpStatus.ok && responseStatusCode <= HttpStatus.multipleChoices) {
         await writeCacheAll(expiration, response.data, method);
         return _getResponseResult<T, R>(response.data, parseModel);
       } else {

@@ -12,9 +12,16 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  collection: ^1.15.0
+
+  # Core
   dio: ^4.0.4
+
+  # Utiltiy
+  retry: ^3.1.0
   logger: ^1.0.0
+  collection: ^1.15.0
+
+  # Database
   path_provider: ^2.0.1
   sembast: ^3.0.0+4
   shared_preferences: ^2.0.3

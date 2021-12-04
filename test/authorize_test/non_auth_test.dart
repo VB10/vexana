@@ -18,8 +18,13 @@ main() {
           baseUrl: 'https://fluttertr-ead5c.firebaseio.com',
         ));
   });
+
   test('Retry Auth Test', () async {
-    final response = await networkManager.send<EmptyModel, EmptyModel>('/words.json',
+    networkManager.send<EmptyModel, EmptyModel>('/words.json', parseModel: EmptyModel(), method: RequestType.GET);
+
+    networkManager.send<EmptyModel, EmptyModel>('/words2.json', parseModel: EmptyModel(), method: RequestType.GET);
+
+    final response = await networkManager.send<EmptyModel, EmptyModel>('/words2.json',
         parseModel: EmptyModel(), method: RequestType.GET);
 
     expect(response.data, isNotNull);
