@@ -1,4 +1,14 @@
-# [2.4.2] - 29/09/2021
+# [2.5.0] - 04/12/2021
+
+- Updated to new dio version 4.0.+
+- Retry machanism has changed by google retry package.
+- QueuedInterceptorsWrapper used insted of lock machansim. (dio #590)
+
+## [2.4.3] - 29/09/2021
+
+- Empty model compare problems has fixed.
+
+## [2.4.2] - 29/09/2021
 
 - Error log has linked to enable logger property.
 
