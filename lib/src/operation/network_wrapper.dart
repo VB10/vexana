@@ -18,7 +18,7 @@ extension _CoreServiceWrapperExtension on NetworkManager {
 
             try {
               final response = await retry(
-                () => request(
+                () => dio.Dio(options).request(
                   requestModel.path,
                   queryParameters: requestModel.queryParameters,
                   data: requestModel.data,

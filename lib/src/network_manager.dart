@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -50,9 +49,6 @@ class NetworkManager with dio.DioMixin implements dio.Dio, INetworkManager {
 
   /// [int?] retry maxiumum count at refresh function.
   final int _maxCount = 3;
-
-  // ignore: prefer_final_fields
-  int _retryCount = 0;
 
   /// [IFileManager?] manage cache operation with this.
   ///
