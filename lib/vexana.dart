@@ -20,4 +20,6 @@ export 'src/model/error_model.dart';
 export 'src/model/response_model.dart';
 // NETWORK
 export 'src/network_manager.dart';
-export 'package:dio/src/interceptor.dart';
+export 'package:dio/src/dio_mixin.dart';
+export 'package:dio/src/multipart_file.dart';
+export 'package:dio/src/form_data.dart';

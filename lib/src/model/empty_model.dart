@@ -23,4 +23,14 @@ class EmptyModel extends INetworkModel<EmptyModel> {
   EmptyModel fromJson(Map<String, dynamic>? json) {
     return EmptyModel.fromJson(json);
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is EmptyModel && other.name == name;
+  }
+
+  @override
+  int get hashCode => name.hashCode;
 }
