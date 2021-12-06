@@ -1,8 +1,9 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:dio/dio.dart';
+import 'package:dio/dio.dart' as dio;
 // ignore: implementation_imports
 import 'package:dio/src/adapters/io_adapter.dart'
     if (dart.library.html) 'package:dio/src/adapters/browser_adapter.dart'
@@ -12,7 +13,8 @@ import 'package:dio/src/adapters/io_adapter.dart'
 // dart:html
 
 import 'package:flutter/foundation.dart';
-import 'package:logger/logger.dart';
+import 'package:retry/retry.dart';
+import 'package:vexana/src/utility/custom_logger.dart';
 
 import '../vexana.dart';
 import 'extension/request_type_extension.dart';
@@ -35,7 +37,7 @@ part 'operation/network_wrapper.dart';
 /// Example:
 /// [NetworkManager(isEnableLogger: true, errorModel: UserErrorModel(),]
 /// [options: BaseOptions(baseUrl: "https://jsonplaceholder.typicode.com/"));]
-class NetworkManager with DioMixin implements Dio, INetworkManager {
+class NetworkManager with dio.DioMixin implements dio.Dio, INetworkManager {
   /// [Future<DioError> Function(DioError error, NetworkManager newService)] of retry service request with new instance
   ///
   /// Default value function is null until to define your business.
@@ -49,9 +51,6 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
 
   /// [int?] retry maxiumum count at refresh function.
   final int _maxCount = 3;
-
-  // ignore: prefer_final_fields
-  int _retryCount = 0;
 
   /// [IFileManager?] manage cache operation with this.
   ///
@@ -70,16 +69,17 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
 
   /// [HttpClientAdapter] user can set custom client adapter object
   /// If value is null, [DefaultHttpClientAdapter()] will be used
-  HttpClientAdapter? customHttpClientAdapter;
+  dio.HttpClientAdapter? customHttpClientAdapter;
+  final bool? isEnableLogger;
 
   /// [Interceptors] return dio client interceptors list
   @override
-  Interceptors get dioIntercaptors => interceptors;
+  dio.Interceptors get dioIntercaptors => interceptors;
 
   NetworkManager(
       {required BaseOptions options,
-      bool? isEnableLogger,
-      InterceptorsWrapper? interceptor,
+      this.isEnableLogger,
+      dio.Interceptor? interceptor,
       this.onRefreshToken,
       this.onRefreshFail,
       this.fileManager,
@@ -97,7 +97,7 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
   }
 
   void _addLoggerInterceptor(bool isEnableLogger) {
-    if (isEnableLogger) interceptors.add(LogInterceptor());
+    if (isEnableLogger) interceptors.add(dio.LogInterceptor());
   }
 
   @override
@@ -144,7 +144,7 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
     Map<String, dynamic>? queryParameters,
     Options? options,
     Duration? expiration,
-    CancelToken? cancelToken,
+    dio.CancelToken? cancelToken,
     dynamic data,
     ProgressCallback? onReceiveProgress,
   }) async {
@@ -159,8 +159,9 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
     try {
       final response = await request('$path$urlSuffix',
           data: body, options: options, queryParameters: queryParameters);
-      if (response.statusCode! >= HttpStatus.ok &&
-          response.statusCode! <= HttpStatus.multipleChoices) {
+      final responseStatusCode = response.statusCode ?? HttpStatus.notFound;
+      if (responseStatusCode >= HttpStatus.ok &&
+          responseStatusCode <= HttpStatus.multipleChoices) {
         await writeCacheAll(expiration, response.data, method);
         return _getResponseResult<T, R>(response.data, parseModel);
       } else {
@@ -173,14 +174,25 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
   }
 
   @override
-  Future<Response<Uint8List>> downloadFileSimple(
+  Future<dio.Response<Uint8List>> downloadFileSimple(
       String path, ProgressCallback? callback) async {
-    final response = await Dio().get<Uint8List>(path,
+    final response = await dio.Dio().get<Uint8List>(path,
         options:
             Options(followRedirects: false, responseType: ResponseType.bytes),
         onReceiveProgress: callback);
 
     return response;
+  }
+
+  /// Simple file upload
+  ///
+  /// Path [String], Data [FormData], Headers [Map]
+  /// It is file upload function then it'll be return primitive type.
+
+  @override
+  Future<dio.Response<T>> uploadFile<T>(String path, FormData data,
+      {Map<String, dynamic>? headers}) async {
+    return await post<T>(path, data: data, options: Options(headers: headers));
   }
 
   Future<ResponseModel<R>?> _getCacheData<R, T extends INetworkModel>(
@@ -205,25 +217,25 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
 
   ResponseModel<R> _onError<R>(DioError e) {
     final errorResponse = e.response;
-    _printErrorMessage(e.message);
-    final error = ErrorModel(
+    CustomLogger(isEnabled: isEnableLogger).printError(e.message);
+    var error = ErrorModel(
         description: e.message,
         statusCode: errorResponse != null
             ? errorResponse.statusCode
             : HttpStatus.internalServerError);
     if (errorResponse != null) {
-      _generateErrorModel(error, errorResponse.data);
+      error = _generateErrorModel(error, errorResponse.data);
     }
     return ResponseModel<R>(error: error);
   }
 
-  void _printErrorMessage(String message) {
-    Logger().e(message);
-  }
-
-  void _generateErrorModel(ErrorModel error, dynamic data) {
-    if (errorModel == null) return;
-    final _data = data is Map ? data : jsonDecode(data);
-    error.model = errorModel!.fromJson(_data);
+  ErrorModel _generateErrorModel(ErrorModel error, dynamic data) {
+    ErrorModel();
+    if (errorModel == null) {
+      error.response = data;
+    } else {
+      error.model = errorModel?.fromJson(jsonDecode(data));
+    }
+    return error;
   }
 }
