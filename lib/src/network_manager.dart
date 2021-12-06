@@ -68,7 +68,7 @@ class NetworkManager with DioMixin implements Dio, INetworkManager {
   /// [Client] has be set deafult client adapter
   bool isEnableTest;
 
-  /// [HttpClientAdapter] user can set custom client adapter
+  /// [HttpClientAdapter] user can set custom client adapter object
   /// If value is null, [DefaultHttpClientAdapter()] will be used
   HttpClientAdapter? customHttpClientAdapter;
 
