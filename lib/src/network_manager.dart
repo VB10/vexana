@@ -214,6 +214,9 @@ class NetworkManager with dio.DioMixin implements dio.Dio, INetworkManager {
     ErrorModel();
     if (errorModel == null) {
       error.response = data;
+    } else if (data.runtimeType.toString() == '_InternalLinkedHashMap<String, dynamic>' ||
+        data.runtimeType.toString() == 'Map<String, dynamic>') {
+      error.model = errorModel?.fromJson(data);
     } else {
       error.model = errorModel?.fromJson(jsonDecode(data));
     }
