@@ -5,7 +5,13 @@ extension _CoreServiceExtension on NetworkManager {
     if (data is INetworkModel) {
       return data.toJson();
     } else if (data != null) {
-      return jsonEncode(data);
+      if (data.runtimeType.toString() ==
+              '_InternalLinkedHashMap<String, dynamic>' ||
+          data.runtimeType.toString() == 'Map<String, dynamic>') {
+        return data;
+      } else {
+        return jsonEncode(data);
+      }
     } else {
       return data;
     }
