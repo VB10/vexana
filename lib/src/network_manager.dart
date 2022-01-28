@@ -4,6 +4,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:dio/dio.dart' as dio;
+import 'package:dio/dio.dart';
 // ignore: implementation_imports
 import 'package:dio/src/adapters/io_adapter.dart' if (dart.library.html) 'package:dio/src/adapters/browser_adapter.dart'
     as adapter;
@@ -16,16 +17,8 @@ import 'package:retry/retry.dart';
 import 'package:vexana/src/utility/custom_logger.dart';
 
 import '../vexana.dart';
-import 'extension/request_type_extension.dart';
 import 'interface/IFileManager.dart';
-import 'interface/INetworkModel.dart';
-import 'interface/INetworkService.dart';
-import 'interface/IResponseModel.dart';
-import 'model/empty_model.dart';
-import 'model/enum/request_type.dart';
 import 'model/error/file_manager_not_foud.dart';
-import 'model/error_model.dart';
-import 'model/response_model.dart';
 
 part 'operation/network_cache.dart';
 part 'operation/network_model_parser.dart';
@@ -136,9 +129,9 @@ class NetworkManager with dio.DioMixin implements dio.Dio, INetworkManager {
     Map<String, dynamic>? queryParameters,
     Options? options,
     Duration? expiration,
-    dio.CancelToken? cancelToken,
     dynamic data,
     ProgressCallback? onReceiveProgress,
+    CancelToken? canceltoken,
   }) async {
     final cacheData = await _getCacheData<R, T>(expiration, method, parseModel);
     if (cacheData is ResponseModel<R>) {
@@ -149,7 +142,8 @@ class NetworkManager with dio.DioMixin implements dio.Dio, INetworkManager {
     final body = _getBodyModel(data);
 
     try {
-      final response = await request('$path$urlSuffix', data: body, options: options, queryParameters: queryParameters);
+      final response = await request('$path$urlSuffix',
+          data: body, options: options, queryParameters: queryParameters, cancelToken: canceltoken);
       final responseStatusCode = response.statusCode ?? HttpStatus.notFound;
       if (responseStatusCode >= HttpStatus.ok && responseStatusCode <= HttpStatus.multipleChoices) {
         await writeCacheAll(expiration, response.data, method);
@@ -218,5 +212,11 @@ class NetworkManager with dio.DioMixin implements dio.Dio, INetworkManager {
       error.model = errorModel?.fromJson(jsonDecode(data));
     }
     return error;
+  }
+
+  @override
+  Future<T?> sendPrimitive<T>(String path, {Map<String, dynamic>? headers}) async {
+    final response = await dio.Dio().request<T>(options.baseUrl + path, options: dio.Options(headers: headers));
+    return response.data;
   }
 }
