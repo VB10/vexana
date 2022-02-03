@@ -5,8 +5,7 @@ import 'dart:typed_data';
 
 import 'package:dio/dio.dart' as dio;
 // ignore: implementation_imports
-import 'package:dio/src/adapters/io_adapter.dart' if (dart.library.html) 'package:dio/src/adapters/browser_adapter.dart'
-    as adapter;
+import 'package:dio/src/adapters/io_adapter.dart' if (dart.library.html) 'package:dio/src/adapters/browser_adapter.dart' as adapter;
 // dart:io html, mobil
 //       pwa html css js, apk ipa
 // dart:html
@@ -65,6 +64,8 @@ class NetworkManager with dio.DioMixin implements dio.Dio, INetworkManager {
   /// [Client] has be set deafult client adapter
   bool isEnableTest;
 
+  bool skippingSSLCertificate;
+
   final bool? isEnableLogger;
 
   /// [Interceptors] return dio client interceptors list
@@ -79,9 +80,12 @@ class NetworkManager with dio.DioMixin implements dio.Dio, INetworkManager {
     this.onRefreshFail,
     this.fileManager,
     this.errorModel,
+    this.skippingSSLCertificate = false,
     this.isEnableTest = false,
   }) {
     this.options = options;
+
+    if (skippingSSLCertificate) HttpOverrides.global = MyHttpOverrides();
 
     _addLoggerInterceptor(isEnableLogger ?? false);
     _addNetworkIntercaptors(interceptor);
@@ -164,8 +168,8 @@ class NetworkManager with dio.DioMixin implements dio.Dio, INetworkManager {
 
   @override
   Future<dio.Response<Uint8List>> downloadFileSimple(String path, ProgressCallback? callback) async {
-    final response = await dio.Dio().get<Uint8List>(path,
-        options: Options(followRedirects: false, responseType: ResponseType.bytes), onReceiveProgress: callback);
+    final response = await dio.Dio()
+        .get<Uint8List>(path, options: Options(followRedirects: false, responseType: ResponseType.bytes), onReceiveProgress: callback);
 
     return response;
   }
@@ -180,8 +184,7 @@ class NetworkManager with dio.DioMixin implements dio.Dio, INetworkManager {
     return await post<T>(path, data: data, options: Options(headers: headers));
   }
 
-  Future<ResponseModel<R>?> _getCacheData<R, T extends INetworkModel>(
-      Duration? expiration, RequestType type, T responseModel) async {
+  Future<ResponseModel<R>?> _getCacheData<R, T extends INetworkModel>(Duration? expiration, RequestType type, T responseModel) async {
     // TODO: Web Cache support
     if (kIsWeb) return null;
     if (expiration == null) return null;
@@ -201,9 +204,8 @@ class NetworkManager with dio.DioMixin implements dio.Dio, INetworkManager {
   ResponseModel<R> _onError<R>(DioError e) {
     final errorResponse = e.response;
     CustomLogger(isEnabled: isEnableLogger).printError(e.message);
-    var error = ErrorModel(
-        description: e.message,
-        statusCode: errorResponse != null ? errorResponse.statusCode : HttpStatus.internalServerError);
+    var error =
+        ErrorModel(description: e.message, statusCode: errorResponse != null ? errorResponse.statusCode : HttpStatus.internalServerError);
     if (errorResponse != null) {
       error = _generateErrorModel(error, errorResponse.data);
     }
@@ -218,5 +220,12 @@ class NetworkManager with dio.DioMixin implements dio.Dio, INetworkManager {
       error.model = errorModel?.fromJson(jsonDecode(data));
     }
     return error;
+  }
+}
+
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
   }
 }
