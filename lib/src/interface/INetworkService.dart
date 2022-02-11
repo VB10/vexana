@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
@@ -16,9 +15,9 @@ abstract class INetworkManager {
     Map<String, dynamic>? queryParameters,
     Options? options,
     Duration? expiration,
-    CancelToken? cancelToken,
     dynamic data,
     ProgressCallback? onReceiveProgress,
+    CancelToken? canceltoken,
   });
 
   Future<bool> removeAllCache();
@@ -29,4 +28,5 @@ abstract class INetworkManager {
   void addBaseHeader(MapEntry<String, String> key);
   void removeHeader(String key);
   void clearHeader();
+  Future<T?> sendPrimitive<T>(String path, {Map<String, dynamic>? headers});
 }
