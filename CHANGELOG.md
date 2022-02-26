@@ -1,4 +1,11 @@
-# [2.6.0] - 04/12/2021
+# [2.7.0] - 04/12/2021
+
+- Request can cancalable.
+- HttpCertificate added
+- Some readme problems fixed.
+- A litte improvment about parser etc.
+
+## [2.6.0] - 04/12/2021
 
 - Added new feature as a primitive send, It will be provide primitive service response.
 - Cancellation support added for very request.
