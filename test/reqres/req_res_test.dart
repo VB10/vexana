@@ -19,8 +19,6 @@ void main() {
         .catchError((err) {
       if (CancelToken.isCancel(err)) {
         print('Request canceled! ' + err.message);
-      } else {
-        // handle error.
       }
     });
 
