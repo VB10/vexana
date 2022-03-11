@@ -69,6 +69,41 @@ final response =
 await networkManager.send<Todo, List<Todo>>("/todosPost", parseModel: Todo(), method: RequestType.POST, data: todoPostRequestBody);
 ```
 
+### **Cancel Request** ❌
+
+You can implement cancel token when need to invoke your request during to complete.
+
+```dart
+  final cancelToken = CancelToken();
+    networkManager
+        .send<ReqResModel, ReqResModel>('/users?delay=5',
+            parseModel: ReqResModel(), method: RequestType.GET, canceltoken: cancelToken)
+        .catchError((err) {
+      if (CancelToken.isCancel(err)) {
+        print('Request canceled! ' + err.message);
+      }
+    });
+
+    cancelToken.cancel('canceled');
+
+    await Future.delayed(const Duration(seconds: 8));
+```
+
+### **Primitive Request** 🌼
+
+Sometimes we need to parse only primitive types for instance List<String>, String, int etc. You can use this method.
+
+```dart
+//
+[
+  "en",
+  "tr",
+  "fr"
+]
+//
+networkManager.sendPrimitive<List>("languages");
+```
+
 ### **Network Model** 🛒
 
 You must wrap your model with INetworkModel so that, we understand model has toJson and fromJson methods.
@@ -131,4 +166,4 @@ You need to write a response model in the mobile device cache sometimes. It's he
 
 ---
 
-[![Youtube](https://yt3.ggpht.com/a/AATXAJyul3hpzl86GIjF-EZxBzy6T62PJxpvzRwz9AbUOw=s288-c-k-c0xffffffff-no-rj-mo)](https://www.youtube.com/watch?v=UCdUaAKTLJrPZFStzEJnpQAg)
+[![Youtube](https://yt3.ggpht.com/a/AATXAJyul3hpzl86GIjF-EZxBzy6T62PJxpvzRwz9AbUOw=s288-c-k-c0xffffffff-no-rj-mo)](https://www.youtube.com/c/HardwareAndro)

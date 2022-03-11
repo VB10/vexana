@@ -1,4 +1,9 @@
-# [2.7.0] - 04/12/2021
+# [2.8.0] - 12/03/2022
+
+- Force parser added with paramater.
+- Coding improvment for decode
+
+## [2.7.0] - 04/12/2021
 
 - Request can cancalable.
 - HttpCertificate added
