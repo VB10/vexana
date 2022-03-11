@@ -7,18 +7,17 @@ import 'INetworkModel.dart';
 import 'IResponseModel.dart';
 
 abstract class INetworkManager {
-  Future<IResponseModel<R?>> send<T extends INetworkModel, R>(
-    String path, {
-    required T parseModel,
-    required RequestType method,
-    String? urlSuffix,
-    Map<String, dynamic>? queryParameters,
-    Options? options,
-    Duration? expiration,
-    dynamic data,
-    ProgressCallback? onReceiveProgress,
-    CancelToken? canceltoken,
-  });
+  Future<IResponseModel<R?>> send<T extends INetworkModel, R>(String path,
+      {required T parseModel,
+      required RequestType method,
+      String? urlSuffix,
+      Map<String, dynamic>? queryParameters,
+      Options? options,
+      Duration? expiration,
+      dynamic data,
+      ProgressCallback? onReceiveProgress,
+      CancelToken? canceltoken,
+      bool? forceUpdateDecode});
 
   Future<bool> removeAllCache();
   Interceptors get dioIntercaptors;

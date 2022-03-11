@@ -1,5 +1,13 @@
 part of '../network_manager.dart';
 
+dynamic _parseAndDecode(String response) {
+  return jsonDecode(response);
+}
+
+dynamic _decodeBody(String body) async {
+  return await compute(_parseAndDecode, body);
+}
+
 extension _CoreServiceExtension on NetworkManager {
   dynamic _getBodyModel(dynamic data) {
     if (data is INetworkModel) {
@@ -29,5 +37,6 @@ extension _CoreServiceExtension on NetworkManager {
       CustomLogger(isEnabled: isEnableLogger)
           .printError('Parse Error: $e - response body: $responseBody T model: $T , R model: $R ');
     }
+    return null;
   }
 }

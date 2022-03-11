@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:vexana/vexana.dart';
 
@@ -16,7 +15,11 @@ main() {
         isEnableTest: true);
   });
   test('Json Place Holder Todos', () async {
-    final response = await networkManager.send<Todo, List<Todo>>('/todos', parseModel: Todo(), method: RequestType.GET);
+    final response = await networkManager.send<Todo, List<Todo>>(
+      '/todos',
+      parseModel: Todo(),
+      method: RequestType.GET,
+    );
 
     expect(response.data, isList);
   });
