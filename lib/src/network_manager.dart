@@ -183,6 +183,11 @@ class NetworkManager with dio.DioMixin implements dio.Dio, INetworkManager {
     return await post<T>(path, data: data, options: Options(headers: headers));
   }
 
+  @override
+  Future<dio.Response<T>> updateFile<T>(String path, FormData data, {Map<String, dynamic>? headers}) async {
+    return await put<T>(path, data: data, options: Options(headers: headers));
+  }
+
   Future<ResponseModel<R>?> _getCacheData<R, T extends INetworkModel>(
       Duration? expiration, RequestType type, T responseModel) async {
     // TODO: Web Cache support
@@ -205,8 +210,7 @@ class NetworkManager with dio.DioMixin implements dio.Dio, INetworkManager {
     final errorResponse = e.response;
     CustomLogger(isEnabled: isEnableLogger).printError(e.message);
     var error = ErrorModel(
-        description: e.message,
-        statusCode: errorResponse != null ? errorResponse.statusCode : HttpStatus.internalServerError);
+        description: e.message, statusCode: errorResponse != null ? errorResponse.statusCode : HttpStatus.internalServerError);
     if (errorResponse != null) {
       error = _generateErrorModel(error, errorResponse.data);
     }
@@ -233,7 +237,6 @@ class NetworkManager with dio.DioMixin implements dio.Dio, INetworkManager {
 class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
-    return super.createHttpClient(context)
-      ..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+    return super.createHttpClient(context)..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
   }
 }
