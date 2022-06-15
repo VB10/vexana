@@ -1,4 +1,8 @@
-# [2.8.0] - 12/03/2022
+# [2.8.1] - 15/06/2022
+
+- Error model parser added
+
+## [2.8.0] - 12/03/2022
 
 - Force parser added with paramater.
 - Coding improvment for decode
