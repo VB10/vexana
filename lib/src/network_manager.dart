@@ -66,6 +66,11 @@ class NetworkManager with dio.DioMixin implements dio.Dio, INetworkManager {
   @override
   dio.Interceptors get dioIntercaptors => interceptors;
 
+  ///When an error occured [NetworkManager] generates an errorModel.
+  ///This function allows generate an errorModel using [data].
+  ///This is optional. If this is null then default generator creates an error model.
+  INetworkModel Function(dynamic data)? errorModelFromData;
+
   NetworkManager({
     required BaseOptions options,
     this.isEnableLogger,
@@ -76,6 +81,7 @@ class NetworkManager with dio.DioMixin implements dio.Dio, INetworkManager {
     this.errorModel,
     this.skippingSSLCertificate = false,
     this.isEnableTest = false,
+    this.errorModelFromData,
   }) {
     this.options = options;
     (transformer as DefaultTransformer).jsonDecodeCallback = _decodeBody;
@@ -218,12 +224,13 @@ class NetworkManager with dio.DioMixin implements dio.Dio, INetworkManager {
   }
 
   ErrorModel _generateErrorModel(ErrorModel error, dynamic data) {
-    ErrorModel();
     if (errorModel == null) {
       error.response = data;
-    } else {
-      error.model = errorModel?.fromJson(jsonDecode(data));
+    } else if (data is String || data is Map<String, dynamic>) {
+      final json = data is String ? jsonDecode(data) : data as Map<String, dynamic>;
+      error.model = errorModelFromData?.call(data) ?? errorModel?.fromJson(json);
     }
+
     return error;
   }
 
