@@ -6,7 +6,8 @@ import 'dart:typed_data';
 import 'package:dio/dio.dart' as dio;
 import 'package:dio/dio.dart';
 // ignore: implementation_imports
-import 'package:dio/src/adapters/io_adapter.dart' if (dart.library.html) 'package:dio/src/adapters/browser_adapter.dart'
+import 'package:dio/src/adapters/io_adapter.dart'
+    if (dart.library.html) 'package:dio/src/adapters/browser_adapter.dart'
     as adapter;
 // dart:io html, mobil
 //       pwa html css js, apk ipa
@@ -33,7 +34,8 @@ class NetworkManager with dio.DioMixin implements dio.Dio, INetworkManager {
   /// [Future<DioError> Function(DioError error, NetworkManager newService)] of retry service request with new instance
   ///
   /// Default value function is null until to define your business.
-  late Future<DioError> Function(DioError error, NetworkManager newService)? onRefreshToken;
+  late Future<DioError> Function(DioError error, NetworkManager newService)?
+      onRefreshToken;
 
   /// [VoidCallback?] has send error if it has [onRefreshToken] callback after has problem.
   ///
@@ -153,18 +155,28 @@ class NetworkManager with dio.DioMixin implements dio.Dio, INetworkManager {
 
     try {
       final response = await request('$path$urlSuffix',
-          data: body, options: options, queryParameters: queryParameters, cancelToken: canceltoken);
+          data: body,
+          options: options,
+          queryParameters: queryParameters,
+          cancelToken: canceltoken);
+
       final responseStatusCode = response.statusCode ?? HttpStatus.notFound;
-      if (responseStatusCode >= HttpStatus.ok && responseStatusCode <= HttpStatus.multipleChoices) {
+      if (responseStatusCode >= HttpStatus.ok &&
+          responseStatusCode <= HttpStatus.multipleChoices) {
         var _response = response.data;
         if ((forceUpdateDecode ?? false) && _response is String) {
           _response = await _decodeBody(_response);
         }
 
         await writeCacheAll(expiration, _response, method);
-        return _getResponseResult<T, R>(_response, parseModel);
+        return _getResponseResult<T, R>(
+            _response, parseModel, responseStatusCode);
       } else {
-        return ResponseModel(error: ErrorModel(description: response.data.toString()));
+        return ResponseModel(
+            statusCode: responseStatusCode,
+            error: ErrorModel(
+                description: response.data.toString(),
+                statusCode: responseStatusCode));
       }
     } on DioError catch (e) {
       return _onError<R>(e);
@@ -172,9 +184,12 @@ class NetworkManager with dio.DioMixin implements dio.Dio, INetworkManager {
   }
 
   @override
-  Future<dio.Response<Uint8List>> downloadFileSimple(String path, ProgressCallback? callback) async {
+  Future<dio.Response<Uint8List>> downloadFileSimple(
+      String path, ProgressCallback? callback) async {
     final response = await dio.Dio().get<Uint8List>(path,
-        options: Options(followRedirects: false, responseType: ResponseType.bytes), onReceiveProgress: callback);
+        options:
+            Options(followRedirects: false, responseType: ResponseType.bytes),
+        onReceiveProgress: callback);
 
     return response;
   }
@@ -185,7 +200,8 @@ class NetworkManager with dio.DioMixin implements dio.Dio, INetworkManager {
   /// It is file upload function then it'll be return primitive type.
 
   @override
-  Future<dio.Response<T>> uploadFile<T>(String path, FormData data, {Map<String, dynamic>? headers}) async {
+  Future<dio.Response<T>> uploadFile<T>(String path, FormData data,
+      {Map<String, dynamic>? headers}) async {
     return await post<T>(path, data: data, options: Options(headers: headers));
   }
 
@@ -198,13 +214,16 @@ class NetworkManager with dio.DioMixin implements dio.Dio, INetworkManager {
     if (cacheDataString == null) {
       return null;
     } else {
-      return _getResponseResult<T, R>(jsonDecode(cacheDataString), responseModel);
+      return _getResponseResult<T, R>(
+          jsonDecode(cacheDataString), responseModel);
     }
   }
 
-  ResponseModel<R> _getResponseResult<T extends INetworkModel, R>(dynamic data, T parserModel) {
+  ResponseModel<R> _getResponseResult<T extends INetworkModel, R>(
+      dynamic data, T parserModel,
+      [int statusCode = HttpStatus.ok]) {
     final model = _parseBody<R, T>(data, parserModel);
-    return ResponseModel<R>(data: model);
+    return ResponseModel<R>(data: model, statusCode: statusCode);
   }
 
   ResponseModel<R> _onError<R>(DioError e) {
@@ -212,27 +231,33 @@ class NetworkManager with dio.DioMixin implements dio.Dio, INetworkManager {
     CustomLogger(isEnabled: isEnableLogger).printError(e.message);
     var error = ErrorModel(
         description: e.message,
-        statusCode: errorResponse != null ? errorResponse.statusCode : HttpStatus.internalServerError);
+        statusCode: errorResponse != null
+            ? errorResponse.statusCode
+            : HttpStatus.internalServerError);
     if (errorResponse != null) {
       error = _generateErrorModel(error, errorResponse.data);
     }
-    return ResponseModel<R>(error: error);
+    return ResponseModel<R>(error: error, statusCode: error.statusCode);
   }
 
   ErrorModel _generateErrorModel(ErrorModel error, dynamic data) {
     if (errorModel == null) {
       error.response = data;
     } else if (data is String || data is Map<String, dynamic>) {
-      final json = data is String ? jsonDecode(data) : data as Map<String, dynamic>;
-      error.model = errorModelFromData?.call(data) ?? errorModel?.fromJson(json);
+      final json =
+          data is String ? jsonDecode(data) : data as Map<String, dynamic>;
+      error.model =
+          errorModelFromData?.call(data) ?? errorModel?.fromJson(json);
     }
 
     return error;
   }
 
   @override
-  Future<T?> sendPrimitive<T>(String path, {Map<String, dynamic>? headers}) async {
-    final response = await dio.Dio().request<T>(options.baseUrl + path, options: dio.Options(headers: headers));
+  Future<T?> sendPrimitive<T>(String path,
+      {Map<String, dynamic>? headers}) async {
+    final response = await dio.Dio().request<T>(options.baseUrl + path,
+        options: dio.Options(headers: headers));
     return response.data;
   }
 }
@@ -241,6 +266,7 @@ class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
     return super.createHttpClient(context)
-      ..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
   }
 }

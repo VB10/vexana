@@ -9,7 +9,7 @@ import 'model/post.dart';
 abstract class JsonPlaceHolderViewModel extends State<JsonPlaceHolder> {
   List<Post> posts = [];
 
-  INetworkManager networkManager;
+  late INetworkManager networkManager;
 
   bool isLoading = false;
 
@@ -25,10 +25,11 @@ abstract class JsonPlaceHolderViewModel extends State<JsonPlaceHolder> {
 
   Future<void> getAllPosts() async {
     changeLoading();
-    final response = await networkManager.send<Post, List<Post>>('/posts', parseModel: Post(), method: RequestType.GET);
-
+    final response = await networkManager.send<Post, List<Post>>('/postss',
+        parseModel: Post(), method: RequestType.GET);
+    print(response.statusCode);
     if (response.data is List) {
-      posts = response.data;
+      posts = response.data!;
     }
 
     changeLoading();
@@ -43,7 +44,8 @@ abstract class JsonPlaceHolderViewModel extends State<JsonPlaceHolder> {
   //You can use this function for custom generate an error model.
   INetworkModel _errorModelFromData(dynamic data) {
     if (data is Map<String, dynamic> || data is String) {
-      final map = data is String ? jsonDecode(data) : data as Map<String, dynamic>;
+      final map =
+          data is String ? jsonDecode(data) : data as Map<String, dynamic>;
       return Post.fromJson(map);
     }
 

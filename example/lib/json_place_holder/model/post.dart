@@ -1,10 +1,10 @@
 import 'package:vexana/vexana.dart';
 
 class Post extends INetworkModel<Post> {
-  int userId;
-  int id;
-  String title;
-  String body;
+  int? userId;
+  int? id;
+  String? title;
+  String? body;
 
   Post({this.userId, this.id, this.title, this.body});
 
@@ -26,5 +26,7 @@ class Post extends INetworkModel<Post> {
   }
 
   @override
-  Post fromJson(Map<String, Object> json) => Post.fromJson(json);
+  Post fromJson(Map<String, dynamic> json) {
+    return Post.fromJson(json);
+  }
 }
