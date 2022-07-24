@@ -1,18 +1,22 @@
-# [2.8.1] - 15/06/2022
+# [3.0.0] - 15/06/2022
+
+- Error widget mechanism added when your network is gone.
+
+## [2.8.1] - 15/06/2022
 
 - Error model parser added
 
 ## [2.8.0] - 12/03/2022
 
-- Force parser added with paramater.
-- Coding improvment for decode
+- Force parser added with parameter.
+- Coding improvement for decode
 
 ## [2.7.0] - 04/12/2021
 
-- Request can cancalable.
+- Request can cancelable.
 - HttpCertificate added
 - Some readme problems fixed.
-- A litte improvment about parser etc.
+- A little improvement about parser etc.
 
 ## [2.6.0] - 04/12/2021
 
@@ -22,8 +26,8 @@
 ## [2.5.0] - 04/12/2021
 
 - Updated to new dio version 4.0.+
-- Retry machanism has changed by google retry package.
-- QueuedInterceptorsWrapper used insted of lock machansim. (dio #590)
+- Retry mechanism has changed by google retry package.
+- QueuedInterceptorsWrapper used instead of lock mechanism. (dio #590)
 
 ## [2.4.3] - 29/09/2021
 
@@ -47,7 +51,7 @@
 
 ## [2.3.4] - 29/08/2021
 
-- Formdata exported for public acsess.
+- Formdata exported for public access.
 
 ## [2.3.3] - 29/08/2021
 
@@ -61,7 +65,7 @@
 
 - Parse exception log added.
 - Network Model accept to nullable map object.
-- Flutter lints improvment.
+- Flutter lints improvement.
 
 ## [2.3.0] - 21/08/2021
 
@@ -100,17 +104,12 @@
 
 ## [2.0.0-nullsafety.8] - 10/01/2021
 
-- Export to intercaptors values
+- Export to interceptors values
 - Add more public documentation
 
 ## [2.0.0-nullsafety.7] - 10/01/2021
 
 - Dio null safety migration
-
-<!-- # [2.1.0] - 10/01/2021
-
-- Web support added.
-- NoSQL db added for cache @ahm3tcelik with sembast. -->
 
 ## [2.0.0-nullsafety.6] - 10/01/2021
 
@@ -142,7 +141,7 @@
 
 ## [1.3.0] - 05/01/2021
 
-- Response and Request preivew on editor null fixed.
+- Response and Request preview on editor null fixed.
 
 ## [1.2.2] - 20/11/2020
 
