@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter_test/flutter_test.dart';
 import 'package:vexana/vexana.dart';
 
@@ -15,7 +13,7 @@ void main() {
     final cancelToken = CancelToken();
     networkManager
         .send<ReqResModel, ReqResModel>('/users?delay=5',
-            parseModel: ReqResModel(), method: RequestType.GET, canceltoken: cancelToken)
+            parseModel: ReqResModel(), method: RequestType.GET, cancelToken: cancelToken)
         .catchError((err) {
       if (CancelToken.isCancel(err)) {
         print('Request canceled! ' + err.message);

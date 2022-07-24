@@ -16,11 +16,12 @@ abstract class INetworkManager {
       Duration? expiration,
       dynamic data,
       ProgressCallback? onReceiveProgress,
-      CancelToken? canceltoken,
+      CancelToken? cancelToken,
+      bool isErrorDialog = false,
       bool? forceUpdateDecode});
 
   Future<bool> removeAllCache();
-  Interceptors get dioIntercaptors;
+  Interceptors get dioInterceptors;
   Future<Response<Uint8List?>> downloadFileSimple(String path, ProgressCallback? callback);
 
   Future<Response<T>> uploadFile<T>(String path, FormData data, {Map<String, dynamic>? headers});

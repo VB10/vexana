@@ -1,7 +1,7 @@
 part of '../network_manager.dart';
 
 extension _CoreServiceWrapperExtension on NetworkManager {
-  void _addNetworkIntercaptors(dio.Interceptor? interceptor) {
+  void _addNetworkInterceptors(dio.Interceptor? interceptor) {
     if (interceptor != null) interceptors.add(interceptor);
     interceptors.add(_onErrorWrapper());
   }
@@ -24,7 +24,7 @@ extension _CoreServiceWrapperExtension on NetworkManager {
                   data: requestModel.data,
                   options: Options(method: requestModel.method, headers: requestModel.headers),
                 ),
-                maxAttempts: _maxCount,
+                maxAttempts: maxCount,
                 retryIf: (e) {
                   return e is TimeoutException || e is DioError;
                 },
