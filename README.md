@@ -175,7 +175,7 @@ Especially, mobile device many times lost connection for many reasons so if you 
 
 **And result!!**
 
-![alt](./github/Simulator%20Screen%20Recording%20-%20iPhone%2011%20-%202022-07-21%20at%2012.00.41.gif)
+![alt](https://github.com/VB10/vexana/blob/master/github/Simulator%20Screen%20Recording%20-%20iPhone%2011%20-%202022-07-21%20at%2012.00.41.gif?raw=true)
 
 ### Tasks
 
