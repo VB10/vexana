@@ -167,6 +167,10 @@ Especially, mobile device many times lost connection for many reasons so if you 
         },
       ),
       options: BaseOptions(baseUrl: 'https://jsonplaceholder.typicode.com'),
+
+      //Example request
+       final response = await networkManager.send<Post, List<Post>>('/posts',
+        parseModel: Post(), method: RequestType.GET, isErrorDialog: true);
 ```
 
 **And result!!**
