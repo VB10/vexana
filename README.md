@@ -142,6 +142,41 @@ You need to write a response model in the mobile device cache sometimes. It's he
 > You must declare a caching type. It has FileCache and SharedCache options now. `NetworkManager(fileManager: LocalFile());`
 > If you want more implementation details about the cache, you should read [this article](https://medium.com/flutter-community/cache-manager-with-flutter-5a5db0d3a3e6)
 
+### **Without Network connection** 🧲
+
+Especially, mobile device many times lost connection for many reasons so if you want to retry your request, you need to add this code and that's it. Your app user can be show bottom sheet dialog and they will be use this features only tree times because i added this rule.
+
+```dart
+    // First you must be initialize your context with NoNetwork class
+    networkManager = NetworkManager(
+      isEnableLogger: true,
+      noNetwork: NoNetwork(context),
+      options: BaseOptions(baseUrl: 'https://jsonplaceholder.typicode.com'),
+
+      errorModelFromData: _errorModelFromData, //This is optional.
+    );
+
+    // If you want to create custom widget, you can add in no network class with callback function.
+      networkManager = NetworkManager(
+      isEnableLogger: true,
+      noNetwork: NoNetwork(
+        context,
+        customNoNetwork: (onRetry) {
+          // You have to call this retry method your custom widget
+          return NoNetworkSample(onPressed: onRetry);
+        },
+      ),
+      options: BaseOptions(baseUrl: 'https://jsonplaceholder.typicode.com'),
+
+      //Example request
+       final response = await networkManager.send<Post, List<Post>>('/posts',
+        parseModel: Post(), method: RequestType.GET, isErrorDialog: true);
+```
+
+**And result!!**
+
+![alt](https://github.com/VB10/vexana/blob/master/github/Simulator%20Screen%20Recording%20-%20iPhone%2011%20-%202022-07-21%20at%2012.00.41.gif?raw=true)
+
 ### Tasks
 
 ---
@@ -149,6 +184,7 @@ You need to write a response model in the mobile device cache sometimes. It's he
 - [x] Example project
 - [x] Unit Test with json place holder
 - [x] Unit Test with custom api
+- [x] Handle network problem
 - [ ] Make a unit test all layers.
 - [x] Cache Option
   - [ ] SQlite Support

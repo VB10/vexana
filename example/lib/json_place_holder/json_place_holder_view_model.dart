@@ -18,15 +18,23 @@ abstract class JsonPlaceHolderViewModel extends State<JsonPlaceHolder> {
     super.initState();
     networkManager = NetworkManager(
       isEnableLogger: true,
+      noNetwork: NoNetwork(
+        context,
+        // customNoNetwork: (onRetry) {
+        //   return NoNetworkSample(onPressed: onRetry);
+        // },
+      ),
       options: BaseOptions(baseUrl: 'https://jsonplaceholder.typicode.com'),
+
       errorModelFromData: _errorModelFromData, //This is optional.
     );
   }
 
   Future<void> getAllPosts() async {
     changeLoading();
+
     final response = await networkManager.send<Post, List<Post>>('/posts',
-        parseModel: Post(), method: RequestType.GET);
+        parseModel: Post(), method: RequestType.GET, isErrorDialog: true);
 
     if (response.data is List) {
       posts = response.data!;
@@ -50,5 +58,25 @@ abstract class JsonPlaceHolderViewModel extends State<JsonPlaceHolder> {
     }
 
     return Post(id: -1, userId: -1, title: 'Error!', body: 'Unexpected data');
+  }
+}
+
+class NoNetworkSample extends StatelessWidget {
+  const NoNetworkSample({Key? key, required this.onPressed}) : super(key: key);
+  final VoidCallback onPressed;
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const Text('sample'),
+        TextButton(
+          onPressed: () {
+            onPressed.call();
+            Navigator.of(context).pop();
+          },
+          child: Text('Retry'),
+        )
+      ],
+    );
   }
 }

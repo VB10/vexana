@@ -15,6 +15,7 @@ import 'package:dio/src/adapters/io_adapter.dart'
 
 import 'package:flutter/foundation.dart';
 import 'package:retry/retry.dart';
+import 'package:vexana/src/operation/network_error_manager.dart';
 import 'package:vexana/src/utility/custom_logger.dart';
 
 import '../vexana.dart';
@@ -31,11 +32,33 @@ part 'operation/network_wrapper.dart';
 /// [NetworkManager(isEnableLogger: true, errorModel: UserErrorModel(),]
 /// [options: BaseOptions(baseUrl: "https://jsonplaceholder.typicode.com/"));]
 class NetworkManager with dio.DioMixin implements dio.Dio, INetworkManager {
+  NetworkManager(
+      {required BaseOptions options,
+      this.isEnableLogger,
+      dio.Interceptor? interceptor,
+      this.onRefreshToken,
+      this.onRefreshFail,
+      this.fileManager,
+      this.errorModel,
+      this.skippingSSLCertificate = false,
+      this.isEnableTest = false,
+      this.errorModelFromData,
+      this.noNetwork}) {
+    this.options = options;
+    (transformer as DefaultTransformer).jsonDecodeCallback = _decodeBody;
+    if (skippingSSLCertificate) HttpOverrides.global = MyHttpOverrides();
+
+    _addLoggerInterceptor(isEnableLogger ?? false);
+    _addNetworkInterceptors(interceptor);
+    httpClientAdapter = adapter.createAdapter();
+  }
+
   /// [Future<DioError> Function(DioError error, NetworkManager newService)] of retry service request with new instance
   ///
   /// Default value function is null until to define your business.
-  late Future<DioError> Function(DioError error, NetworkManager newService)?
-      onRefreshToken;
+
+  Future<DioError> Function(DioError error, NetworkManager newService)? onRefreshToken;
+
 
   /// [VoidCallback?] has send error if it has [onRefreshToken] callback after has problem.
   ///
@@ -43,7 +66,7 @@ class NetworkManager with dio.DioMixin implements dio.Dio, INetworkManager {
   late VoidCallback? onRefreshFail;
 
   /// [int?] retry maxiumum count at refresh function.
-  final int _maxCount = 3;
+  final int maxCount = 3;
 
   /// [IFileManager?] manage cache operation with this.
   ///
@@ -64,35 +87,18 @@ class NetworkManager with dio.DioMixin implements dio.Dio, INetworkManager {
 
   final bool? isEnableLogger;
 
+  final NoNetwork? noNetwork;
+
+  int? noNetworkTryCount;
+
   /// [Interceptors] return dio client interceptors list
   @override
-  dio.Interceptors get dioIntercaptors => interceptors;
+  dio.Interceptors get dioInterceptors => interceptors;
 
   ///When an error occured [NetworkManager] generates an errorModel.
   ///This function allows generate an errorModel using [data].
   ///This is optional. If this is null then default generator creates an error model.
   INetworkModel Function(dynamic data)? errorModelFromData;
-
-  NetworkManager({
-    required BaseOptions options,
-    this.isEnableLogger,
-    dio.Interceptor? interceptor,
-    this.onRefreshToken,
-    this.onRefreshFail,
-    this.fileManager,
-    this.errorModel,
-    this.skippingSSLCertificate = false,
-    this.isEnableTest = false,
-    this.errorModelFromData,
-  }) {
-    this.options = options;
-    (transformer as DefaultTransformer).jsonDecodeCallback = _decodeBody;
-    if (skippingSSLCertificate) HttpOverrides.global = MyHttpOverrides();
-
-    _addLoggerInterceptor(isEnableLogger ?? false);
-    _addNetworkIntercaptors(interceptor);
-    httpClientAdapter = adapter.createAdapter();
-  }
 
   void _addLoggerInterceptor(bool isEnableLogger) {
     if (isEnableLogger) interceptors.add(dio.LogInterceptor());
@@ -143,7 +149,8 @@ class NetworkManager with dio.DioMixin implements dio.Dio, INetworkManager {
       Duration? expiration,
       dynamic data,
       ProgressCallback? onReceiveProgress,
-      CancelToken? canceltoken,
+      bool isErrorDialog = false,
+      CancelToken? cancelToken,
       bool? forceUpdateDecode}) async {
     final cacheData = await _getCacheData<R, T>(expiration, method, parseModel);
     if (cacheData is ResponseModel<R>) {
@@ -155,15 +162,13 @@ class NetworkManager with dio.DioMixin implements dio.Dio, INetworkManager {
 
     try {
       final response = await request('$path$urlSuffix',
-          data: body,
-          options: options,
-          queryParameters: queryParameters,
-          cancelToken: canceltoken);
+          data: body, options: options, queryParameters: queryParameters, cancelToken: cancelToken);
 
       final responseStatusCode = response.statusCode ?? HttpStatus.notFound;
       if (responseStatusCode >= HttpStatus.ok &&
           responseStatusCode <= HttpStatus.multipleChoices) {
         var _response = response.data;
+
         if ((forceUpdateDecode ?? false) && _response is String) {
           _response = await _decodeBody(_response);
         }
@@ -179,7 +184,17 @@ class NetworkManager with dio.DioMixin implements dio.Dio, INetworkManager {
                 statusCode: responseStatusCode));
       }
     } on DioError catch (e) {
-      return _onError<R>(e);
+      return await handleNetworkError<T, R>(path,
+          cancelToken: cancelToken,
+          data: data,
+          isErrorDialog: isErrorDialog,
+          options: options,
+          urlSuffix: urlSuffix,
+          queryParameters: queryParameters,
+          parseModel: parseModel,
+          method: method,
+          error: e,
+          onError: _onError);
     }
   }
 
