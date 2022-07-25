@@ -25,9 +25,9 @@ abstract class JsonPlaceHolderViewModel extends State<JsonPlaceHolder> {
 
   Future<void> getAllPosts() async {
     changeLoading();
-    final response = await networkManager.send<Post, List<Post>>('/postss',
+    final response = await networkManager.send<Post, List<Post>>('/posts',
         parseModel: Post(), method: RequestType.GET);
-    print(response.statusCode);
+
     if (response.data is List) {
       posts = response.data!;
     }
