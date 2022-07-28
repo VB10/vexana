@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:dio/dio.dart';
 
 import '../model/enum/request_type.dart';
@@ -22,7 +20,7 @@ abstract class INetworkManager {
 
   Future<bool> removeAllCache();
   Interceptors get dioInterceptors;
-  Future<Response<Uint8List?>> downloadFileSimple(String path, ProgressCallback? callback);
+  Future<Response<List<int>?>> downloadFileSimple(String path, ProgressCallback? callback);
 
   Future<Response<T>> uploadFile<T>(String path, FormData data, {Map<String, dynamic>? headers});
   void addBaseHeader(MapEntry<String, String> key);

@@ -7,11 +7,12 @@ import 'package:dio/dio.dart';
 // ignore: implementation_imports
 import 'package:dio/src/adapters/io_adapter.dart' if (dart.library.html) 'package:dio/src/adapters/browser_adapter.dart'
     as adapter;
+import 'package:flutter/foundation.dart';
 // dart:io html, mobil
 //       pwa html css js, apk ipa
 // dart:html
 
-import 'package:flutter/foundation.dart';
+// import 'package:flutter/foundation.dart';
 import 'package:retry/retry.dart';
 import 'package:vexana/src/operation/network_error_manager.dart';
 import 'package:vexana/src/utility/custom_logger.dart';
@@ -188,8 +189,8 @@ class NetworkManager with dio.DioMixin implements dio.Dio, INetworkManager {
   }
 
   @override
-  Future<dio.Response<Uint8List>> downloadFileSimple(String path, ProgressCallback? callback) async {
-    final response = await dio.Dio().get<Uint8List>(path,
+  Future<dio.Response<List<int>>> downloadFileSimple(String path, ProgressCallback? callback) async {
+    final response = await dio.Dio().get<List<int>>(path,
         options: Options(followRedirects: false, responseType: ResponseType.bytes), onReceiveProgress: callback);
 
     return response;
