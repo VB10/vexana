@@ -62,7 +62,7 @@ abstract class JsonPlaceHolderViewModel extends State<JsonPlaceHolder> {
 }
 
 class NoNetworkSample extends StatelessWidget {
-  const NoNetworkSample({Key key, this.onPressed}) : super(key: key);
+  const NoNetworkSample({Key? key, required this.onPressed}) : super(key: key);
   final VoidCallback onPressed;
   @override
   Widget build(BuildContext context) {
@@ -74,6 +74,7 @@ class NoNetworkSample extends StatelessWidget {
             onPressed.call();
             Navigator.of(context).pop();
           },
+          child: Text('Retry'),
         )
       ],
     );
