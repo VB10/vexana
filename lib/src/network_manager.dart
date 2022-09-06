@@ -196,6 +196,31 @@ class NetworkManager with dio.DioMixin implements dio.Dio, INetworkManager {
     return response;
   }
 
+  @override
+  Future<Response<List<int>?>> downloadFile(
+    String path,
+    ProgressCallback? callback, {
+    RequestType? method,
+    Options? options,
+    dynamic data,
+  }) async {
+    options ??= Options();
+    options.method = (method ?? RequestType.GET).stringValue;
+    options.followRedirects = false;
+    options.responseType = ResponseType.bytes;
+
+    final body = _getBodyModel(data);
+
+    final response = await request<List<int>>(
+      path,
+      data: body,
+      options: options,
+      onReceiveProgress: callback,
+    );
+
+    return response;
+  }
+
   /// Simple file upload
   ///
   /// Path [String], Data [FormData], Headers [Map]
