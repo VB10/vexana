@@ -8,12 +8,9 @@ import 'package:dio/dio.dart';
 import 'package:dio/src/adapters/io_adapter.dart' if (dart.library.html) 'package:dio/src/adapters/browser_adapter.dart'
     as adapter;
 import 'package:flutter/foundation.dart';
-// dart:io html, mobil
-//       pwa html css js, apk ipa
-// dart:html
-
 // import 'package:flutter/foundation.dart';
 import 'package:retry/retry.dart';
+import 'package:vexana/src/interface/IFormDataModel.dart';
 import 'package:vexana/src/operation/network_error_manager.dart';
 import 'package:vexana/src/utility/custom_logger.dart';
 
@@ -158,8 +155,14 @@ class NetworkManager with dio.DioMixin implements dio.Dio, INetworkManager {
     final body = _getBodyModel(data);
 
     try {
-      final response = await request('$path$urlSuffix',
-          data: body, options: options, queryParameters: queryParameters, cancelToken: cancelToken);
+      final response = await request(
+        '$path$urlSuffix',
+        data: body,
+        options: options,
+        queryParameters: queryParameters,
+        cancelToken: cancelToken,
+      );
+
       final responseStatusCode = response.statusCode ?? HttpStatus.notFound;
       if (responseStatusCode >= HttpStatus.ok && responseStatusCode <= HttpStatus.multipleChoices) {
         var _response = response.data;
@@ -251,6 +254,62 @@ class NetworkManager with dio.DioMixin implements dio.Dio, INetworkManager {
   Future<T?> sendPrimitive<T>(String path, {Map<String, dynamic>? headers}) async {
     final response = await dio.Dio().request<T>(options.baseUrl + path, options: dio.Options(headers: headers));
     return response.data;
+  }
+
+  @override
+  Future<IResponseModel<R?>> sendFormData<T extends INetworkModel, R>(
+    String path, {
+    required T parseModel,
+    required RequestType method,
+    String? urlSuffix,
+    Map<String, dynamic>? queryParameters,
+    dio.Options? options,
+    Duration? expiration,
+    data,
+    dio.ProgressCallback? onReceiveProgress,
+    dio.CancelToken? cancelToken,
+    bool isErrorDialog = false,
+    bool? forceUpdateDecode,
+  }) async {
+    options ??= Options();
+    options.method = method.stringValue;
+    final body = _getBodyModel(data);
+
+    try {
+      final response = await request(
+        '$path$urlSuffix',
+        data: body,
+        options: options,
+        queryParameters: queryParameters,
+        cancelToken: cancelToken,
+      );
+
+      final responseStatusCode = response.statusCode ?? HttpStatus.notFound;
+      if (responseStatusCode >= HttpStatus.ok && responseStatusCode <= HttpStatus.multipleChoices) {
+        var _response = response.data;
+
+        if ((forceUpdateDecode ?? false) && _response is String) {
+          _response = await _decodeBody(_response);
+        }
+
+        await writeCacheAll(expiration, _response, method);
+        return _getResponseResult<T, R>(_response, parseModel);
+      } else {
+        return ResponseModel(error: ErrorModel(description: response.data.toString()));
+      }
+    } on DioError catch (e) {
+      return await handleNetworkError<T, R>(path,
+          cancelToken: cancelToken,
+          data: data,
+          isErrorDialog: isErrorDialog,
+          options: options,
+          urlSuffix: urlSuffix,
+          queryParameters: queryParameters,
+          parseModel: parseModel,
+          method: method,
+          error: e,
+          onError: _onError);
+    }
   }
 }
 
