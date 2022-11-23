@@ -51,7 +51,8 @@ abstract class JsonPlaceHolderViewModel extends State<JsonPlaceHolder> {
   //You can use this function for custom generate an error model.
   INetworkModel _errorModelFromData(dynamic data) {
     if (data is Map<String, dynamic> || data is String) {
-      final map = data is String ? jsonDecode(data) : data as Map<String, dynamic>;
+      final map =
+          data is String ? jsonDecode(data) : data as Map<String, dynamic>;
       return Post.fromJson(map);
     }
 

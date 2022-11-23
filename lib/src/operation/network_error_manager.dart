@@ -2,21 +2,25 @@ import 'dart:async';
 
 import '../../vexana.dart';
 
-extension NetworkErrorManager on NetworkManager {
-  Future<IResponseModel<R?>> handleNetworkError<T extends INetworkModel, R>(String path,
-      {required T parseModel,
-      required RequestType method,
-      String? urlSuffix = '',
-      Map<String, dynamic>? queryParameters,
-      Options? options,
-      Duration? expiration,
-      dynamic data,
-      ProgressCallback? onReceiveProgress,
-      bool isErrorDialog = false,
-      CancelToken? cancelToken,
-      bool? forceUpdateDecode,
-      required DioError error,
-      required ResponseModel<R> Function(DioError e) onError}) async {
+extension NetworkErrorManager<E extends INetworkModel<E>?>
+    on NetworkManager<E> {
+  Future<IResponseModel<R?, E?>>
+      handleNetworkError<T extends INetworkModel<T>, R>(
+    String path, {
+    required T parseModel,
+    required RequestType method,
+    String? urlSuffix = '',
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    Duration? expiration,
+    dynamic data,
+    ProgressCallback? onReceiveProgress,
+    bool isErrorDialog = false,
+    CancelToken? cancelToken,
+    bool? forceUpdateDecode,
+    required DioError error,
+    required ResponseModel<R?, E> Function(DioError e) onError,
+  }) async {
     if (!isErrorDialog || noNetworkTryCount == maxCount) {
       noNetworkTryCount = null;
       return onError.call(error);

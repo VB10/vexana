@@ -1,4 +1,8 @@
-# [3.0.0] - 15/06/2022
+# [3.0.1] - 15/06/2022
+
+- Fixed U8IntList problem.
+
+## [3.0.0] - 15/06/2022
 
 - Error widget mechanism added when your network is gone.
 
