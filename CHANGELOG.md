@@ -1,4 +1,4 @@
-# [3.1.0] - 15/06/2022
+# [3.1.1] - 15/06/2022
 
 - Generic error model added on network manager. NetworkManager<EmptyModel>
 
