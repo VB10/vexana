@@ -1,5 +1,3 @@
-import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:vexana/vexana.dart';
 
@@ -7,7 +5,7 @@ import 'package:vexana/vexana.dart';
 main() {
   late INetworkManager networkManager;
   setUp(() {
-    networkManager = NetworkManager(
+    networkManager = NetworkManager<EmptyModel>(
         isEnableLogger: true,
         interceptor: InterceptorsWrapper(
           onRequest: (options, handler) {
@@ -20,8 +18,10 @@ main() {
         ));
   });
   test('Primitve Type', () async {
-    final response = await networkManager.send<EmptyModel, EmptyModel>('/dogs/0/code.json',
-        parseModel: EmptyModel(), method: RequestType.GET);
+    final response = await networkManager.send<EmptyModel, EmptyModel>(
+        '/dogs/0/code.json',
+        parseModel: EmptyModel(),
+        method: RequestType.GET);
 
     expect(response.data, isNotNull);
   });

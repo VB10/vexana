@@ -4,6 +4,7 @@ import '../model/enum/request_type.dart';
 import 'INetworkModel.dart';
 import 'IResponseModel.dart';
 
+
 abstract class INetworkManager {
   Future<IResponseModel<R?>> send<T extends INetworkModel, R>(
     String path, {
@@ -21,12 +22,13 @@ abstract class INetworkManager {
   });
 
 
-
   Future<bool> removeAllCache();
   Interceptors get dioInterceptors;
-  Future<Response<List<int>?>> downloadFileSimple(String path, ProgressCallback? callback);
+  Future<Response<List<int>?>> downloadFileSimple(
+      String path, ProgressCallback? callback);
 
-  Future<Response<T>> uploadFile<T>(String path, FormData data, {Map<String, dynamic>? headers});
+  Future<Response<T>> uploadFile<T>(String path, FormData data,
+      {Map<String, dynamic>? headers});
   void addBaseHeader(MapEntry<String, String> key);
   void removeHeader(String key);
   void clearHeader();
