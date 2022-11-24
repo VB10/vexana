@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:vexana/vexana.dart';
 
@@ -8,7 +7,7 @@ import 'user.dart';
 main() {
   late INetworkManager networkManager;
   setUp(() {
-    networkManager = NetworkManager(
+    networkManager = NetworkManager<Null>(
         isEnableLogger: true,
         // onRefreshFail: () {  Navigate to login },
         onRefreshToken: (error, newService) async {
@@ -21,7 +20,8 @@ main() {
   });
 
   test('Json Place Holder Todos', () async {
-    final response = await networkManager.send<User, User>('/user', parseModel: User(), method: RequestType.GET);
+    final response = await networkManager.send<User, User>('/user',
+        parseModel: User(), method: RequestType.GET);
 
     expect(response.data, isNotNull);
   });
