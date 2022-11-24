@@ -1,12 +1,6 @@
 import '../interface/IErrorModel.dart';
 import '../interface/INetworkModel.dart';
 
-class BaseErrorModel<T extends INetworkModel> {
-  final T data;
-
-  BaseErrorModel(this.data);
-}
-
 class ErrorModel<T extends INetworkModel<T>?> extends IErrorModel<T> {
   @override
   final int? statusCode;
