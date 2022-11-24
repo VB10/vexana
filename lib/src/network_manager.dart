@@ -261,7 +261,6 @@ class NetworkManager<E extends INetworkModel<E>?>
 
   ErrorModel<E> _generateErrorModel(ErrorModel<E> error, dynamic data) {
     if (errorModel == null) {
-      error.response = data;
     } else if (data is String || data is Map<String, dynamic>) {
       final json =
           data is String ? jsonDecode(data) : data as Map<String, dynamic>;

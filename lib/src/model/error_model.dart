@@ -13,10 +13,6 @@ class ErrorModel<T extends INetworkModel<T>?> extends IErrorModel<T> {
   @override
   final T? model;
 
-  // Generic Response from Service
-  @override
-  dynamic response;
-
   ErrorModel<T> copyWith({
     int? statusCode,
     String? description,
