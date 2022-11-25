@@ -1,8 +1,7 @@
 import 'INetworkModel.dart';
 
-abstract class IErrorModel<T> {
+abstract class IErrorModel<T extends INetworkModel?> {
   int? statusCode;
   String? description;
-  INetworkModel? model;
-  dynamic response;
+  T? model;
 }

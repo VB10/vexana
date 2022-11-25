@@ -12,8 +12,10 @@ Let's talk about usage details.
 
 Have a lot of options: baseurl, logger, interceptors, base model etc.
 
+> If you want to manage your error model, you just declare your model so it's way getting the error model everywhere.
+
 ```dart
-INetworkManager  networkManager = NetworkManager(isEnableLogger: true, errorModel: UserErrorModel(),
+INetworkManager  networkManager = NetworkManage<Null or UserErrorModel>(isEnableLogger: true, errorModel: UserErrorModel(),
  options: BaseOptions(baseUrl: "https://jsonplaceholder.typicode.com/"));
 ```
 
@@ -193,6 +195,22 @@ Especially, mobile device many times lost connection for many reasons so if you 
 **And result!!**
 
 ![alt](https://github.com/VB10/vexana/blob/master/github/Simulator%20Screen%20Recording%20-%20iPhone%2011%20-%202022-07-21%20at%2012.00.41.gif?raw=true)
+
+### **Error model handle** ❎
+
+This point so important for many apps. Some business operation want to show any message or logic when user did a mistake like wrong password etc. You can manage very easily to error model for whole project with this usage.
+
+```dart
+INetworkManager  networkManager = NetworkManage<UserErrorModel>(isEnableLogger: true, errorModel: UserErrorModel(),
+ options: BaseOptions(baseUrl: "https://jsonplaceholder.typicode.com/"));
+
+ IResponseModel<List<Post>?, BaseErrorModel?> response =  networkManager.send<Post, List<Post>>('/posts',
+        parseModel: Post(), method: RequestType.GET);
+      <!-- Error.model came from your backend with your declaration -->
+      showDialog(response.error?.model?.message)
+
+    response
+```
 
 ### Tasks
 

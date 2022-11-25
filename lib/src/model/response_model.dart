@@ -1,6 +1,6 @@
-import '../interface/IResponseModel.dart';
+import 'package:vexana/vexana.dart';
 
-class ResponseModel<T> extends IResponseModel<T?> {
-
-  ResponseModel({data, error}) : super(data, error);
+class ResponseModel<T, E extends INetworkModel<E>?>
+    extends IResponseModel<T?, E> {
+  ResponseModel({T? data, IErrorModel<E>? error}) : super(data, error);
 }

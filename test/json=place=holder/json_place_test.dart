@@ -9,7 +9,7 @@ import 'todo.dart';
 main() {
   late INetworkManager networkManager;
   setUp(() {
-    networkManager = NetworkManager(
+    networkManager = NetworkManager<EmptyModel>(
         isEnableLogger: true,
         options: BaseOptions(baseUrl: 'https://jsonplaceholder.typicode.com/'),
         isEnableTest: true);
@@ -25,11 +25,13 @@ main() {
   });
 
   test('First value add to all every request headers.', () async {
-    final response = await networkManager.send<Todo, List<Todo>>('/todos', parseModel: Todo(), method: RequestType.GET);
+    final response = await networkManager.send<Todo, List<Todo>>('/todos',
+        parseModel: Todo(), method: RequestType.GET);
 
     expect(response.data, isList);
 
-    networkManager.addBaseHeader(MapEntry(HttpHeaders.authorizationHeader, response.data?.first.title ?? ''));
+    networkManager.addBaseHeader(MapEntry(
+        HttpHeaders.authorizationHeader, response.data?.first.title ?? ''));
     // Clear singlhe header
     networkManager.removeHeader('${response.data?.first.id}');
     // Clear all hader

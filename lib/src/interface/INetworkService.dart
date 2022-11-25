@@ -4,8 +4,9 @@ import '../model/enum/request_type.dart';
 import 'INetworkModel.dart';
 import 'IResponseModel.dart';
 
-abstract class INetworkManager {
-  Future<IResponseModel<R?>> send<T extends INetworkModel, R>(String path,
+abstract class INetworkManager<E extends INetworkModel<E>?> {
+  Future<IResponseModel<R?, E?>> send<T extends INetworkModel<T>, R>(
+      String path,
       {required T parseModel,
       required RequestType method,
       String? urlSuffix,
@@ -30,7 +31,8 @@ abstract class INetworkManager {
     dynamic data,
   });
 
-  Future<Response<T>> uploadFile<T>(String path, FormData data, {Map<String, dynamic>? headers});
+  Future<Response<T>> uploadFile<T>(String path, FormData data,
+      {Map<String, dynamic>? headers});
   void addBaseHeader(MapEntry<String, String> key);
   void removeHeader(String key);
   void clearHeader();
