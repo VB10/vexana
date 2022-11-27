@@ -9,10 +9,6 @@ import 'package:dio/src/adapters/io_adapter.dart'
     if (dart.library.html) 'package:dio/src/adapters/browser_adapter.dart'
     as adapter;
 import 'package:flutter/foundation.dart';
-// dart:io html, mobil
-//       pwa html css js, apk ipa
-// dart:html
-
 // import 'package:flutter/foundation.dart';
 import 'package:retry/retry.dart';
 import 'package:vexana/src/operation/network_error_manager.dart';
@@ -163,11 +159,15 @@ class NetworkManager<E extends INetworkModel<E>?>
     final body = _getBodyModel(data);
 
     try {
-      final response = await request('$path$urlSuffix',
-          data: body,
-          options: options,
-          queryParameters: queryParameters,
-          cancelToken: cancelToken);
+
+      final response = await request(
+        '$path$urlSuffix',
+        data: body,
+        options: options,
+        queryParameters: queryParameters,
+        cancelToken: cancelToken,
+      );
+
       final responseStatusCode = response.statusCode ?? HttpStatus.notFound;
       if (responseStatusCode >= HttpStatus.ok &&
           responseStatusCode <= HttpStatus.multipleChoices) {
