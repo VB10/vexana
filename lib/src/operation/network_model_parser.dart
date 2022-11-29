@@ -10,7 +10,9 @@ dynamic _decodeBody(String body) async {
 
 extension _CoreServiceExtension on NetworkManager {
   dynamic _getBodyModel(dynamic data) {
-    if (data is INetworkModel) {
+    if (data is IFormDataModel) {
+      return data.toFormData();
+    } else if (data is INetworkModel) {
       return data.toJson();
     } else if (data != null) {
       return jsonEncode(data);

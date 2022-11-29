@@ -14,6 +14,7 @@ export 'src/cache/shared/local_preferences.dart';
 export 'src/extension/request_type_extension.dart';
 export 'src/feature/no_network/index.dart';
 export 'src/interface/IErrorModel.dart';
+export 'src/interface/IFormDataModel.dart';
 export 'src/interface/INetworkModel.dart';
 export 'src/interface/INetworkService.dart';
 export 'src/interface/IResponseModel.dart';

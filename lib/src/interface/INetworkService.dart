@@ -4,20 +4,23 @@ import '../model/enum/request_type.dart';
 import 'INetworkModel.dart';
 import 'IResponseModel.dart';
 
-abstract class INetworkManager<E extends INetworkModel<E>?> {
-  Future<IResponseModel<R?, E?>> send<T extends INetworkModel<T>, R>(
-      String path,
-      {required T parseModel,
-      required RequestType method,
-      String? urlSuffix,
-      Map<String, dynamic>? queryParameters,
-      Options? options,
-      Duration? expiration,
-      dynamic data,
-      ProgressCallback? onReceiveProgress,
-      CancelToken? cancelToken,
-      bool isErrorDialog = false,
-      bool? forceUpdateDecode});
+
+abstract class INetworkManager {
+  Future<IResponseModel<R?>> send<T extends INetworkModel, R>(
+    String path, {
+    required T parseModel,
+    required RequestType method,
+    String? urlSuffix,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    Duration? expiration,
+    dynamic data,
+    ProgressCallback? onReceiveProgress,
+    CancelToken? cancelToken,
+    bool isErrorDialog = false,
+    bool? forceUpdateDecode,
+  });
+
 
   Future<bool> removeAllCache();
   Interceptors get dioInterceptors;
