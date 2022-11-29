@@ -43,6 +43,8 @@ networkManager.clearHeader();
 
 ### **Download File** 📍
 
+#### **Download File Simple**
+
 You can download any file format like pdf, png or etc with progress indicator.
 
 ```dart
@@ -51,6 +53,21 @@ final response = await networkManager.downloadFileSimple('http://www.africau.edu
 });
 
 //Example: Image.memory(response.data)
+```
+
+#### **Download File**
+
+You can download by specifying model and request type.
+
+```dart
+final response = await networkManager.downloadFile(
+    'financial-report',
+    (count, total) {
+      print('${count}');
+    },
+    method: RequestType.POST,
+    data: FileDownloadModel(),
+);
 ```
 
 ### **HTTP Post Request with Request Body** 🚀
