@@ -1,8 +1,11 @@
-import 'IErrorModel.dart';
+import '../../vexana.dart';
 
-abstract class IResponseModel<T> {
+abstract class IResponseModel<T, E extends INetworkModel<E>?> {
+  // success case
   T data;
-  IErrorModel? error;
+
+  // error case
+  IErrorModel<E?>? error;
 
   IResponseModel(this.data, this.error);
 }

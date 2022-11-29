@@ -5,7 +5,8 @@ import 'dart:io';
 import 'package:dio/dio.dart' as dio;
 import 'package:dio/dio.dart';
 // ignore: implementation_imports
-import 'package:dio/src/adapters/io_adapter.dart' if (dart.library.html) 'package:dio/src/adapters/browser_adapter.dart'
+import 'package:dio/src/adapters/io_adapter.dart'
+    if (dart.library.html) 'package:dio/src/adapters/browser_adapter.dart'
     as adapter;
 import 'package:flutter/foundation.dart';
 // dart:io html, mobil
@@ -30,7 +31,9 @@ part 'operation/network_wrapper.dart';
 /// Example:
 /// [NetworkManager(isEnableLogger: true, errorModel: UserErrorModel(),]
 /// [options: BaseOptions(baseUrl: "https://jsonplaceholder.typicode.com/"));]
-class NetworkManager with dio.DioMixin implements dio.Dio, INetworkManager {
+class NetworkManager<E extends INetworkModel<E>?>
+    with dio.DioMixin
+    implements dio.Dio, INetworkManager<E> {
   NetworkManager(
       {required BaseOptions options,
       this.isEnableLogger,
@@ -46,7 +49,6 @@ class NetworkManager with dio.DioMixin implements dio.Dio, INetworkManager {
     this.options = options;
     (transformer as DefaultTransformer).jsonDecodeCallback = _decodeBody;
     if (skippingSSLCertificate) HttpOverrides.global = MyHttpOverrides();
-
     _addLoggerInterceptor(isEnableLogger ?? false);
     _addNetworkInterceptors(interceptor);
     httpClientAdapter = adapter.createAdapter();
@@ -55,7 +57,8 @@ class NetworkManager with dio.DioMixin implements dio.Dio, INetworkManager {
   /// [Future<DioError> Function(DioError error, NetworkManager newService)] of retry service request with new instance
   ///
   /// Default value function is null until to define your business.
-  Future<DioError> Function(DioError error, NetworkManager newService)? onRefreshToken;
+  Future<DioError> Function(DioError error, NetworkManager newService)?
+      onRefreshToken;
 
   /// [VoidCallback?] has send error if it has [onRefreshToken] callback after has problem.
   ///
@@ -75,7 +78,7 @@ class NetworkManager with dio.DioMixin implements dio.Dio, INetworkManager {
   ///
   /// Example:
   /// [LoginModel()]
-  late INetworkModel? errorModel;
+  E? errorModel;
 
   /// [Client] has be set deafult client adapter
   bool isEnableTest;
@@ -95,7 +98,7 @@ class NetworkManager with dio.DioMixin implements dio.Dio, INetworkManager {
   ///When an error occured [NetworkManager] generates an errorModel.
   ///This function allows generate an errorModel using [data].
   ///This is optional. If this is null then default generator creates an error model.
-  INetworkModel Function(dynamic data)? errorModelFromData;
+  E Function(dynamic data)? errorModelFromData;
 
   void _addLoggerInterceptor(bool isEnableLogger) {
     if (isEnableLogger) interceptors.add(dio.LogInterceptor());
@@ -137,7 +140,7 @@ class NetworkManager with dio.DioMixin implements dio.Dio, INetworkManager {
   /// '''
 
   @override
-  Future<IResponseModel<R?>> send<T extends INetworkModel, R>(String path,
+  Future<IResponseModel<R?, E?>> send<T extends INetworkModel, R>(String path,
       {required T parseModel,
       required RequestType method,
       String? urlSuffix = '',
@@ -150,7 +153,7 @@ class NetworkManager with dio.DioMixin implements dio.Dio, INetworkManager {
       CancelToken? cancelToken,
       bool? forceUpdateDecode}) async {
     final cacheData = await _getCacheData<R, T>(expiration, method, parseModel);
-    if (cacheData is ResponseModel<R>) {
+    if (cacheData is ResponseModel<R, E>) {
       return cacheData;
     }
     options ??= Options();
@@ -159,9 +162,13 @@ class NetworkManager with dio.DioMixin implements dio.Dio, INetworkManager {
 
     try {
       final response = await request('$path$urlSuffix',
-          data: body, options: options, queryParameters: queryParameters, cancelToken: cancelToken);
+          data: body,
+          options: options,
+          queryParameters: queryParameters,
+          cancelToken: cancelToken);
       final responseStatusCode = response.statusCode ?? HttpStatus.notFound;
-      if (responseStatusCode >= HttpStatus.ok && responseStatusCode <= HttpStatus.multipleChoices) {
+      if (responseStatusCode >= HttpStatus.ok &&
+          responseStatusCode <= HttpStatus.multipleChoices) {
         var _response = response.data;
 
         if ((forceUpdateDecode ?? false) && _response is String) {
@@ -171,7 +178,8 @@ class NetworkManager with dio.DioMixin implements dio.Dio, INetworkManager {
         await writeCacheAll(expiration, _response, method);
         return _getResponseResult<T, R>(_response, parseModel);
       } else {
-        return ResponseModel(error: ErrorModel(description: response.data.toString()));
+        return ResponseModel(
+            error: ErrorModel<E>(description: response.data.toString()));
       }
     } on DioError catch (e) {
       return await handleNetworkError<T, R>(path,
@@ -189,9 +197,12 @@ class NetworkManager with dio.DioMixin implements dio.Dio, INetworkManager {
   }
 
   @override
-  Future<dio.Response<List<int>>> downloadFileSimple(String path, ProgressCallback? callback) async {
+  Future<dio.Response<List<int>>> downloadFileSimple(
+      String path, ProgressCallback? callback) async {
     final response = await dio.Dio().get<List<int>>(path,
-        options: Options(followRedirects: false, responseType: ResponseType.bytes), onReceiveProgress: callback);
+        options:
+            Options(followRedirects: false, responseType: ResponseType.bytes),
+        onReceiveProgress: callback);
 
     return response;
   }
@@ -202,11 +213,12 @@ class NetworkManager with dio.DioMixin implements dio.Dio, INetworkManager {
   /// It is file upload function then it'll be return primitive type.
 
   @override
-  Future<dio.Response<T>> uploadFile<T>(String path, FormData data, {Map<String, dynamic>? headers}) async {
+  Future<dio.Response<T>> uploadFile<T>(String path, FormData data,
+      {Map<String, dynamic>? headers}) async {
     return await post<T>(path, data: data, options: Options(headers: headers));
   }
 
-  Future<ResponseModel<R>?> _getCacheData<R, T extends INetworkModel>(
+  Future<ResponseModel<R, E>?> _getCacheData<R, T extends INetworkModel>(
       Duration? expiration, RequestType type, T responseModel) async {
     // TODO: Web Cache support
     if (kIsWeb) return null;
@@ -215,41 +227,50 @@ class NetworkManager with dio.DioMixin implements dio.Dio, INetworkManager {
     if (cacheDataString == null) {
       return null;
     } else {
-      return _getResponseResult<T, R>(jsonDecode(cacheDataString), responseModel);
+      return _getResponseResult<T, R>(
+          jsonDecode(cacheDataString), responseModel);
     }
   }
 
-  ResponseModel<R> _getResponseResult<T extends INetworkModel, R>(dynamic data, T parserModel) {
+  ResponseModel<R, E> _getResponseResult<T extends INetworkModel, R>(
+      dynamic data, T parserModel) {
     final model = _parseBody<R, T>(data, parserModel);
-    return ResponseModel<R>(data: model);
+    return ResponseModel<R, E>(data: model);
   }
 
-  ResponseModel<R> _onError<R>(DioError e) {
+  ResponseModel<R, E> _onError<R>(DioError e) {
     final errorResponse = e.response;
     CustomLogger(isEnabled: isEnableLogger).printError(e.message);
-    var error = ErrorModel(
+
+    var error = ErrorModel<E>(
         description: e.message,
-        statusCode: errorResponse != null ? errorResponse.statusCode : HttpStatus.internalServerError);
+        statusCode: errorResponse != null
+            ? errorResponse.statusCode
+            : HttpStatus.internalServerError);
+
     if (errorResponse != null) {
       error = _generateErrorModel(error, errorResponse.data);
     }
-    return ResponseModel<R>(error: error);
+    return ResponseModel<R, E>(error: error);
   }
 
-  ErrorModel _generateErrorModel(ErrorModel error, dynamic data) {
+  ErrorModel<E> _generateErrorModel(ErrorModel<E> error, dynamic data) {
     if (errorModel == null) {
       error.response = data;
     } else if (data is String || data is Map<String, dynamic>) {
-      final json = data is String ? jsonDecode(data) : data as Map<String, dynamic>;
-      error.model = errorModelFromData?.call(data) ?? errorModel?.fromJson(json);
+      final json =
+          data is String ? jsonDecode(data) : data as Map<String, dynamic>;
+      error = error.copyWith(
+          model: errorModelFromData?.call(data) ?? errorModel?.fromJson(json));
     }
-
     return error;
   }
 
   @override
-  Future<T?> sendPrimitive<T>(String path, {Map<String, dynamic>? headers}) async {
-    final response = await dio.Dio().request<T>(options.baseUrl + path, options: dio.Options(headers: headers));
+  Future<T?> sendPrimitive<T>(String path,
+      {Map<String, dynamic>? headers}) async {
+    final response = await dio.Dio().request<T>(options.baseUrl + path,
+        options: dio.Options(headers: headers));
     return response.data;
   }
 }
@@ -258,6 +279,7 @@ class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
     return super.createHttpClient(context)
-      ..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
   }
 }

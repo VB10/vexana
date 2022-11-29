@@ -1,5 +1,3 @@
-import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:vexana/vexana.dart';
 
@@ -7,7 +5,7 @@ import 'package:vexana/vexana.dart';
 main() {
   late INetworkManager networkManager;
   setUp(() {
-    networkManager = NetworkManager(
+    networkManager = NetworkManager<Null>(
         isEnableLogger: true,
         onRefreshToken: (error, newService) async {
           await Future.delayed(const Duration(seconds: 1));
@@ -19,12 +17,16 @@ main() {
         ));
   });
   test('Retry Auth Test', () async {
-    networkManager.send<EmptyModel, EmptyModel>('/words.json', parseModel: EmptyModel(), method: RequestType.GET);
-
-    networkManager.send<EmptyModel, EmptyModel>('/words2.json', parseModel: EmptyModel(), method: RequestType.GET);
-
-    final response = await networkManager.send<EmptyModel, EmptyModel>('/words2.json',
+    networkManager.send<EmptyModel, EmptyModel>('/words.json',
         parseModel: EmptyModel(), method: RequestType.GET);
+
+    networkManager.send<EmptyModel, EmptyModel>('/words2.json',
+        parseModel: EmptyModel(), method: RequestType.GET);
+
+    final response = await networkManager.send<EmptyModel, EmptyModel>(
+        '/words2.json',
+        parseModel: EmptyModel(),
+        method: RequestType.GET);
 
     expect(response.data, isNotNull);
   });
