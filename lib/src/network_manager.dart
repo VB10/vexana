@@ -235,8 +235,6 @@ class NetworkManager<E extends INetworkModel<E>?> with dio.DioMixin implements d
 
   Future<ResponseModel<R, E>?> _getCacheData<R, T extends INetworkModel>(
       Duration? expiration, RequestType type, T responseModel) async {
-    // TODO: Web Cache support
-    if (kIsWeb) return null;
     if (expiration == null) return null;
     final cacheDataString = await getLocalData(type);
     if (cacheDataString == null) {
