@@ -19,7 +19,7 @@ class _SembastManager {
   }
 
   Future<Database> openDb() async {
-    final db = databaseFactoryIo.openDatabase(await dbPath());
+    final db = kIsWeb ? databaseFactoryWeb.openDatabase(dbName) : databaseFactoryIo.openDatabase(await dbPath());
     return db;
   }
 
