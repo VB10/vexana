@@ -1,4 +1,9 @@
-# [3.1.1] - 15/06/2022
+# [3.2.0] - 15/01/2023
+
+- Added little improvement for sembast and etc.
+- Fixed web support problem
+
+## [3.1.1] - 15/06/2022
 
 - Generic error model added on network manager. NetworkManager<EmptyModel>
 
