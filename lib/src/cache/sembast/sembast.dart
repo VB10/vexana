@@ -34,12 +34,15 @@ class _SembastManager {
   Future<String?> readOnlyKeyData(String key) async {
     final data = await store.record(key).getSnapshot(await getDb());
     if (data != null) {
-      final item = LocalModel.fromJson(data.value);
-      if (DateTime.now().isBefore(item.time!)) {
-        return item.model;
-      } else {
-        await removeSingleItem(key);
-        return null;
+      final jsonData = data.value;
+      if (jsonData is Map<String, dynamic>) {
+        final item = LocalModel.fromJson(jsonData);
+        if (DateTime.now().isBefore(item.time!)) {
+          return item.model;
+        } else {
+          await removeSingleItem(key);
+          return null;
+        }
       }
     }
     return null;

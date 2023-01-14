@@ -1,4 +1,8 @@
-# [3.2.0] - 15/01/2023
+# [3.2.1] - 15/01/2023
+
+- Fixed analyze issue
+
+## [3.2.0] - 15/01/2023
 
 - Added little improvement for sembast and etc.
 - Fixed web support problem
