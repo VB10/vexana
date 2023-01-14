@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:io';
+import 'dart:io' if (dart.library.html) 'dart:html';
 
 import 'package:collection/collection.dart' show IterableExtension;
 import 'package:path_provider/path_provider.dart';

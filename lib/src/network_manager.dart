@@ -1,12 +1,16 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
+import 'dart:io' if (dart.library.html) 'dart:html';
 
 import 'package:dio/dio.dart' as dio;
 import 'package:dio/dio.dart';
 // ignore: implementation_imports
 import 'package:dio/src/adapters/io_adapter.dart' if (dart.library.html) 'package:dio/src/adapters/browser_adapter.dart'
     as adapter;
+
+import 'package:vexana/src/feature/ssl/io_custom_override.dart'
+    if (dart.library.html) 'package:vexana/src/feature/ssl/http_custom_override.dart' as ssl;
+
 import 'package:flutter/foundation.dart';
 // import 'package:flutter/foundation.dart';
 import 'package:retry/retry.dart';
@@ -41,7 +45,7 @@ class NetworkManager<E extends INetworkModel<E>?> with dio.DioMixin implements d
       this.noNetwork}) {
     this.options = options;
     (transformer as DefaultTransformer).jsonDecodeCallback = _decodeBody;
-    if (skippingSSLCertificate) HttpOverrides.global = MyHttpOverrides();
+    if (skippingSSLCertificate) ssl.createAdapter().make();
 
     _addLoggerInterceptor(isEnableLogger ?? false);
     _addNetworkInterceptors(interceptor);
@@ -282,13 +286,5 @@ class NetworkManager<E extends INetworkModel<E>?> with dio.DioMixin implements d
   Future<T?> sendPrimitive<T>(String path, {Map<String, dynamic>? headers}) async {
     final response = await dio.Dio().request<T>(options.baseUrl + path, options: dio.Options(headers: headers));
     return response.data;
-  }
-}
-
-class MyHttpOverrides extends HttpOverrides {
-  @override
-  HttpClient createHttpClient(SecurityContext? context) {
-    return super.createHttpClient(context)
-      ..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
   }
 }
