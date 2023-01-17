@@ -1,42 +1,27 @@
-import 'dart:convert';
-import 'dart:io' if (dart.library.html) 'dart:html';
-
-import 'package:collection/collection.dart' show IterableExtension;
-import 'package:path_provider/path_provider.dart';
-
 import '../../interface/IFileManager.dart';
-import '../../model/local_data.dart';
 
-part 'file.dart';
+import 'local_file_io.dart' if (dart.library.html) 'local_file_web.dart' as adapter;
 
 class LocalFile extends IFileManager {
-  final _FileManager _fileManager = _FileManager.instance;
-
+  // final _FileManager _fileManager = _FileManager.instance;
+  final _customManager = adapter.createFileAdapter();
   @override
   Future<String?> getUserRequestDataOnString(String key) {
-    return _fileManager.readOnlyKeyData(key);
+    return _customManager.getUserRequestDataOnString(key);
   }
 
   @override
   Future<bool> writeUserRequestDataWithTime(String key, String model, Duration? time) async {
-    if (time == null) {
-      return false;
-    } else {
-      final _localModel = LocalModel(model: model, time: DateTime.now().add(time));
-      await _fileManager.writeLocalModelInFile(key, _localModel);
-      return true;
-    }
+    return _customManager.writeUserRequestDataWithTime(key, model, time);
   }
 
   @override
   Future<bool> removeUserRequestCache(String key) async {
-    await _fileManager.clearAllDirectoryItems();
-    return true;
+    return _customManager.removeUserRequestCache(key);
   }
 
   @override
   Future<bool> removeUserRequestSingleCache(String key) async {
-    await _fileManager.removeSingleItem(key);
-    return true;
+    return _customManager.removeUserRequestSingleCache(key);
   }
 }

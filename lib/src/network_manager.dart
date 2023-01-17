@@ -3,21 +3,19 @@ import 'dart:convert';
 import 'dart:io' if (dart.library.html) 'dart:html';
 
 import 'package:dio/dio.dart' as dio;
-import 'package:dio/dio.dart';
-// ignore: implementation_imports
 import 'package:dio/src/adapters/io_adapter.dart' if (dart.library.html) 'package:dio/src/adapters/browser_adapter.dart'
     as adapter;
+import 'package:flutter/foundation.dart' show compute;
 
 import 'package:vexana/src/feature/ssl/io_custom_override.dart'
-    if (dart.library.html) 'package:vexana/src/feature/ssl/http_custom_override.dart' as ssl;
+    if (dart.library.html) 'package:vexana/src/feature/ssl/html_custom_override.dart' as ssl;
 
-import 'package:flutter/foundation.dart';
-// import 'package:flutter/foundation.dart';
 import 'package:retry/retry.dart';
 import 'package:vexana/src/operation/network_error_manager.dart';
 import 'package:vexana/src/utility/custom_logger.dart';
 
 import '../vexana.dart';
+import 'interface/ICallback.dart';
 import 'interface/IFileManager.dart';
 import 'model/error/file_manager_not_foud.dart';
 
@@ -44,7 +42,7 @@ class NetworkManager<E extends INetworkModel<E>?> with dio.DioMixin implements d
       this.errorModelFromData,
       this.noNetwork}) {
     this.options = options;
-    (transformer as DefaultTransformer).jsonDecodeCallback = _decodeBody;
+    (transformer as dio.DefaultTransformer).jsonDecodeCallback = _decodeBody;
     if (skippingSSLCertificate) ssl.createAdapter().make();
 
     _addLoggerInterceptor(isEnableLogger ?? false);
@@ -60,7 +58,7 @@ class NetworkManager<E extends INetworkModel<E>?> with dio.DioMixin implements d
   /// [VoidCallback?] has send error if it has [onRefreshToken] callback after has problem.
   ///
   /// Default value function is null work with [onRefreshToken].
-  late VoidCallback? onRefreshFail;
+  late VoidEmptyCallBack? onRefreshFail;
 
   /// [int?] retry maxiumum count at refresh function.
   final int maxCount = 3;
@@ -203,7 +201,7 @@ class NetworkManager<E extends INetworkModel<E>?> with dio.DioMixin implements d
   }
 
   @override
-  Future<Response<List<int>?>> downloadFile(
+  Future<dio.Response<List<int>?>> downloadFile(
     String path,
     ProgressCallback? callback, {
     RequestType? method,

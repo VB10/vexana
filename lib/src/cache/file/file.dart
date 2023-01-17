@@ -1,4 +1,4 @@
-part of 'local_file.dart';
+part of 'local_file_io.dart';
 
 class _FileManager {
   final String fileName = 'fireball.json';

@@ -1,4 +1,8 @@
-# [3.2.1] - 15/01/2023
+# [3.3.0] - 15/01/2023
+
+- Fixed web platform issues
+
+## [3.2.1] - 15/01/2023
 
 - Fixed analyze issue
 
