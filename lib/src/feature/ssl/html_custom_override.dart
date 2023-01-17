@@ -1,8 +1,8 @@
 import 'package:vexana/src/feature/ssl/http_custom_override.dart';
 
-GeneralCustomOverride createAdapter() => GeneralCustomOverride();
+HttpCustomOverride createAdapter() => _GeneralCustomOverride();
 
-class GeneralCustomOverride extends HttpCustomOverride {
+class _GeneralCustomOverride extends HttpCustomOverride {
   @override
   void make() {}
 }

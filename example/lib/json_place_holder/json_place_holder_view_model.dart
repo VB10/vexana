@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:vexana/vexana.dart';
 
@@ -16,7 +14,7 @@ abstract class JsonPlaceHolderViewModel extends State<JsonPlaceHolder> {
   @override
   void initState() {
     super.initState();
-    networkManager = NetworkManager(
+    networkManager = NetworkManager<Post>(
       isEnableLogger: true,
       noNetwork: NoNetwork(
         context,
@@ -49,14 +47,8 @@ abstract class JsonPlaceHolderViewModel extends State<JsonPlaceHolder> {
   }
 
   //You can use this function for custom generate an error model.
-  INetworkModel _errorModelFromData(dynamic data) {
-    if (data is Map<String, dynamic> || data is String) {
-      final map =
-          data is String ? jsonDecode(data) : data as Map<String, dynamic>;
-      return Post.fromJson(map);
-    }
-
-    return Post(id: -1, userId: -1, title: 'Error!', body: 'Unexpected data');
+  INetworkModel<Post> _errorModelFromData(Map<String, dynamic> data) {
+    return Post.fromJson(data);
   }
 }
 

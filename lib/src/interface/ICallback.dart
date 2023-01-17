@@ -1,0 +1,1 @@
+typedef VoidEmptyCallBack = void Function();
