@@ -1,4 +1,9 @@
-# [3.3.0] - 15/01/2023
+# [3.3.1] - 21/01/2023
+
+- Fixed web platform issues from pub dev
+- Added custom path provider for web
+
+## [3.3.0] - 15/01/2023
 
 - Fixed web platform issues
 

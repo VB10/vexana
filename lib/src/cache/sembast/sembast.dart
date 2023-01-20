@@ -14,7 +14,7 @@ class _SembastManager {
   }
 
   Future<String> dbPath() async {
-    final path = (await getApplicationDocumentsDirectory()).path;
+    final path = await customPath.createPathProviderAdapter().applicationDirectoryPath();
     return '$path/$dbName';
   }
 

@@ -16,6 +16,8 @@ abstract class JsonPlaceHolderViewModel extends State<JsonPlaceHolder> {
     super.initState();
     networkManager = NetworkManager<Post>(
       isEnableLogger: true,
+      fileManager: LocalSembast(),
+
       noNetwork: NoNetwork(
         context,
         // customNoNetwork: (onRetry) {
@@ -24,14 +26,14 @@ abstract class JsonPlaceHolderViewModel extends State<JsonPlaceHolder> {
       ),
       options: BaseOptions(baseUrl: 'https://jsonplaceholder.typicode.com'),
 
-      errorModelFromData: _errorModelFromData, //This is optional.
+      // errorModelFromData: _errorModelFromData, //This is optional.
     );
   }
 
   Future<void> getAllPosts() async {
     changeLoading();
     final response = await networkManager.send<Post, List<Post>>('/posts',
-        parseModel: Post(), method: RequestType.GET, isErrorDialog: true);
+        parseModel: Post(), method: RequestType.GET, isErrorDialog: true, expiration: const Duration(seconds: 1));
 
     if (response.data is List) {
       posts = response.data;
