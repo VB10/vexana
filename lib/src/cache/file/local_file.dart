@@ -1,6 +1,7 @@
 import '../../interface/IFileManager.dart';
 
-import 'local_file_io.dart' if (dart.library.html) 'local_file_web.dart' as adapter;
+import 'local_file_io.dart' if (dart.library.html) 'local_file_web.dart'
+    as adapter;
 
 class LocalFile extends IFileManager {
   // final _FileManager _fileManager = _FileManager.instance;
@@ -11,7 +12,8 @@ class LocalFile extends IFileManager {
   }
 
   @override
-  Future<bool> writeUserRequestDataWithTime(String key, String model, Duration? time) async {
+  Future<bool> writeUserRequestDataWithTime(
+      String key, String model, Duration? time) async {
     return _customManager.writeUserRequestDataWithTime(key, model, time);
   }
 

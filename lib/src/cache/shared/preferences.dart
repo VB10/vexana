@@ -16,7 +16,8 @@ class _LocalManager {
 
   _LocalManager._init();
 
-  Future<bool> writeModelInJson(dynamic body, String url, Duration? duration) async {
+  Future<bool> writeModelInJson(
+      dynamic body, String url, Duration? duration) async {
     final _pref = await preferences;
 
     if (duration == null) {
@@ -52,7 +53,10 @@ class _LocalManager {
   Future<bool> removeAllLocalData(String url) async {
     final _pref = await preferences;
 
-    _pref.getKeys().where((element) => element.contains(url)).forEach((element) async {
+    _pref
+        .getKeys()
+        .where((element) => element.contains(url))
+        .forEach((element) async {
       await removeModel(element);
     });
     return true;

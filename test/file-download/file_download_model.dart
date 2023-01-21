@@ -20,5 +20,6 @@ class FileDownloadModel extends INetworkModel {
   }
 
   @override
-  FileDownloadModel fromJson(Map<String, dynamic>? json) => FileDownloadModel.fromJson(json);
+  FileDownloadModel fromJson(Map<String, dynamic>? json) =>
+      FileDownloadModel.fromJson(json);
 }

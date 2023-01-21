@@ -8,7 +8,13 @@ class ReqResModel extends INetworkModel<ReqResModel> {
   List<Data>? data;
   Support? support;
 
-  ReqResModel({this.page, this.perPage, this.total, this.totalPages, this.data, this.support});
+  ReqResModel(
+      {this.page,
+      this.perPage,
+      this.total,
+      this.totalPages,
+      this.data,
+      this.support});
 
   ReqResModel.fromJson(Map<String, dynamic> json) {
     page = json['page'];
@@ -21,7 +27,8 @@ class ReqResModel extends INetworkModel<ReqResModel> {
         data!.add(new Data.fromJson(v));
       });
     }
-    support = json['support'] != null ? new Support.fromJson(json['support']) : null;
+    support =
+        json['support'] != null ? new Support.fromJson(json['support']) : null;
   }
 
   @override

@@ -27,7 +27,8 @@ class LocalPreferences extends IFileManager {
   }
 
   @override
-  Future<bool> writeUserRequestDataWithTime(String key, Object model, Duration? time) async {
+  Future<bool> writeUserRequestDataWithTime(
+      String key, Object model, Duration? time) async {
     if (time == null) {
       return false;
     } else {

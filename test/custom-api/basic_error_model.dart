@@ -23,5 +23,6 @@ class BasicErrorModel extends INetworkModel<BasicErrorModel> {
   }
 
   @override
-  BasicErrorModel fromJson(Map<String, dynamic>? json) => BasicErrorModel.fromJson(json);
+  BasicErrorModel fromJson(Map<String, dynamic>? json) =>
+      BasicErrorModel.fromJson(json);
 }

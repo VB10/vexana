@@ -3,8 +3,7 @@ import 'dart:convert';
 import 'dart:io' if (dart.library.html) 'dart:html';
 
 import 'package:dio/dio.dart' as dio;
-import 'package:dio/src/adapters/io_adapter.dart' if (dart.library.html) 'package:dio/src/adapters/browser_adapter.dart'
-    as adapter;
+import './feature/dio/adapter.dart' if (dart.library.html) './feature/dio/browser_adapter.dart' as adapter;
 import 'package:flutter/foundation.dart' show compute;
 
 import 'package:vexana/src/feature/ssl/io_custom_override.dart'
@@ -47,7 +46,7 @@ class NetworkManager<E extends INetworkModel<E>?> with dio.DioMixin implements d
 
     _addLoggerInterceptor(isEnableLogger ?? false);
     _addNetworkInterceptors(interceptor);
-    httpClientAdapter = adapter.createAdapter();
+    httpClientAdapter = adapter.dioAdapter;
   }
 
   /// [Future<DioError> Function(DioError error, NetworkManager newService)] of retry service request with new instance

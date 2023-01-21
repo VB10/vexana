@@ -12,7 +12,11 @@ class NoNetworkManager {
   final _packageName = 'vexana';
   final Widget Function(void Function()? onRetry)? customNoNetwork;
 
-  NoNetworkManager({required this.context, required this.onRetry, this.isEnable = false, this.customNoNetwork});
+  NoNetworkManager(
+      {required this.context,
+      required this.onRetry,
+      this.isEnable = false,
+      this.customNoNetwork});
 
   Future<void> show() async {
     if (!isEnable) return;
@@ -26,7 +30,10 @@ class NoNetworkManager {
         if (customNoNetwork != null) {
           return customNoNetwork!(onRetry);
         }
-        return _NoNetworkWidget(lottiePath: _lottiePath, packageName: _packageName, onRetry: onRetry);
+        return _NoNetworkWidget(
+            lottiePath: _lottiePath,
+            packageName: _packageName,
+            onRetry: onRetry);
       },
     );
   }
@@ -70,7 +77,8 @@ class _NoNetworkWidget extends StatelessWidget with CustomRetryMixin {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Expanded(child: LottieBuilder.asset(_lottiePath, package: _packageName)),
+          Expanded(
+              child: LottieBuilder.asset(_lottiePath, package: _packageName)),
           Padding(
             padding: const PagePadding.horizontal(),
             child: ElevatedButton(

@@ -12,8 +12,10 @@ extension _CoreServiceWrapperExtension on NetworkManager {
         final errorResponse = e.response;
         if (errorResponse == null) {
         } else {
-          if (errorResponse.statusCode == HttpStatus.unauthorized && onRefreshToken != null) {
-            final error = await onRefreshToken!(e, NetworkManager<EmptyModel>(options: options));
+          if (errorResponse.statusCode == HttpStatus.unauthorized &&
+              onRefreshToken != null) {
+            final error = await onRefreshToken!(
+                e, NetworkManager<EmptyModel>(options: options));
             final requestModel = error.requestOptions;
 
             try {
@@ -22,7 +24,9 @@ extension _CoreServiceWrapperExtension on NetworkManager {
                   requestModel.path,
                   queryParameters: requestModel.queryParameters,
                   data: requestModel.data,
-                  options: Options(method: requestModel.method, headers: requestModel.headers),
+                  options: Options(
+                      method: requestModel.method,
+                      headers: requestModel.headers),
                 ),
                 maxAttempts: maxCount,
                 retryIf: (e) {

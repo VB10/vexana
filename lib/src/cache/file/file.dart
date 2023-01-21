@@ -48,7 +48,8 @@ class _FileManager {
     final newLocalData = jsonEncode(model);
 
     final userDocumentFile = File(_filePath);
-    return await userDocumentFile.writeAsString(newLocalData, flush: true, mode: FileMode.write);
+    return await userDocumentFile.writeAsString(newLocalData,
+        flush: true, mode: FileMode.write);
   }
 
   Future<String?> readOnlyKeyData(String key) async {
@@ -72,7 +73,9 @@ class _FileManager {
     if (tempDirectory == null) {
       return null;
     }
-    final _key = tempDirectory.keys.isNotEmpty ? tempDirectory.keys.singleWhereOrNull((element) => element == key) : '';
+    final _key = tempDirectory.keys.isNotEmpty
+        ? tempDirectory.keys.singleWhereOrNull((element) => element == key)
+        : '';
     tempDirectory.remove(_key);
     final _filePath = await filePath();
     final userDocumentFile = File(_filePath);

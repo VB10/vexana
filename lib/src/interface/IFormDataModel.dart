@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:vexana/src/interface/INetworkModel.dart';
 
-mixin  IFormDataModel on INetworkModel {
+mixin IFormDataModel on INetworkModel {
   FormData? toFormData() {
     try {
       if (toJson() == null) return null;

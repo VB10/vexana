@@ -22,7 +22,8 @@ class _LocalFileWeb extends IFileManager {
   }
 
   @override
-  Future<bool> writeUserRequestDataWithTime(String key, String model, Duration? time) {
+  Future<bool> writeUserRequestDataWithTime(
+      String key, String model, Duration? time) {
     // TODO: implement writeUserRequestDataWithTime
     throw UnimplementedError();
   }
