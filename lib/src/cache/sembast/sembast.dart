@@ -18,10 +18,7 @@ class _SembastManager {
     return '$path/$dbName';
   }
 
-  Future<Database> openDb() async {
-    final db = kIsWeb ? databaseFactoryWeb.openDatabase(dbName) : databaseFactoryIo.openDatabase(await dbPath());
-    return db;
-  }
+  Future<Database> openDb() async => sembast.createDatabaseFactoryIo().openDatabase(kIsWeb ? dbName : await dbPath());
 
   Future<Database> getDb() async {
     return _db ??= await openDb();
