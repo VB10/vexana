@@ -1,6 +1,6 @@
 # vexana
 
-## **Before Starting MY COUNTRY NEED TO HELP BECAUSE EARTHQUAKE 7.8 and 7.6 within some day!**
+## **Before Starting MY COUNTRY NEEDS TO HELP BECAUSE EARTHQUAKE 7.8 and 7.6 within some day!**
 
 ![help](./github/FpK_Eb7aQAAXOCD.jpeg)
 
