@@ -1,6 +1,15 @@
+## Before Starting MY COUNTRY NEED TO HELP BECAUSE EARTHQUAKE 7.8!
+
+![help](./github/FpK_Eb7aQAAXOCD.jpeg)
+
+Turkey has recently been struck by a devastating earthquake with a magnitude of 7.8. The impact has been widespread and many communities have been severely affected. In this difficult time, we are reaching out to ask for your support. Any donation, no matter how small, will help us provide much-needed aid to those affected by the earthquake. Your generosity will help provide shelter, food, and medical supplies to those in need. Your contribution will make a real difference in the lives of those affected by this disaster. Thank you for your kindness and support.
+
+You can donate for AHBAP with this site
+[AHBAP_DONATE](https://bagis.ahbap.org/bagis)
+
 # vexana
 
-Vexana is easy to use network proccess with dio. You can do dynamic model parsing, base error model, timeout and many utility functions.
+Vexana is easy to use network process with dio. You can do dynamic model parsing, base error model, timeout and many utility functions.
 
 ![Vexana-Game](https://thumbs.gfycat.com/RightSoupyCrow-size_restricted.gif)
 
@@ -30,14 +39,14 @@ await networkManager.send<Todo, List<Todo>>("/todos", parseModel: Todo(), method
 
 ### **Base Headers** 📍
 
-You could be add key values to your every request directly.(add authhentication key)
+You could be add key values to your every request directly.(add authentication key)
 
 ```dart
 
 networkManager.addBaseHeader(MapEntry(HttpHeaders.authorizationHeader, response.data?.first.title ?? ''));
-// Clear singlhe header
+// Clear single header
 networkManager.removeHeader('\${response.data?.first.id}');
-// Clear all hader
+// Clear all header
 networkManager.clearHeader();
 ```
 
@@ -194,7 +203,7 @@ Especially, mobile device many times lost connection for many reasons so if you 
 
 **And result!!**
 
-![alt](https://github.com/VB10/vexana/blob/master/github/Simulator%20Screen%20Recording%20-%20iPhone%2011%20-%202022-07-21%20at%2012.00.41.gif?raw=true)
+![alt](./github/Simulator%20Screen%20Recording%20-%20iPhone%2011%20-%202022-07-21%20at%2012.00.41.gif)
 
 ### **Error model handle** ❎
 
@@ -222,10 +231,11 @@ INetworkManager  networkManager = NetworkManage<UserErrorModel>(isEnableLogger: 
 - [x] Handle network problem
 - [ ] Make a unit test all layers.
 - [x] Cache Option
-  - [ ] SQlite Support
+  - [ ] ISAAR Support
   - [x] Web Cache Support
 - [x] Refresh Token Architecture
 - [ ] Usage Utility
+- [ ] Readme Update
 
 ## License
 
@@ -238,3 +248,11 @@ INetworkManager  networkManager = NetworkManage<UserErrorModel>(isEnableLogger: 
 ---
 
 [![Youtube](https://yt3.ggpht.com/a/AATXAJyul3hpzl86GIjF-EZxBzy6T62PJxpvzRwz9AbUOw=s288-c-k-c0xffffffff-no-rj-mo)](https://www.youtube.com/c/HardwareAndro)
+
+# Contributors
+
+<a href="https://github.com/VB10/vexana/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=VB10/vexana" />
+</a>
+
+Made with [contrib.rocks](https://contrib.rocks).

@@ -1,4 +1,9 @@
-# [3.3.1] - 21/01/2023
+# [3.4.0] - 21/02/2023
+
+- Dio package updated to 5.0.0
+- Added some fixes with coding improvement.
+
+## [3.3.1] - 21/01/2023
 
 - Fixed web platform issues from pub dev
 - Added custom path provider for web
