@@ -1,4 +1,6 @@
-## Before Starting MY COUNTRY NEED TO HELP BECAUSE EARTHQUAKE 7.8!
+# vexana
+
+## **Before Starting MY COUNTRY NEED TO HELP BECAUSE EARTHQUAKE 7.8 and 7.6 within some day!**
 
 ![help](./github/FpK_Eb7aQAAXOCD.jpeg)
 
@@ -6,8 +8,6 @@ Turkey has recently been struck by a devastating earthquake with a magnitude of 
 
 You can donate for AHBAP with this site
 [AHBAP_DONATE](https://bagis.ahbap.org/bagis)
-
-# vexana
 
 Vexana is easy to use network process with dio. You can do dynamic model parsing, base error model, timeout and many utility functions.
 
