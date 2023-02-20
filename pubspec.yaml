@@ -12,7 +12,7 @@ dependencies:
   collection: ^1.15.0
 
   # Core
-  dio: ^4.0.4
+  dio: ^5.0.0
   flutter:
     sdk: flutter
   logger: ^1.0.0

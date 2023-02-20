@@ -15,18 +15,21 @@ main() {
         options: BaseOptions(
           baseUrl: 'https://fluttertr-ead5c.firebaseio.com',
         ));
+
+    networkManager.dioInterceptors.add(InterceptorsWrapper(
+      onError: (e, handler) {
+        return handler.reject(e);
+      },
+    ));
   });
+
   test('Retry Auth Test', () async {
-    networkManager.send<EmptyModel, EmptyModel>('/words.json',
-        parseModel: EmptyModel(), method: RequestType.GET);
+    networkManager.send<EmptyModel, EmptyModel>('/words.json', parseModel: EmptyModel(), method: RequestType.GET);
 
-    networkManager.send<EmptyModel, EmptyModel>('/words2.json',
-        parseModel: EmptyModel(), method: RequestType.GET);
+    networkManager.send<EmptyModel, EmptyModel>('/words2.json', parseModel: EmptyModel(), method: RequestType.GET);
 
-    final response = await networkManager.send<EmptyModel, EmptyModel>(
-        '/words2.json',
-        parseModel: EmptyModel(),
-        method: RequestType.GET);
+    final response = await networkManager.send<EmptyModel, EmptyModel>('/words2.json',
+        parseModel: EmptyModel(), method: RequestType.GET);
 
     expect(response.data, isNotNull);
   });
