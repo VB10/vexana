@@ -12,6 +12,8 @@ extension NetworkTypeExtension on RequestType {
         return 'DELETE';
       case RequestType.PUT:
         return 'PUT';
+      case RequestType.PATCH:
+        return 'PATCH';
       default:
         throw 'Method Not Found';
     }
