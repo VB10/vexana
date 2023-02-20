@@ -273,7 +273,7 @@ class NetworkManager<E extends INetworkModel<E>?> with dio.DioMixin implements d
       if (errorModelFromData != null) {
         error = error.copyWith(model: errorModelFromData?.call(data));
       } else {
-        error = error.copyWith(model: errorModel!..fromJson(json));
+        error = error.copyWith(model: errorModel!.fromJson(json));
       }
     }
 
