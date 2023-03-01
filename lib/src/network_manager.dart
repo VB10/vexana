@@ -6,11 +6,9 @@ import 'package:dio/dio.dart' as dio;
 import 'package:dio/src/adapters/io_adapter.dart' if (dart.library.html) 'package:dio/src/adapters/browser_adapter.dart'
     as adapter;
 import 'package:flutter/foundation.dart' show compute;
-
+import 'package:retry/retry.dart';
 import 'package:vexana/src/feature/ssl/io_custom_override.dart'
     if (dart.library.html) 'package:vexana/src/feature/ssl/html_custom_override.dart' as ssl;
-
-import 'package:retry/retry.dart';
 import 'package:vexana/src/operation/network_error_manager.dart';
 import 'package:vexana/src/utility/custom_logger.dart';
 
@@ -121,6 +119,10 @@ class NetworkManager<E extends INetworkModel<E>?> with dio.DioMixin implements d
   void removeHeader(String key) {
     options.headers.remove(key);
   }
+
+  /// Get all headers from [NetworkManager]
+  @override
+  Map<String, dynamic> get allHeaders => options.headers;
 
   /// [Future<IResponseModel<R?>> send<T extends INetworkModel, R>] will complete your request with paramaters
   ///
