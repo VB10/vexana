@@ -34,6 +34,7 @@ abstract class INetworkManager<E extends INetworkModel<E>?> {
   Future<Response<T>> uploadFile<T>(String path, FormData data, {Map<String, dynamic>? headers});
   void addBaseHeader(MapEntry<String, String> key);
   void removeHeader(String key);
+  Map<String, dynamic> get allHeaders;
   void clearHeader();
   Future<T?> sendPrimitive<T>(String path, {Map<String, dynamic>? headers});
 }
