@@ -40,7 +40,7 @@ class NetworkManager<E extends INetworkModel<E>?> with dio.DioMixin implements d
       this.errorModelFromData,
       this.noNetwork}) {
     this.options = options;
-    (transformer as dio.DefaultTransformer).jsonDecodeCallback = _decodeBody;
+    (transformer as dio.BackgroundTransformer).jsonDecodeCallback = _decodeBody;
     if (skippingSSLCertificate) ssl.createAdapter().make();
 
     _addLoggerInterceptor(isEnableLogger ?? false);
@@ -58,7 +58,7 @@ class NetworkManager<E extends INetworkModel<E>?> with dio.DioMixin implements d
   /// Default value function is null work with [onRefreshToken].
   late VoidEmptyCallBack? onRefreshFail;
 
-  /// [int?] retry maxiumum count at refresh function.
+  /// [int?] retry maximum count at refresh function.
   final int maxCount = 3;
 
   /// [IFileManager?] manage cache operation with this.
@@ -67,13 +67,13 @@ class NetworkManager<E extends INetworkModel<E>?> with dio.DioMixin implements d
   /// [NetworkManager(fileManager: LocalFile())]
   late IFileManager? fileManager;
 
-  /// [INetworkModel?] is repsone model for every request.
+  /// [INetworkModel?] is response model for every request.
   ///
   /// Example:
   /// [LoginModel()]
   E? errorModel;
 
-  /// [Client] has be set deafult client adapter
+  /// [Client] has be set default client adapter
   bool isEnableTest;
 
   bool skippingSSLCertificate;
@@ -88,7 +88,7 @@ class NetworkManager<E extends INetworkModel<E>?> with dio.DioMixin implements d
   @override
   dio.Interceptors get dioInterceptors => interceptors;
 
-  ///When an error occured [NetworkManager] generates an errorModel.
+  ///When an error occurred [NetworkManager] generates an errorModel.
   ///This function allows generate an errorModel using [data].
   ///This is optional. If this is null then default generator creates an error model.
   E Function(Map<String, dynamic> data)? errorModelFromData;
@@ -256,7 +256,7 @@ class NetworkManager<E extends INetworkModel<E>?> with dio.DioMixin implements d
 
   ResponseModel<R, E> _onError<R>(DioError e) {
     final errorResponse = e.response;
-    CustomLogger(isEnabled: isEnableLogger).printError(e.message);
+    CustomLogger(isEnabled: isEnableLogger ?? false, data: e.message ?? '');
     var error = ErrorModel<E>(
         description: e.message,
         statusCode: errorResponse != null ? errorResponse.statusCode : HttpStatus.internalServerError);
@@ -275,7 +275,7 @@ class NetworkManager<E extends INetworkModel<E>?> with dio.DioMixin implements d
       if (errorModelFromData != null) {
         error = error.copyWith(model: errorModelFromData?.call(data));
       } else {
-        error = error.copyWith(model: errorModel!..fromJson(json));
+        error = error.copyWith(model: errorModel!.fromJson(json));
       }
     }
 

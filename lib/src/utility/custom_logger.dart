@@ -1,16 +1,19 @@
+import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
 
+@immutable
 class CustomLogger {
-  bool? isEnabled;
-  final Logger _logger = Logger();
+  final bool isEnabled;
+  final String data;
   CustomLogger({
-    required this.isEnabled,
-  });
+    this.isEnabled = false,
+    required this.data,
+  }) {
+    _printError(data);
+  }
 
-  void printError(String data) {
-    if (isEnabled ?? false) {
-      _logger.e(data);
-    }
-    return;
+  void _printError(String data) {
+    if (!isEnabled) return;
+    Logger().e(data);
   }
 }
