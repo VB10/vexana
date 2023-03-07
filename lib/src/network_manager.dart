@@ -40,7 +40,7 @@ class NetworkManager<E extends INetworkModel<E>?> with dio.DioMixin implements d
       this.errorModelFromData,
       this.noNetwork}) {
     this.options = options;
-    (transformer as dio.BackgroundTransformer).jsonDecodeCallback = _decodeBody;
+    // (transformer as dio.BackgroundTransformer).jsonDecodeCallback = _decodeBody;
     if (skippingSSLCertificate) ssl.createAdapter().make();
 
     _addLoggerInterceptor(isEnableLogger ?? false);
