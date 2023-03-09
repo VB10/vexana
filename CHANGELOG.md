@@ -1,4 +1,8 @@
-# [3.4.0] - 21/02/2023
+## [3.4.1] - 21/02/2023
+
+- Removed custom parser code from generic parsing.
+
+## [3.4.0] - 21/02/2023
 
 - Dio package updated to 5.0.0
 - Added some fixes with coding improvement.
