@@ -8,8 +8,8 @@ dynamic _decodeBody(String body) async {
   return await compute(_parseAndDecode, body);
 }
 
-extension _CoreServiceExtension on NetworkManager {
-  dynamic _getBodyModel(dynamic data) {
+mixin CoreServiceMixin {
+  dynamic getBodyModel(dynamic data) {
     if (data is IFormDataModel) {
       return data.toFormData();
     } else if (data is INetworkModel) {
@@ -21,9 +21,13 @@ extension _CoreServiceExtension on NetworkManager {
     }
   }
 
-  R? _parseBody<R, T extends INetworkModel>(dynamic responseBody, T model) {
+  R? parseBody<R, T extends INetworkModel>(dynamic responseBody, T model, bool? isEnableLogger) {
     try {
       if (responseBody is List) {
+        if (model is EmptyModel) {
+          return responseBody.map((e) => EmptyModel(name: e.toString())).toList() as R;
+        }
+
         return responseBody.map((data) => model.fromJson(data)).cast<T>().toList() as R;
       } else if (responseBody is Map<String, dynamic>) {
         return model.fromJson(responseBody) as R;

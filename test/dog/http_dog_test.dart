@@ -17,11 +17,16 @@ main() {
           baseUrl: 'https://hwasampleapi.firebaseio.com',
         ));
   });
-  test('Primitve Type', () async {
-    final response = await networkManager.send<EmptyModel, EmptyModel>(
-        '/dogs/0/code.json',
-        parseModel: EmptyModel(),
-        method: RequestType.GET);
+  test('Primitive Type', () async {
+    final response = await networkManager.send<EmptyModel, EmptyModel>('/dogs/0/code.json',
+        parseModel: EmptyModel(), method: RequestType.GET);
+
+    expect(response.data, isNotNull);
+  });
+
+  test('Primitive List Type', () async {
+    final response = await networkManager.send<EmptyModel, List<EmptyModel>>('/dogs.json',
+        parseModel: EmptyModel(), method: RequestType.GET);
 
     expect(response.data, isNotNull);
   });

@@ -1,36 +1,37 @@
+import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
+
 import '../interface/INetworkModel.dart';
 
-class EmptyModel extends INetworkModel<EmptyModel> {
-  String? name;
+@immutable
+class EmptyModel extends INetworkModel<EmptyModel> with EquatableMixin {
+  final String? name;
 
-  EmptyModel({this.name});
+  EmptyModel({
+    this.name,
+  });
 
-  EmptyModel.fromJson(Map<String, dynamic>? json) {
-    if (json == null) {
-      return;
-    }
-    name = json['name'] as String?;
+  @override
+  List<Object?> get props => [name];
+
+  EmptyModel copyWith({
+    String? name,
+  }) {
+    return EmptyModel(
+      name: name ?? this.name,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+    };
   }
 
   @override
-  Map<String, Object> toJson() {
-    final data = <String, Object>{};
-    data['name'] = name ?? '';
-    return data;
+  EmptyModel fromJson(Map<String, dynamic> json) {
+    return EmptyModel(
+      name: json['name'] as String?,
+    );
   }
-
-  @override
-  EmptyModel fromJson(Map<String, dynamic>? json) {
-    return EmptyModel.fromJson(json);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is EmptyModel && other.name == name;
-  }
-
-  @override
-  int get hashCode => name.hashCode;
 }

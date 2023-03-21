@@ -26,7 +26,9 @@ part 'operation/network_wrapper.dart';
 /// Example:
 /// [NetworkManager(isEnableLogger: true, errorModel: UserErrorModel(),]
 /// [options: BaseOptions(baseUrl: "https://jsonplaceholder.typicode.com/"));]
-class NetworkManager<E extends INetworkModel<E>?> with dio.DioMixin implements dio.Dio, INetworkManager<E> {
+class NetworkManager<E extends INetworkModel<E>?>
+    with dio.DioMixin, CoreServiceMixin
+    implements dio.Dio, INetworkManager<E> {
   NetworkManager(
       {required BaseOptions options,
       this.isEnableLogger,
@@ -155,7 +157,7 @@ class NetworkManager<E extends INetworkModel<E>?> with dio.DioMixin implements d
     }
     options ??= Options();
     options.method = method.stringValue;
-    final body = _getBodyModel(data);
+    final body = getBodyModel(data);
 
     try {
       final response = await request(
@@ -215,7 +217,7 @@ class NetworkManager<E extends INetworkModel<E>?> with dio.DioMixin implements d
     options.followRedirects = false;
     options.responseType = ResponseType.bytes;
 
-    final body = _getBodyModel(data);
+    final body = getBodyModel(data);
 
     final response = await request<List<int>>(
       path,
@@ -249,7 +251,7 @@ class NetworkManager<E extends INetworkModel<E>?> with dio.DioMixin implements d
   }
 
   ResponseModel<R, E> _getResponseResult<T extends INetworkModel, R>(dynamic data, T parserModel) {
-    final model = _parseBody<R, T>(data, parserModel);
+    final model = parseBody<R, T>(data, parserModel, isEnableLogger);
 
     return ResponseModel<R, E>(data: model);
   }

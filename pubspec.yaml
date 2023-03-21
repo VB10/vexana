@@ -10,19 +10,14 @@ environment:
 
 dependencies:
   collection: ^1.15.0
-
-  # Core
+  connectivity_plus: ^2.3.5
   dio: ^5.0.0
+  equatable: ^2.0.5
   flutter:
     sdk: flutter
   logger: ^1.0.0
-  connectivity_plus: ^2.3.5
   lottie: ^2.1.0
-
-  # Database
   path_provider: ^2.0.1
-
-  # Utility
   retry: ^3.1.0
   sembast: ^3.3.1+1
   sembast_web: ^2.0.1+1
