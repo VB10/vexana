@@ -1,11 +1,11 @@
 import 'dart:async';
 
+import 'package:dio/dio.dart';
+
 import '../../vexana.dart';
 
-extension NetworkErrorManager<E extends INetworkModel<E>?>
-    on NetworkManager<E> {
-  Future<IResponseModel<R?, E?>>
-      handleNetworkError<T extends INetworkModel<T>, R>(
+extension NetworkErrorManager<E extends INetworkModel<E>?> on NetworkManager<E> {
+  Future<IResponseModel<R?, E?>> handleNetworkError<T extends INetworkModel<T>, R>(
     String path, {
     required T parseModel,
     required RequestType method,
@@ -18,8 +18,8 @@ extension NetworkErrorManager<E extends INetworkModel<E>?>
     bool isErrorDialog = false,
     CancelToken? cancelToken,
     bool? forceUpdateDecode,
-    required DioError error,
-    required ResponseModel<R?, E> Function(DioError e) onError,
+    required DioException error,
+    required ResponseModel<R?, E> Function(DioException e) onError,
   }) async {
     if (!isErrorDialog || noNetworkTryCount == maxCount) {
       noNetworkTryCount = null;

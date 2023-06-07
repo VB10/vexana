@@ -48,10 +48,10 @@ class NetworkManager<E extends INetworkModel<E>?> with dio.DioMixin implements d
     httpClientAdapter = adapter.createAdapter();
   }
 
-  /// [Future<DioError> Function(DioError error, NetworkManager newService)] of retry service request with new instance
+  /// [Future<DioException> Function(DioException error, NetworkManager newService)] of retry service request with new instance
   ///
   /// Default value function is null until to define your business.
-  Future<DioError> Function(DioError error, NetworkManager newService)? onRefreshToken;
+  Future<dio.DioException> Function(dio.DioException error, NetworkManager newService)? onRefreshToken;
 
   /// [VoidCallback?] has send error if it has [onRefreshToken] callback after has problem.
   ///
@@ -179,7 +179,7 @@ class NetworkManager<E extends INetworkModel<E>?> with dio.DioMixin implements d
       } else {
         return ResponseModel(error: ErrorModel(description: response.data.toString()));
       }
-    } on DioError catch (error) {
+    } on dio.DioException catch (error) {
       return handleNetworkError<T, R>(path,
           cancelToken: cancelToken,
           data: data,
@@ -254,7 +254,7 @@ class NetworkManager<E extends INetworkModel<E>?> with dio.DioMixin implements d
     return ResponseModel<R, E>(data: model);
   }
 
-  ResponseModel<R, E> _onError<R>(DioError e) {
+  ResponseModel<R, E> _onError<R>(dio.DioException e) {
     final errorResponse = e.response;
     CustomLogger(isEnabled: isEnableLogger ?? false, data: e.message ?? '');
     var error = ErrorModel<E>(
