@@ -8,7 +8,7 @@ extension _CoreServiceWrapperExtension on NetworkManager {
 
   QueuedInterceptorsWrapper _onErrorWrapper() {
     return QueuedInterceptorsWrapper(
-      onError: (DioError e, ErrorInterceptorHandler handler) async {
+      onError: (dio.DioException e, ErrorInterceptorHandler handler) async {
         final errorResponse = e.response;
         if (errorResponse == null) {
         } else {
@@ -26,7 +26,7 @@ extension _CoreServiceWrapperExtension on NetworkManager {
                 ),
                 maxAttempts: maxCount,
                 retryIf: (e) {
-                  return e is TimeoutException || e is DioError;
+                  return e is TimeoutException || e is dio.DioException;
                 },
               );
               return handler.resolve(response);

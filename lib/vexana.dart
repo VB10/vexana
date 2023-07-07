@@ -1,7 +1,7 @@
 library vexana;
 
 export 'package:dio/src/cancel_token.dart';
-export 'package:dio/src/dio_error.dart';
+export 'package:dio/src/dio_exception.dart';
 export 'package:dio/src/dio_mixin.dart';
 export 'package:dio/src/form_data.dart';
 export 'package:dio/src/multipart_file.dart';
