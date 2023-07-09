@@ -2,10 +2,11 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 
-import '../../interface/index.dart';
-import '../../model/index.dart';
+import 'package:vexana/src/interface/index.dart';
+import 'package:vexana/src/model/index.dart';
 part 'file.dart';
 
 IFileManager createFileAdapter() => _LocalFileIO();
@@ -23,8 +24,8 @@ class _LocalFileIO extends IFileManager {
     if (time == null) {
       return false;
     } else {
-      final _localModel = LocalModel(model: model, time: DateTime.now().add(time));
-      await _fileManager.writeLocalModelInFile(key, _localModel);
+      final localModel = LocalModel(model: model, time: DateTime.now().add(time));
+      await _fileManager.writeLocalModelInFile(key, localModel);
       return true;
     }
   }
