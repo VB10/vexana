@@ -9,7 +9,7 @@ import 'file_download_model.dart';
 void main() {
   late INetworkManager networkManager;
   setUp(() {
-    networkManager = NetworkManager<void>(
+    networkManager = NetworkManager<EmptyModel>(
       isEnableLogger: true,
       options: BaseOptions(baseUrl: 'http://www.africau.edu/images/default/'),
     );

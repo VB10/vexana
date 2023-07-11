@@ -63,7 +63,7 @@ void main() {
   });
 
   test('Json Place Sembast Database Test Holder Todos', () async {
-    networkManager = NetworkManager<void>(
+    networkManager = NetworkManager<EmptyModel>(
       fileManager: LocalSembast(),
       isEnableLogger: true,
       options: BaseOptions(baseUrl: 'https://jsonplaceholder.typicode.com/'),

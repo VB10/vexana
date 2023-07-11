@@ -38,16 +38,18 @@ extension _CoreServiceExtension on NetworkManager {
           return EmptyModel(name: responseBody.toString()) as R;
         } else {
           CustomLogger(
-              isEnabled: isEnableLogger ?? false,
-              data: 'Be careful your data $responseBody, I could not parse it');
+            isEnabled: isEnableLogger ?? false,
+            data: 'Be careful your data $responseBody, I could not parse it',
+          );
           return null;
         }
       }
     } catch (e) {
       CustomLogger(
-          isEnabled: isEnableLogger ?? false,
-          data:
-              'Parse Error: $e - response body: $responseBody T model: $T , R model: $R ');
+        isEnabled: isEnableLogger ?? false,
+        data:
+            'Parse Error: $e - response body: $responseBody T model: $T , R model: $R ',
+      );
     }
     return null;
   }
