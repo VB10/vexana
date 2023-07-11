@@ -4,26 +4,14 @@ IFileManager createFileAdapter() => _LocalFileWeb();
 
 class _LocalFileWeb extends IFileManager {
   @override
-  Future<String?> getUserRequestDataOnString(String key) {
-    // TODO: implement getUserRequestDataOnString
-    throw UnimplementedError();
-  }
+  Future<String?> getUserRequestDataOnString(String key) => throw UnimplementedError();
 
   @override
-  Future<bool> removeUserRequestCache(String key) {
-    // TODO: implement removeUserRequestCache
-    throw UnimplementedError();
-  }
+  Future<bool> removeUserRequestCache(String key) => throw UnimplementedError();
 
   @override
-  Future<bool> removeUserRequestSingleCache(String key) {
-    // TODO: implement removeUserRequestSingleCache
-    throw UnimplementedError();
-  }
+  Future<bool> removeUserRequestSingleCache(String key) => throw UnimplementedError();
 
   @override
-  Future<bool> writeUserRequestDataWithTime(String key, String model, Duration? time) {
-    // TODO: implement writeUserRequestDataWithTime
-    throw UnimplementedError();
-  }
+  Future<bool> writeUserRequestDataWithTime(String key, String model, Duration? time) => throw UnimplementedError();
 }

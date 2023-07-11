@@ -1,7 +1,4 @@
 import 'dart:async';
-
-import 'package:dio/dio.dart';
-
 import '../../vexana.dart';
 
 extension NetworkErrorManager<E extends INetworkModel<E>?> on NetworkManager<E> {
