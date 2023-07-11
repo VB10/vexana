@@ -24,7 +24,13 @@ extension _CoreServiceExtension on NetworkManager {
   R? _parseBody<R, T extends INetworkModel>(dynamic responseBody, T model) {
     try {
       if (responseBody is List) {
-        return responseBody.map((data) => model.fromJson(data)).cast<T>().toList() as R;
+        return responseBody
+            .map(
+              (data) =>
+                  model.fromJson(data is Map<String, dynamic> ? data : {}),
+            )
+            .cast<T>()
+            .toList() as R;
       } else if (responseBody is Map<String, dynamic>) {
         return model.fromJson(responseBody) as R;
       } else {
@@ -32,14 +38,16 @@ extension _CoreServiceExtension on NetworkManager {
           return EmptyModel(name: responseBody.toString()) as R;
         } else {
           CustomLogger(
-              isEnabled: isEnableLogger ?? false, data: 'Be careful your data $responseBody, I could not parse it');
+              isEnabled: isEnableLogger ?? false,
+              data: 'Be careful your data $responseBody, I could not parse it');
           return null;
         }
       }
     } catch (e) {
       CustomLogger(
           isEnabled: isEnableLogger ?? false,
-          data: 'Parse Error: $e - response body: $responseBody T model: $T , R model: $R ');
+          data:
+              'Parse Error: $e - response body: $responseBody T model: $T , R model: $R ');
     }
     return null;
   }

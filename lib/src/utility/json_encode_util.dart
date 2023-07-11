@@ -8,8 +8,8 @@ import 'package:logger/logger.dart';
 /// This class will help json encode operation with safety
 
 @immutable
-class JsonEncodeUtil {
-  const JsonEncodeUtil._();
+final class JsonDecodeUtil {
+  const JsonDecodeUtil._();
 
   /// Decode your [jsonString] value or null
   static dynamic safeJsonDecode(String jsonString) {

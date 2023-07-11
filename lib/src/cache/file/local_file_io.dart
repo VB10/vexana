@@ -7,6 +7,8 @@ import 'package:path_provider/path_provider.dart';
 
 import 'package:vexana/src/interface/index.dart';
 import 'package:vexana/src/model/index.dart';
+
+import 'package:vexana/src/utility/json_encode_util.dart';
 part 'file.dart';
 
 IFileManager createFileAdapter() => _LocalFileIO();
@@ -20,11 +22,16 @@ class _LocalFileIO extends IFileManager {
   }
 
   @override
-  Future<bool> writeUserRequestDataWithTime(String key, String model, Duration? time) async {
+  Future<bool> writeUserRequestDataWithTime(
+    String key,
+    String model,
+    Duration? time,
+  ) async {
     if (time == null) {
       return false;
     } else {
-      final localModel = LocalModel(model: model, time: DateTime.now().add(time));
+      final localModel =
+          LocalModel(model: model, time: DateTime.now().add(time));
       await _fileManager.writeLocalModelInFile(key, localModel);
       return true;
     }

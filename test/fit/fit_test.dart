@@ -16,8 +16,8 @@ main() {
 
   test('Primitve Type', () async {
     final response =
-        await networkManager?.send<QuatesModel, List<QuatesModel>>('api/quotes',
-            parseModel: QuatesModel(),
+        await networkManager?.send<QuotesModel, List<QuotesModel>>('api/quotes',
+            parseModel: QuotesModel(),
             method: RequestType.GET,
             forceUpdateDecode: true,
             options: Options(

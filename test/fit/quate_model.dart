@@ -1,26 +1,25 @@
 import 'package:vexana/src/interface/INetworkModel.dart';
 
-class QuatesModel extends INetworkModel<QuatesModel> {
+class QuotesModel extends INetworkModel<QuotesModel> {
+  QuotesModel({this.text, this.author});
+
+  QuotesModel.fromJson(Map<String, dynamic> json) {
+    text = json['text'] is String ? json['text'] as String : '';
+    author = json['author'] is String ? json['author'] as String : '';
+  }
   String? text;
   String? author;
 
-  QuatesModel({this.text, this.author});
-
-  QuatesModel.fromJson(Map<String, dynamic> json) {
-    text = json['text'];
-    author = json['author'];
-  }
-
   @override
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
+    final data = <String, dynamic>{};
     data['text'] = text;
     data['author'] = author;
     return data;
   }
 
   @override
-  QuatesModel fromJson(Map<String, dynamic> json) {
-    return QuatesModel.fromJson(json);
+  QuotesModel fromJson(Map<String, dynamic> json) {
+    return QuotesModel.fromJson(json);
   }
 }

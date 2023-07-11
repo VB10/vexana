@@ -7,7 +7,7 @@ import 'model/post.dart';
 abstract class JsonPlaceHolderViewModel extends State<JsonPlaceHolder> {
   List<Post> posts = [];
 
-  INetworkManager networkManager;
+  late INetworkManager<Post> networkManager;
 
   bool isLoading = false;
 
@@ -33,10 +33,13 @@ abstract class JsonPlaceHolderViewModel extends State<JsonPlaceHolder> {
   Future<void> getAllPosts() async {
     changeLoading();
     final response = await networkManager.send<Post, List<Post>>('/posts',
-        parseModel: Post(), method: RequestType.GET, isErrorDialog: true, expiration: const Duration(seconds: 1));
+        parseModel: Post(),
+        method: RequestType.GET,
+        isErrorDialog: true,
+        expiration: const Duration(seconds: 1));
 
     if (response.data is List) {
-      posts = response.data;
+      posts = response.data ?? [];
     }
 
     changeLoading();
@@ -55,8 +58,8 @@ abstract class JsonPlaceHolderViewModel extends State<JsonPlaceHolder> {
 }
 
 class NoNetworkSample extends StatelessWidget {
-  const NoNetworkSample({Key key, this.onPressed}) : super(key: key);
-  final VoidCallback onPressed;
+  const NoNetworkSample({super.key, this.onPressed});
+  final VoidCallback? onPressed;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -64,9 +67,10 @@ class NoNetworkSample extends StatelessWidget {
         const Text('sample'),
         TextButton(
           onPressed: () {
-            onPressed.call();
+            onPressed?.call();
             Navigator.of(context).pop();
           },
+          child: const Text('data'),
         )
       ],
     );
