@@ -1,4 +1,10 @@
-# [3.4.3] - 21/02/2023
+# [3.5.0] - 21/02/2023
+
+- Updated some packages
+- Package minimum target to dart3
+- Fixed issue primitive error parse
+
+## [3.4.3] - 21/02/2023
 
 - Dio package updated to 5.2.0
 - Fixed dio error instance

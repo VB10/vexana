@@ -1,61 +1,81 @@
 part of 'local_file_io.dart';
 
-class _FileManager {
+@immutable
+final class _FileManager {
+  const _FileManager._init();
   final String fileName = 'fireball.json';
   static _FileManager? _instance;
-  _FileManager._init();
 
+  /// The `static _FileManager get instance` is a getter method that returns an instance of the
+  /// `_FileManager` class. It follows the singleton design pattern, which ensures that only one
+  /// instance of the class is created and shared across the application.
   static _FileManager get instance {
-    return _instance ??= _FileManager._init();
+    return _instance ??= const _FileManager._init();
   }
 
+  /// The function returns the path to the documents directory.
   Future<Directory> documentsPath() async {
     final tempPath = (await getApplicationDocumentsDirectory()).path;
     return Directory(tempPath).create();
   }
 
-  Future<String> filePath() async {
+  /// The `_documentFilePath()` function returns the path to the file.
+  /// File path is relative to the documents directory.
+  Future<String> _documentFilePath() async {
     final path = (await documentsPath()).path;
     return '$path/$fileName';
   }
 
+  /// The getFile function returns a Future object that represents a file.
+  /// File is application documents directory.
   Future<File> getFile() async {
-    final _filePath = await filePath();
-    final userDocumentFile = File(_filePath);
+    final filePath = await _documentFilePath();
+    final userDocumentFile = File(filePath);
     return userDocumentFile;
   }
 
-  Future<Map?> fileReadAllData() async {
-    try {
-      var _filePath = await filePath();
-      var userDocumentFile = File(_filePath);
-      final data = await userDocumentFile.readAsString();
-      final jsonData = jsonDecode(data);
+  /// The function fileReadAllData reads all data from a file and returns it as a Map.
+  /// If the file does not exist, it returns null.
+  /// If the file is empty, it returns an empty Map.
+  /// If the file contains data, it returns a Map with the data.
+  /// If the file contains invalid data, it returns null.
+  Future<Map<String, dynamic>?> fileReadAllData() async {
+    final filePath = await _documentFilePath();
+    final userDocumentFile = File(filePath);
+    final data = await userDocumentFile.readAsString();
+    final jsonData = JsonDecodeUtil.safeJsonDecode(data);
 
-      return jsonData;
-    } catch (e) {
-      return null;
-    }
+    if (jsonData == null) return null;
+    if (jsonData is Map<String, dynamic>) return jsonData;
+    return null;
   }
 
+/// The `writeLocalModelInFile` function is responsible for writing a `LocalModel` object to a file. It
+/// takes two parameters: `key`, which is a unique identifier for the data, and `local`, which is an
+/// instance of the `LocalModel` class.
   Future<File> writeLocalModelInFile(String key, LocalModel local) async {
-    final _filePath = await filePath();
+    final filePath = await _documentFilePath();
     final sample = local.toJson();
     final model = <String, dynamic>{key: sample};
 
     final oldData = await fileReadAllData();
-    model.addAll(oldData as Map<String, dynamic>? ?? {});
+    model.addAll(oldData ?? {});
     final newLocalData = jsonEncode(model);
 
-    final userDocumentFile = File(_filePath);
-    return await userDocumentFile.writeAsString(newLocalData, flush: true, mode: FileMode.write);
+    final userDocumentFile = File(filePath);
+    return userDocumentFile.writeAsString(newLocalData, flush: true);
   }
 
+ /// The `readOnlyKeyData` function is responsible for retrieving data from a file based on a given key.
+ /// It takes a `key` parameter, which is a unique identifier for the data.
   Future<String?> readOnlyKeyData(String key) async {
-    final datas = await fileReadAllData();
-    if (datas != null && datas[key] != null) {
-      final model = datas[key] ?? {};
+    final fileItems = await fileReadAllData();
+    if (fileItems != null && fileItems.isNotEmpty && fileItems[key] != null) {
+      final model = fileItems[key];
+
+      if (model is! Map<String, dynamic>) return null;
       final item = LocalModel.fromJson(model);
+
       if (DateTime.now().isBefore(item.time!)) {
         return item.model;
       } else {
@@ -72,20 +92,19 @@ class _FileManager {
     if (tempDirectory == null) {
       return null;
     }
-    final _key = tempDirectory.keys.isNotEmpty ? tempDirectory.keys.singleWhereOrNull((element) => element == key) : '';
-    tempDirectory.remove(_key);
-    final _filePath = await filePath();
-    final userDocumentFile = File(_filePath);
-    return await userDocumentFile.writeAsString(
+    final key0 = tempDirectory.keys.isNotEmpty ? tempDirectory.keys.singleWhereOrNull((element) => element == key) : '';
+    tempDirectory.remove(key0);
+    final filePath = await _documentFilePath();
+    final userDocumentFile = File(filePath);
+    return userDocumentFile.writeAsString(
       jsonEncode(tempDirectory),
       flush: true,
-      mode: FileMode.write,
     );
   }
 
   /// Remove old [Directory].
-  Future clearAllDirectoryItems() async {
-    var tempDirectory = (await documentsPath());
+  Future<void> clearAllDirectoryItems() async {
+    final tempDirectory = await documentsPath();
     await tempDirectory.delete(recursive: true);
   }
 }

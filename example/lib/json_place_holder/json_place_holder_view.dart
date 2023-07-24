@@ -19,7 +19,7 @@ class JsonPlaceHolderView extends JsonPlaceHolderViewModel {
   ListView buildListView() {
     return ListView.builder(
       itemCount: posts.length,
-      itemBuilder: (context, index) => Text(posts[index].title),
+      itemBuilder: (context, index) => Text(posts[index].title ?? ''),
     );
   }
 

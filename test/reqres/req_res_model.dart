@@ -1,6 +1,32 @@
 import 'package:vexana/vexana.dart';
 
 class ReqResModel extends INetworkModel<ReqResModel> {
+  ReqResModel({
+    this.page,
+    this.perPage,
+    this.total,
+    this.totalPages,
+    this.data,
+    this.support,
+  });
+
+  ReqResModel.fromJson(Map<String, dynamic> json) {
+    page = json['page'] is int ? json['page'] as int : 0;
+    perPage = json['per_page'] is int ? json['per_page'] as int : 0;
+    total = json['total'] is int ? json['total'] as int : 0;
+    totalPages = json['total_pages'] is int ? json['total_pages'] as int : 0;
+    if (json['data'] != null) {
+      data = <Data>[];
+      json['data'].forEach((v) {
+        if (v is Map<String, dynamic>) {
+          data?.add(Data.fromJson(v));
+        }
+      });
+    }
+    support = json['support'] is Map<String, dynamic>
+        ? Support.fromJson(json['support'] as Map<String, dynamic>)
+        : null;
+  }
   int? page;
   int? perPage;
   int? total;
@@ -8,34 +34,18 @@ class ReqResModel extends INetworkModel<ReqResModel> {
   List<Data>? data;
   Support? support;
 
-  ReqResModel({this.page, this.perPage, this.total, this.totalPages, this.data, this.support});
-
-  ReqResModel.fromJson(Map<String, dynamic> json) {
-    page = json['page'];
-    perPage = json['per_page'];
-    total = json['total'];
-    totalPages = json['total_pages'];
-    if (json['data'] != null) {
-      data = <Data>[];
-      json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
-      });
-    }
-    support = json['support'] != null ? new Support.fromJson(json['support']) : null;
-  }
-
   @override
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['page'] = this.page;
-    data['per_page'] = this.perPage;
-    data['total'] = this.total;
-    data['total_pages'] = this.totalPages;
+    final data = <String, dynamic>{};
+    data['page'] = page;
+    data['per_page'] = perPage;
+    data['total'] = total;
+    data['total_pages'] = totalPages;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
-    if (this.support != null) {
-      data['support'] = this.support!.toJson();
+    if (support != null) {
+      data['support'] = support!.toJson();
     }
     return data;
   }
@@ -47,48 +57,47 @@ class ReqResModel extends INetworkModel<ReqResModel> {
 }
 
 class Data {
+  Data({this.id, this.email, this.firstName, this.lastName, this.avatar});
+
+  Data.fromJson(Map<String, dynamic> json) {
+    id = json['id'] is int ? json['id'] as int : 0;
+    email = json['email'] is String ? json['email'] as String : '';
+    firstName =
+        json['first_name'] is String ? json['first_name'] as String : '';
+    lastName = json['last_name'] is String ? json['last_name'] as String : '';
+    avatar = json['avatar'] is String ? json['avatar'] as String : '';
+  }
   int? id;
   String? email;
   String? firstName;
   String? lastName;
   String? avatar;
 
-  Data({this.id, this.email, this.firstName, this.lastName, this.avatar});
-
-  Data.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    email = json['email'];
-    firstName = json['first_name'];
-    lastName = json['last_name'];
-    avatar = json['avatar'];
-  }
-
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['email'] = this.email;
-    data['first_name'] = this.firstName;
-    data['last_name'] = this.lastName;
-    data['avatar'] = this.avatar;
+    final data = <String, dynamic>{};
+    data['id'] = id;
+    data['email'] = email;
+    data['first_name'] = firstName;
+    data['last_name'] = lastName;
+    data['avatar'] = avatar;
     return data;
   }
 }
 
 class Support {
-  String? url;
-  String? text;
-
   Support({this.url, this.text});
 
   Support.fromJson(Map<String, dynamic> json) {
-    url = json['url'];
-    text = json['text'];
+    url = json['url'] is String ? json['url'] as String : '';
+    text = json['text'] is String ? json['text'] as String : '';
   }
+  String? url;
+  String? text;
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['url'] = this.url;
-    data['text'] = this.text;
+    final data = <String, dynamic>{};
+    data['url'] = url;
+    data['text'] = text;
     return data;
   }
 }
