@@ -1,4 +1,8 @@
-# [3.5.0] - 21/02/2023
+# [3.5.1] - 21/02/2023
+
+- Updated code documentation
+
+## [3.5.0] - 21/02/2023
 
 - Updated some packages
 - Package minimum target to dart3
