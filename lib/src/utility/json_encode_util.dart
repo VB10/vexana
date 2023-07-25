@@ -34,3 +34,18 @@ final class JsonDecodeUtil {
     }
   }
 }
+
+extension on String {
+  /// Decode your [jsonString] value with safety
+  Future<dynamic> safeJsonDecode() async {
+    try {
+      return await compute<String, dynamic>(
+        jsonDecode,
+        this,
+      );
+    } catch (e) {
+      Logger().e('Json decode error');
+      return null;
+    }
+  }
+}
