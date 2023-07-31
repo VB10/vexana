@@ -11,8 +11,8 @@ void main() {
       isEnableLogger: true,
       // onRefreshFail: () {  Navigate to login },
       onRefreshToken: (error, newService) async {
-        // final refreshToken = await newService.send<Credantial, Credantial>("/token",
-        //     parseModel: Credantial(), method: RequestType.GET);
+        // final refreshToken = await newService.send<Credential, Credential>("/token",
+        //     parseModel: Credential(), method: RequestType.GET);
         // error.request.headers = {HttpHeaders.authorizationHeader: "Bearer ${refreshToken.data.token}"};
         return error;
       },
