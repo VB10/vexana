@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io' if (dart.library.html) 'dart:html';
 
 import 'package:dio/dio.dart' as dio;
+import 'package:dio/dio.dart';
 import 'package:dio/src/adapters/io_adapter.dart'
     if (dart.library.html) 'package:dio/src/adapters/browser_adapter.dart'
     as adapter;
@@ -30,7 +31,33 @@ part 'operation/network_wrapper.dart';
 /// [options: BaseOptions(baseUrl: "https://jsonplaceholder.typicode.com/"));]
 class NetworkManager<E extends INetworkModel<E>?>
     with dio.DioMixin
-    implements dio.Dio, INetworkManager<E> {
+    implements INetworkManager<E> {
+  /// The NetworkManager constructor initializes various properties and sets up interceptors for logging and network requests.
+  ///
+  /// Args:
+  ///   options (BaseOptions): The `options` parameter is of type `BaseOptions` and is required. It contains the base
+  /// configuration options for the network requests, such as the base URL, headers, and timeout.
+  ///   : - `options`: Required parameter of type `BaseOptions` that contains the base configuration options for the network
+  /// manager.
+  ///   interceptor (dio): The `interceptor` parameter is an optional `dio.Interceptor` object that allows you to add custom
+  /// interceptors to the network requests. Interceptors can be used to modify the request or response before they are sent or
+  /// received.
+  ///   : - `options`: Required parameter of type `BaseOptions` that contains the base configuration options for the network
+  /// manager.
+  ///   : - `options`: Required parameter of type `BaseOptions` that contains the base configuration options for the network
+  /// manager.
+  ///   : - `options`: Required parameter of type `BaseOptions` that contains the base configuration options for the network
+  /// manager.
+  ///   : - `options`: Required parameter of type `BaseOptions` that contains the base configuration options for the network
+  /// manager.
+  ///   : - `options`: Required parameter of type `BaseOptions` that contains the base configuration options for the network
+  /// manager. Defaults to false
+  ///   : - `options`: Required parameter of type `BaseOptions` that contains the base configuration options for the network
+  /// manager. Defaults to false
+  ///   : - `options`: Required parameter of type `BaseOptions` that contains the base configuration options for the network
+  /// manager.
+  ///   : - `options`: Required parameter of type `BaseOptions` that contains the base configuration options for the network
+  /// manager.
   NetworkManager({
     required BaseOptions options,
     this.isEnableLogger,
@@ -64,7 +91,7 @@ class NetworkManager<E extends INetworkModel<E>?>
   /// [VoidCallback?] has send error if it has [onRefreshToken] callback after has problem.
   ///
   /// Default value function is null work with [onRefreshToken].
-  late VoidEmptyCallBack? onRefreshFail;
+  VoidEmptyCallBack? onRefreshFail;
 
   /// [int?] retry maximum count at refresh function.
   final int maxCount = 3;
@@ -73,7 +100,7 @@ class NetworkManager<E extends INetworkModel<E>?>
   ///
   /// Example keep your data in json file:
   /// [NetworkManager(fileManager: LocalFile())]
-  late IFileManager? fileManager;
+  IFileManager? fileManager;
 
   /// [INetworkModel?] is response model for every request.
   ///
@@ -108,7 +135,7 @@ class NetworkManager<E extends INetworkModel<E>?>
   @override
 
   /// [bool] clear all cache on network manager.
-  Future<bool> removeAllCache() async => await _removeAllCache();
+  Future<bool> removeAllCache() async => _removeAllCache();
 
   @override
   //  Add key,value from base request.
@@ -352,5 +379,30 @@ class NetworkManager<E extends INetworkModel<E>?>
       options: dio.Options(headers: headers),
     );
     return response.data;
+  }
+
+  @override
+  Future<dio.Response> download(
+    String urlPath,
+    savePath, {
+    dio.ProgressCallback? onReceiveProgress,
+    Map<String, dynamic>? queryParameters,
+    dio.CancelToken? cancelToken,
+    bool deleteOnError = true,
+    String lengthHeader = Headers.contentLengthHeader,
+    Object? data,
+    dio.Options? options,
+  }) {
+    return this.download(
+      urlPath,
+      savePath,
+      onReceiveProgress: onReceiveProgress,
+      queryParameters: queryParameters,
+      cancelToken: cancelToken,
+      deleteOnError: deleteOnError,
+      lengthHeader: lengthHeader,
+      data: data,
+      options: options,
+    );
   }
 }
