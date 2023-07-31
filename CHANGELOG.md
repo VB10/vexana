@@ -1,4 +1,9 @@
-# [3.5.1] - 21/02/2023
+# [3.5.2] - 21/02/2023
+
+- Dio package update 3.5.2
+- Added some documentation with fix some issues.
+
+## [3.5.1] - 21/02/2023
 
 - Updated code documentation
 
