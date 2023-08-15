@@ -313,7 +313,12 @@ class NetworkManager<E extends INetworkModel<E>?>
   ) {
     final model = _parseBody<R, T>(data, parserModel);
 
-    return ResponseModel<R, E>(data: model);
+    return ResponseModel<R, E>(
+      data: model,
+      error: model == null
+          ? ErrorModel(description: 'Null is returned after parsing a model $T')
+          : null,
+    );
   }
 
   ResponseModel<R, E> _onError<R>(dio.DioException e) {
