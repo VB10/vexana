@@ -17,10 +17,14 @@ extension _CoreServiceExtension on NetworkManager {
   /// type. It is used as input to determine the type of data and convert it accordingly.
   ///
   /// Returns:
-  ///   The method `_getBodyModel` returns a dynamic value. The specific value that is returned depends on
-  /// the type of the `data` parameter. If `data` is an instance of `IFormDataModel`, the method returns
-  /// the result of calling the `toFormData` method on `data`. If `data` is an instance of
-  /// `INetworkModel`, the method returns the result of calling the `
+  ///   The method `_getBodyModel` returns a dynamic value. The specific value
+  /// that is returned depends on the type of the `data` parameter.
+  ///  If `data` is an instance of `IFormDataModel`, the method returns
+  ///  the result of calling the `toFormData` method on `data`.
+  ///  If `data` is an instance of `INetworkModel`,
+  ///  the method returns the result of calling `toJson` method on `data`.
+  ///  If `data` is not null, the method returns the
+  ///  result of calling `jsonEncode` method on `data`.
   dynamic _getBodyModel(dynamic data) {
     if (data is IFormDataModel) {
       return data.toFormData();
