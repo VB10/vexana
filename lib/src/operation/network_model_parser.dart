@@ -46,6 +46,10 @@ extension _CoreServiceExtension on NetworkManager {
   ///   The method returns an object of type R.
   R? _parseBody<R, T extends INetworkModel>(dynamic responseBody, T model) {
     try {
+      if (R is EmptyModel || R == EmptyModel) {
+        return EmptyModel(name: responseBody.toString()) as R;
+      }
+
       if (responseBody is List) {
         return responseBody
             .map(
@@ -53,18 +57,14 @@ extension _CoreServiceExtension on NetworkManager {
             )
             .cast<T>()
             .toList() as R;
-      } else if (responseBody is Map<String, dynamic>) {
+      }
+
+      if (responseBody is Map<String, dynamic>) {
         return model.fromJson(responseBody) as R;
       } else {
-        if (R is EmptyModel || R == EmptyModel) {
-          return EmptyModel(name: responseBody.toString()) as R;
-        } else {
-          CustomLogger(
-            isEnabled: isEnableLogger ?? false,
-            data: 'Be careful your data $responseBody, I could not parse it',
-          );
-          return null;
-        }
+        /// Throwing exception if the response body is not a List or a Map<String, dynamic>.
+        throw Exception(
+            'Response body is not a List or a Map<String, dynamic>');
       }
     } catch (e) {
       CustomLogger(
