@@ -1,15 +1,14 @@
 import 'package:vexana/vexana.dart';
 
-class Credantial extends INetworkModel<Credantial> {
-  String? name;
-  String? token;
+class Credential extends INetworkModel<Credential> {
+  Credential({this.name, this.token});
 
-  Credantial({this.name, this.token});
-
-  Credantial.fromJson(Map<String, dynamic>? json) {
+  Credential.fromJson(Map<String, dynamic>? json) {
     name = json!['name'] as String?;
     token = json['token'] as String?;
   }
+  String? name;
+  String? token;
 
   @override
   Map<String, Object> toJson() {
@@ -20,7 +19,7 @@ class Credantial extends INetworkModel<Credantial> {
   }
 
   @override
-  Credantial fromJson(Map<String, dynamic>? json) {
-    return Credantial.fromJson(json);
+  Credential fromJson(Map<String, dynamic>? json) {
+    return Credential.fromJson(json);
   }
 }
