@@ -4,14 +4,12 @@ import 'dart:io' if (dart.library.html) 'dart:html';
 
 import 'package:dio/dio.dart' as dio;
 import 'package:dio/dio.dart';
-import 'package:dio/src/adapters/io_adapter.dart'
-    if (dart.library.html) 'package:dio/src/adapters/browser_adapter.dart'
+import 'package:dio/src/adapters/io_adapter.dart' if (dart.library.html) 'package:dio/src/adapters/browser_adapter.dart'
     as adapter;
 import 'package:flutter/foundation.dart' show compute;
 import 'package:retry/retry.dart';
 import 'package:vexana/src/feature/ssl/io_custom_override.dart'
-    if (dart.library.html) 'package:vexana/src/feature/ssl/html_custom_override.dart'
-    as ssl;
+    if (dart.library.html) 'package:vexana/src/feature/ssl/html_custom_override.dart' as ssl;
 import 'package:vexana/src/interface/ICallback.dart';
 import 'package:vexana/src/interface/IFileManager.dart';
 import 'package:vexana/src/model/error/file_manager_not_foud.dart';
@@ -29,9 +27,7 @@ part 'operation/network_wrapper.dart';
 /// Example:
 /// [NetworkManager(isEnableLogger: true, errorModel: UserErrorModel(),]
 /// [options: BaseOptions(baseUrl: "https://jsonplaceholder.typicode.com/"));]
-class NetworkManager<E extends INetworkModel<E>?>
-    with dio.DioMixin
-    implements INetworkManager<E> {
+class NetworkManager<E extends INetworkModel<E>?> with dio.DioMixin implements INetworkManager<E> {
   /// The NetworkManager constructor initializes various properties and sets up interceptors for logging and network requests.
   ///
   /// Args:
@@ -204,8 +200,7 @@ class NetworkManager<E extends INetworkModel<E>?>
       );
 
       final responseStatusCode = response.statusCode ?? HttpStatus.notFound;
-      if (responseStatusCode >= HttpStatus.ok &&
-          responseStatusCode <= HttpStatus.multipleChoices) {
+      if (responseStatusCode >= HttpStatus.ok && responseStatusCode <= HttpStatus.multipleChoices) {
         var response0 = response.data;
 
         if ((forceUpdateDecode ?? false) && response0 is String) {
@@ -243,8 +238,7 @@ class NetworkManager<E extends INetworkModel<E>?>
   ) async {
     final response = await dio.Dio().get<List<int>>(
       path,
-      options:
-          Options(followRedirects: false, responseType: ResponseType.bytes),
+      options: Options(followRedirects: true, responseType: ResponseType.bytes),
       onReceiveProgress: callback,
     );
 
@@ -260,9 +254,10 @@ class NetworkManager<E extends INetworkModel<E>?>
     dynamic data,
   }) async {
     options ??= Options();
-    options.method = (method ?? RequestType.GET).stringValue;
-    options.followRedirects = false;
-    options.responseType = ResponseType.bytes;
+    options
+      ..method = (method ?? RequestType.GET).stringValue
+      ..followRedirects = true
+      ..responseType = ResponseType.bytes;
 
     final body = _getBodyModel(data);
 
@@ -315,9 +310,7 @@ class NetworkManager<E extends INetworkModel<E>?>
 
     return ResponseModel<R, E>(
       data: model,
-      error: model == null
-          ? ErrorModel(description: 'Null is returned after parsing a model $T')
-          : null,
+      error: model == null ? ErrorModel(description: 'Null is returned after parsing a model $T') : null,
     );
   }
 
@@ -326,9 +319,7 @@ class NetworkManager<E extends INetworkModel<E>?>
     CustomLogger(isEnabled: isEnableLogger ?? false, data: e.message ?? '');
     var error = ErrorModel<E>(
       description: e.message,
-      statusCode: errorResponse != null
-          ? errorResponse.statusCode
-          : HttpStatus.internalServerError,
+      statusCode: errorResponse != null ? errorResponse.statusCode : HttpStatus.internalServerError,
     );
     if (errorResponse != null) {
       error = _generateErrorModel(error, errorResponse.data);
@@ -353,8 +344,7 @@ class NetworkManager<E extends INetworkModel<E>?>
       if (jsonBody == null || jsonBody is! Map<String, dynamic>) return error;
 
       if (errorModelFromData != null) {
-        generatedError =
-            error.copyWith(model: errorModelFromData?.call(jsonBody));
+        generatedError = error.copyWith(model: errorModelFromData?.call(jsonBody));
       } else {
         generatedError = error.copyWith(model: errorModel!.fromJson(jsonBody));
       }
@@ -364,8 +354,7 @@ class NetworkManager<E extends INetworkModel<E>?>
       final jsonBody = data;
 
       if (errorModelFromData != null) {
-        generatedError =
-            error.copyWith(model: errorModelFromData!.call(jsonBody));
+        generatedError = error.copyWith(model: errorModelFromData!.call(jsonBody));
       } else {
         generatedError = error.copyWith(model: errorModel!.fromJson(jsonBody));
       }

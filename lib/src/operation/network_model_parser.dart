@@ -68,7 +68,8 @@ extension _CoreServiceExtension on NetworkManager {
       } else {
         /// Throwing exception if the response body is not a List or a Map<String, dynamic>.
         throw Exception(
-            'Response body is not a List or a Map<String, dynamic>');
+          'Response body is not a List or a Map<String, dynamic>',
+        );
       }
     } catch (e) {
       CustomLogger(
