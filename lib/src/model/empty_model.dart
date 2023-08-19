@@ -1,4 +1,4 @@
-import '../interface/INetworkModel.dart';
+import 'package:vexana/src/interface/INetworkModel.dart';
 
 class EmptyModel extends INetworkModel<EmptyModel> {
   String? name;

@@ -93,6 +93,6 @@ class _LocalManager {
   /// to remove.
   Future<bool> removeModel(String url) async {
     final pref = await preferences;
-    return await pref.remove(url);
+    return pref.remove(url);
   }
 }

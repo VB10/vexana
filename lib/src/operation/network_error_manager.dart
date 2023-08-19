@@ -1,15 +1,13 @@
 import 'dart:async';
 
-import 'package:dio/dio.dart';
-
-import '../../vexana.dart';
+import 'package:vexana/vexana.dart';
 
 extension NetworkErrorManager<E extends INetworkModel<E>?> on NetworkManager<E> {
   Future<IResponseModel<R?, E?>> handleNetworkError<T extends INetworkModel<T>, R>(
     String path, {
     required T parseModel,
     required RequestType method,
-    String? urlSuffix = '',
+    required DioException error, required ResponseModel<R?, E> Function(DioException e) onError, String? urlSuffix = '',
     Map<String, dynamic>? queryParameters,
     Options? options,
     Duration? expiration,
@@ -18,8 +16,6 @@ extension NetworkErrorManager<E extends INetworkModel<E>?> on NetworkManager<E> 
     bool isErrorDialog = false,
     CancelToken? cancelToken,
     bool? forceUpdateDecode,
-    required DioException error,
-    required ResponseModel<R?, E> Function(DioException e) onError,
   }) async {
     if (!isErrorDialog || noNetworkTryCount == maxCount) {
       noNetworkTryCount = null;
@@ -27,26 +23,26 @@ extension NetworkErrorManager<E extends INetworkModel<E>?> on NetworkManager<E> 
     }
 
     noNetworkTryCount ??= 0;
-    bool isRetry = false;
+    var isRetry = false;
     await NoNetworkManager(
             context: noNetwork?.context,
             customNoNetwork: noNetwork?.customNoNetwork,
             onRetry: () {
               isRetry = true;
             },
-            isEnable: true)
+            isEnable: true,)
         .show();
 
     if (isRetry) {
       noNetworkTryCount = noNetworkTryCount! + 1;
-      return await send(path,
+      return send(path,
           parseModel: parseModel,
           method: method,
           data: data,
           queryParameters: queryParameters,
           options: options,
           isErrorDialog: isErrorDialog,
-          urlSuffix: urlSuffix);
+          urlSuffix: urlSuffix,);
     }
 
     noNetworkTryCount = null;

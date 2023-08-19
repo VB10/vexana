@@ -1,5 +1,4 @@
 import 'package:mockito/mockito.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 

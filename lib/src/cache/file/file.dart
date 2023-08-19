@@ -50,9 +50,9 @@ final class _FileManager {
     return null;
   }
 
-/// The `writeLocalModelInFile` function is responsible for writing a `LocalModel` object to a file. It
-/// takes two parameters: `key`, which is a unique identifier for the data, and `local`, which is an
-/// instance of the `LocalModel` class.
+  /// The `writeLocalModelInFile` function is responsible for writing a `LocalModel` object to a file. It
+  /// takes two parameters: `key`, which is a unique identifier for the data, and `local`, which is an
+  /// instance of the `LocalModel` class.
   Future<File> writeLocalModelInFile(String key, LocalModel local) async {
     final filePath = await _documentFilePath();
     final sample = local.toJson();
@@ -66,8 +66,8 @@ final class _FileManager {
     return userDocumentFile.writeAsString(newLocalData, flush: true);
   }
 
- /// The `readOnlyKeyData` function is responsible for retrieving data from a file based on a given key.
- /// It takes a `key` parameter, which is a unique identifier for the data.
+  /// The `readOnlyKeyData` function is responsible for retrieving data from a file based on a given key.
+  /// It takes a `key` parameter, which is a unique identifier for the data.
   Future<String?> readOnlyKeyData(String key) async {
     final fileItems = await fileReadAllData();
     if (fileItems != null && fileItems.isNotEmpty && fileItems[key] != null) {

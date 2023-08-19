@@ -24,9 +24,7 @@ class Todo extends INetworkModel<Todo> {
     data['userId'] = userId ?? '';
     data['id'] = id ?? '';
     data['title'] = title ?? '';
-    ;
     data['completed'] = completed ?? '';
-    ;
     return data;
   }
 

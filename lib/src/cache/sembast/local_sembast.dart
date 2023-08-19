@@ -4,11 +4,11 @@ import 'package:flutter/foundation.dart';
 import 'package:sembast/sembast.dart';
 import 'package:sembast/sembast_io.dart';
 import 'package:sembast_web/sembast_web.dart';
+import 'package:vexana/src/feature/path/io_path_provider.dart'
+    if (dart.library.html) '../../feature/path/html_path_provider.dart' as customPath;
 import 'package:vexana/src/interface/IFileManager.dart';
 import 'package:vexana/src/model/local_data.dart';
 
-import '../../feature/path/io_path_provider.dart' if (dart.library.html) '../../feature/path/html_path_provider.dart'
-    as customPath;
 part 'sembast.dart';
 
 class LocalSembast extends IFileManager {
@@ -24,8 +24,8 @@ class LocalSembast extends IFileManager {
     if (time == null) {
       return false;
     } else {
-      final _localModel = LocalModel(model: model, time: DateTime.now().add(time));
-      await _sembastManager.writeLocalModelInStore(key, _localModel);
+      final localModel = LocalModel(model: model, time: DateTime.now().add(time));
+      await _sembastManager.writeLocalModelInStore(key, localModel);
       return true;
     }
   }
