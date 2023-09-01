@@ -238,7 +238,7 @@ class NetworkManager<E extends INetworkModel<E>?> with dio.DioMixin implements I
   ) async {
     final response = await dio.Dio().get<List<int>>(
       path,
-      options: Options(followRedirects: false, responseType: ResponseType.bytes),
+      options: Options(followRedirects: true, responseType: ResponseType.bytes),
       onReceiveProgress: callback,
     );
 
@@ -254,9 +254,10 @@ class NetworkManager<E extends INetworkModel<E>?> with dio.DioMixin implements I
     dynamic data,
   }) async {
     options ??= Options();
-    options.method = (method ?? RequestType.GET).stringValue;
-    options.followRedirects = false;
-    options.responseType = ResponseType.bytes;
+    options
+      ..method = (method ?? RequestType.GET).stringValue
+      ..followRedirects = true
+      ..responseType = ResponseType.bytes;
 
     final body = _getBodyModel(data);
 

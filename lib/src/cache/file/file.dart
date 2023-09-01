@@ -42,6 +42,7 @@ final class _FileManager {
   Future<Map<String, dynamic>?> fileReadAllData() async {
     final filePath = await _documentFilePath();
     final userDocumentFile = File(filePath);
+    if (!userDocumentFile.existsSync()) return null;
     final data = await userDocumentFile.readAsString();
     final jsonData = JsonDecodeUtil.safeJsonDecode(data);
 
