@@ -34,15 +34,16 @@ void main() {
 
     expect(response.data, isList);
 
-    networkManager.addBaseHeader(
-      MapEntry(
-        HttpHeaders.authorizationHeader,
-        response.data?.first.title ?? '',
-      ),
-    );
-    // Clear singlhe header
-    networkManager.removeHeader('${response.data?.first.id}');
-    // Clear all hader
-    networkManager.clearHeader();
+    networkManager
+      ..addBaseHeader(
+        MapEntry(
+          HttpHeaders.authorizationHeader,
+          response.data?.first.title ?? '',
+        ),
+      )
+      // Clear single header
+      ..removeHeader('${response.data?.first.id}')
+      // Clear all hader
+      ..clearHeader();
   });
 }

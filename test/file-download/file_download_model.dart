@@ -1,6 +1,6 @@
 import 'package:vexana/vexana.dart';
 
-class FileDownloadModel extends INetworkModel {
+class FileDownloadModel extends INetworkModel<FileDownloadModel> {
   String? fileId;
 
   FileDownloadModel({this.fileId});

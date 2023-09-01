@@ -29,7 +29,7 @@ void main() {
       method: RequestType.GET,
     );
 
-    await Future.delayed(Duration(seconds: 2));
+    await Future<void>.delayed(Duration(seconds: 2));
     await networkManager.removeAllCache();
 
     final response2 = await networkManager.send<Todo, List<Todo>>(
@@ -49,7 +49,7 @@ void main() {
       method: RequestType.GET,
     );
 
-    await Future.delayed(Duration(seconds: 1));
+    await Future<void>.delayed(Duration(seconds: 1));
     await networkManager.removeAllCache();
 
     final response2 = await networkManager.send<Todo, List<Todo>>(
@@ -76,7 +76,7 @@ void main() {
       method: RequestType.GET,
     );
 
-    await Future.delayed(const Duration(seconds: 1));
+    await Future<void>.delayed(const Duration(seconds: 1));
     await networkManager.removeAllCache();
 
     final response2 = await networkManager.send<Todo, List<Todo>>(

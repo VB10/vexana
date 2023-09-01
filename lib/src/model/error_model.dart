@@ -1,14 +1,14 @@
-import '../interface/IErrorModel.dart';
-import '../interface/INetworkModel.dart';
+import 'package:vexana/src/interface/IErrorModel.dart';
+import 'package:vexana/src/interface/INetworkModel.dart';
 
 class ErrorModel<T extends INetworkModel<T>?> extends IErrorModel<T> {
+  ErrorModel({this.statusCode, this.description, this.model});
+
   @override
   final int? statusCode;
 
   @override
   final String? description;
-
-  ErrorModel({this.statusCode, this.description, this.model});
 
   @override
   final T? model;
