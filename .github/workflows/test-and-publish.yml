@@ -1,0 +1,43 @@
+name: Test and Publish to pub.dev
+run-name: Test and Publish action triggered by @${{ github.actor }}
+
+on:
+  release:
+    types: [published]
+  # "workflow_dispatch" for manual trigger
+  workflow_dispatch:
+
+jobs:
+  test-before-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@main
+      - name: Install Flutter(Stable)
+        uses: subosito/flutter-action@master
+        with:
+          channel: "stable"
+      - name: Install Dependencies
+        run: flutter pub get
+      - name: Analyze the Repository
+        run: flutter analyze lib example/lib
+      - name: Run All Tests
+        run: flutter test
+      - name: Check Publish Warnings
+        run: dart pub publish --dry-run
+
+  publish:
+    # if test is successful it will be published on pub.dev
+    needs: test-before-publish
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@main
+      - name: Publish to Pub.dev
+        uses: k-paxian/dart-package-publisher@master
+        with:
+          accessToken: ${{ secrets.OAUTH_ACCESS_TOKEN }}
+          refreshToken: ${{ secrets.OAUTH_REFRESH_TOKEN }}
+          credentialJson: ${{ secrets.CREDENTIAL_JSON }}
+          flutter: true
+          skipTests: true
