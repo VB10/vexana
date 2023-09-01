@@ -9,6 +9,7 @@
 .history
 .svn/
 
+applicationDocumentsPath
 # IntelliJ related
 *.iml
 *.ipr

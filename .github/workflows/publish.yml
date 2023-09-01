@@ -20,5 +20,7 @@ jobs:
         run: dart pub get
       # Here you can insert custom steps you need
       # - run: dart tool/generate-code.dart
+      - name: Run All Tests
+        run: flutter test
       - name: Publish
         run: dart pub publish --force
