@@ -1,13 +1,13 @@
 part of 'local_sembast.dart';
 
 class _SembastManager {
+  _SembastManager._init();
+
   final String dbName = 'fireball.db';
   final StoreRef store = stringMapStoreFactory.store('fireball');
 
   static _SembastManager? _instance;
   Database? _db;
-
-  _SembastManager._init();
 
   static _SembastManager get instance {
     return _instance ??= _SembastManager._init();
@@ -27,7 +27,7 @@ class _SembastManager {
     return _db ??= await openDb();
   }
 
-  Future writeLocalModelInStore(String key, LocalModel local) async {
+  Future<void> writeLocalModelInStore(String key, LocalModel local) async {
     await store.record(key).put(await getDb(), local.toJson(), merge: true);
   }
 
@@ -48,13 +48,13 @@ class _SembastManager {
     return null;
   }
 
-  /// Remove old key in  [Store].
-  Future removeSingleItem(String key) async {
+  /// Remove old key in [store].
+  Future<void> removeSingleItem(String key) async {
     await store.record(key).delete(await getDb());
   }
 
-  /// Remove old [Store].
-  Future clearAllStoreItems() async {
+  /// Remove old [store].
+  Future<void> clearAllStoreItems() async {
     await store.drop(await getDb());
   }
 }

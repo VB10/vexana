@@ -23,9 +23,8 @@ class ReqResModel extends INetworkModel<ReqResModel> {
         }
       });
     }
-    support = json['support'] is Map<String, dynamic>
-        ? Support.fromJson(json['support'] as Map<String, dynamic>)
-        : null;
+    support =
+        json['support'] is Map<String, dynamic> ? Support.fromJson(json['support'] as Map<String, dynamic>) : null;
   }
   int? page;
   int? perPage;
@@ -62,8 +61,7 @@ class Data {
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'] is int ? json['id'] as int : 0;
     email = json['email'] is String ? json['email'] as String : '';
-    firstName =
-        json['first_name'] is String ? json['first_name'] as String : '';
+    firstName = json['first_name'] is String ? json['first_name'] as String : '';
     lastName = json['last_name'] is String ? json['last_name'] as String : '';
     avatar = json['avatar'] is String ? json['avatar'] as String : '';
   }

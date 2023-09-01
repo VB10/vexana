@@ -282,10 +282,10 @@ class NetworkManager<E extends INetworkModel<E>?> with dio.DioMixin implements I
     FormData data, {
     Map<String, dynamic>? headers,
   }) async {
-    return await post<T>(path, data: data, options: Options(headers: headers));
+    return post<T>(path, data: data, options: Options(headers: headers));
   }
 
-  Future<ResponseModel<R, E>?> _getCacheData<R, T extends INetworkModel>(
+  Future<ResponseModel<R, E>?> _getCacheData<R, T extends INetworkModel<T>>(
     Duration? expiration,
     RequestType type,
     T responseModel,
@@ -302,7 +302,7 @@ class NetworkManager<E extends INetworkModel<E>?> with dio.DioMixin implements I
     }
   }
 
-  ResponseModel<R, E> _getResponseResult<T extends INetworkModel, R>(
+  ResponseModel<R, E> _getResponseResult<T extends INetworkModel<T>, R>(
     dynamic data,
     T parserModel,
   ) {

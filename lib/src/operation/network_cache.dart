@@ -39,6 +39,6 @@ extension _CoreServiceCacheExtension on NetworkManager {
     if (fileManager == null) {
       return false;
     }
-    return await fileManager!.removeUserRequestCache(options.baseUrl);
+    return fileManager!.removeUserRequestCache(options.baseUrl);
   }
 }

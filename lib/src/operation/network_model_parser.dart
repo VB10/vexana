@@ -48,7 +48,7 @@ extension _CoreServiceExtension on NetworkManager {
   ///
   /// Returns:
   ///   The method returns an object of type R.
-  R? _parseBody<R, T extends INetworkModel>(dynamic responseBody, T model) {
+  R? _parseBody<R, T extends INetworkModel<T>>(dynamic responseBody, T model) {
     try {
       if (R is EmptyModel || R == EmptyModel) {
         return EmptyModel(name: responseBody.toString()) as R;
@@ -68,8 +68,7 @@ extension _CoreServiceExtension on NetworkManager {
       } else {
         /// Throwing exception if the response body is not a List or a Map<String, dynamic>.
         throw Exception(
-          'Response body is not a List or a Map<String, dynamic>',
-        );
+            'Response body is not a List or a Map<String, dynamic>',);
       }
     } catch (e) {
       CustomLogger(

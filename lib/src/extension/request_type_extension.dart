@@ -1,4 +1,4 @@
-import '../model/enum/request_type.dart';
+import 'package:vexana/src/model/enum/request_type.dart';
 
 extension NetworkTypeExtension on RequestType {
   /// [RequestType] convert to string value.

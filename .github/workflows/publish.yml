@@ -1,0 +1,23 @@
+name: Publish to pub.dev
+run-name: Publish action triggered by @${{ github.actor }}
+
+on:
+  release:
+    types: [published]
+  # "workflow_dispatch" for manual trigger
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@main
+      - name: Publish to Pub.dev
+        uses: k-paxian/dart-package-publisher@master
+        with:
+          accessToken: ${{ secrets.OAUTH_ACCESS_TOKEN }}
+          refreshToken: ${{ secrets.OAUTH_REFRESH_TOKEN }}
+          credentialJson: ${{ secrets.CREDENTIAL_JSON }}
+          flutter: true
+          skipTests: true

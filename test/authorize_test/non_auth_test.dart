@@ -8,7 +8,7 @@ void main() {
     networkManager = NetworkManager<EmptyModel>(
       isEnableLogger: true,
       onRefreshToken: (error, newService) async {
-        await Future.delayed(const Duration(seconds: 1));
+        await Future<void>.delayed(const Duration(seconds: 1));
         error.requestOptions.path = '/products.json';
         return error;
       },
@@ -27,11 +27,17 @@ void main() {
   });
 
   test('Retry Auth Test', () async {
-    await networkManager.send<EmptyModel, EmptyModel>('/words.json',
-        parseModel: EmptyModel(), method: RequestType.GET);
+    await networkManager.send<EmptyModel, EmptyModel>(
+      '/words.json',
+      parseModel: EmptyModel(),
+      method: RequestType.GET,
+    );
 
-    await networkManager.send<EmptyModel, EmptyModel>('/words2.json',
-        parseModel: EmptyModel(), method: RequestType.GET);
+    await networkManager.send<EmptyModel, EmptyModel>(
+      '/words2.json',
+      parseModel: EmptyModel(),
+      method: RequestType.GET,
+    );
 
     final response = await networkManager.send<EmptyModel, EmptyModel>(
       '/words2.json',
