@@ -10,6 +10,7 @@ environment:
 dependencies:
   collection: ^1.17.1
   connectivity_plus: ^4.0.1
+  native_dio_adapter: ^1.0.0+2
 
   # Core
   dio: ^5.3.1
