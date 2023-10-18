@@ -281,8 +281,14 @@ class NetworkManager<E extends INetworkModel<E>?> with dio.DioMixin implements I
     String path,
     FormData data, {
     Map<String, dynamic>? headers,
+    dio.ProgressCallback? onSendProgress,
   }) async {
-    return post<T>(path, data: data, options: Options(headers: headers));
+    return post<T>(
+      path,
+      data: data,
+      options: Options(headers: headers),
+      onSendProgress: onSendProgress,
+    );
   }
 
   Future<ResponseModel<R, E>?> _getCacheData<R, T extends INetworkModel<T>>(
