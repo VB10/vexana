@@ -22,7 +22,7 @@ part 'operation/network_cache.dart';
 part 'operation/network_model_parser.dart';
 part 'operation/network_wrapper.dart';
 
-/// Network manager provide your requests with [Dio]
+/// Network manager provides your requests with [Dio]
 ///
 /// Example:
 /// [NetworkManager(isEnableLogger: true, errorModel: UserErrorModel(),]
@@ -78,13 +78,13 @@ class NetworkManager<E extends INetworkModel<E>?> with dio.DioMixin implements I
 
   /// [Future<DioException> Function(DioException error, NetworkManager newService)] of retry service request with new instance
   ///
-  /// Default value function is null until to define your business.
+  /// Default value function is null until you define your business.
   Future<dio.DioException> Function(
     dio.DioException error,
     NetworkManager newService,
   )? onRefreshToken;
 
-  /// [VoidCallback?] has send error if it has [onRefreshToken] callback after has problem.
+  /// [VoidCallback?] sends error if it has [onRefreshToken] callback after a problem occurs.
   ///
   /// Default value function is null work with [onRefreshToken].
   VoidEmptyCallBack? onRefreshFail;
@@ -92,9 +92,9 @@ class NetworkManager<E extends INetworkModel<E>?> with dio.DioMixin implements I
   /// [int?] retry maximum count at refresh function.
   final int maxCount = 3;
 
-  /// [IFileManager?] manage cache operation with this.
+  /// [IFileManager?] manages cache operation with this.
   ///
-  /// Example keep your data in json file:
+  /// Example is to keep your data in json file:
   /// [NetworkManager(fileManager: LocalFile())]
   IFileManager? fileManager;
 
@@ -104,7 +104,7 @@ class NetworkManager<E extends INetworkModel<E>?> with dio.DioMixin implements I
   /// [LoginModel()]
   E? errorModel;
 
-  /// [Client] has be set default client adapter
+  /// [Client] has to set default client adapter
   bool isEnableTest;
 
   bool skippingSSLCertificate;
@@ -119,7 +119,7 @@ class NetworkManager<E extends INetworkModel<E>?> with dio.DioMixin implements I
   @override
   dio.Interceptors get dioInterceptors => interceptors;
 
-  ///When an error occurred [NetworkManager] generates an errorModel.
+  ///When an error occurres, [NetworkManager] generates an errorModel.
   ///This function allows generate an errorModel using [data].
   ///This is optional. If this is null then default generator creates an error model.
   E Function(Map<String, dynamic> data)? errorModelFromData;
@@ -274,7 +274,7 @@ class NetworkManager<E extends INetworkModel<E>?> with dio.DioMixin implements I
   /// Simple file upload
   ///
   /// Path [String], Data [FormData], Headers [Map]
-  /// It is file upload function then it'll be return primitive type.
+  /// It is file upload function then it'll return primitive type.
 
   @override
   Future<dio.Response<T>> uploadFile<T>(
