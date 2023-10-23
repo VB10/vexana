@@ -7,6 +7,7 @@ void main() {
   setUp(() {
     networkManager = NetworkManager<EmptyModel>(
       isEnableLogger: true,
+      isEnableTest: true,
       interceptor: InterceptorsWrapper(
         onRequest: (options, handler) {
           print(options.data);

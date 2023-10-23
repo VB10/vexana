@@ -9,6 +9,7 @@ void main() {
   setUp(() {
     networkManager = NetworkManager<EmptyModel>(
       isEnableLogger: true,
+      isEnableTest: true,
       // onRefreshFail: () {  Navigate to login },
       onRefreshToken: (error, newService) async {
         // final refreshToken = await newService.send<Credential, Credential>("/token",

@@ -77,7 +77,7 @@ class NetworkManager<E extends INetworkModel<E>?>
 
     _addLoggerInterceptor(isEnableLogger ?? false);
     _addNetworkInterceptors(interceptor);
-    httpClientAdapter = adapter.createAdapter();
+    httpClientAdapter = adapter.createAdapter(isEnableTest: isEnableTest);
   }
 
   /// [Future<DioException> Function(DioException error, NetworkManager newService)] of retry service request with new instance
@@ -195,7 +195,7 @@ class NetworkManager<E extends INetworkModel<E>?>
     final body = _getBodyModel(data);
 
     try {
-      final response = await request(
+      final response = await request<dynamic>(
         '$path$urlSuffix',
         data: body,
         options: options,

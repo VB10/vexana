@@ -17,6 +17,7 @@ void main() {
     networkManager = NetworkManager<EmptyModel>(
       fileManager: LocalFile(),
       isEnableLogger: true,
+      isEnableTest: true,
       options: BaseOptions(baseUrl: 'https://jsonplaceholder.typicode.com/'),
     );
   });

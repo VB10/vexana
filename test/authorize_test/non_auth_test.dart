@@ -7,6 +7,7 @@ void main() {
   setUp(() {
     networkManager = NetworkManager<EmptyModel>(
       isEnableLogger: true,
+      isEnableTest: true,
       onRefreshToken: (error, newService) async {
         await Future<void>.delayed(const Duration(seconds: 1));
         error.requestOptions.path = '/products.json';

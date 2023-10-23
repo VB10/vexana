@@ -30,8 +30,6 @@ void main() {
     });
 
     cancelToken.cancel('canceled');
-
-    await Future<void>.delayed(const Duration(seconds: 8));
   });
 
   test('error Request', () async {
@@ -42,7 +40,5 @@ void main() {
     );
 
     print(response.error);
-
-    await Future<void>.delayed(const Duration(seconds: 8));
   });
 }

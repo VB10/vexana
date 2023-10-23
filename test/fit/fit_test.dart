@@ -11,6 +11,7 @@ void main() {
   setUp(() {
     networkManager = NetworkManager<Null>(
       isEnableLogger: true,
+      isEnableTest: true,
       options: BaseOptions(baseUrl: 'https://type.fit/'),
     );
   });
