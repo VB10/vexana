@@ -9,6 +9,7 @@ import 'package:vexana/vexana.dart';
 mixin NetworkManagerResponse<E extends INetworkModel<E>>
     on NetworkManagerParameters {
   INetworkManager<E> get instance;
+
   E? get errorModel;
 
   ResponseModel<R, E> successResponseFetch<T extends INetworkModel<T>, R>({
@@ -17,7 +18,7 @@ mixin NetworkManagerResponse<E extends INetworkModel<E>>
     bool? forceUpdateDecode,
   }) {
     var responseData = data;
-    if (data is String && forceUpdateDecode == true) {
+    if (data is String && (forceUpdateDecode ?? false)) {
       responseData = NetworkManagerUtil.decodeBodyWithCompute(data);
     }
 

@@ -2,7 +2,8 @@ import 'package:vexana/src/mixin/network_manager_paramaters.dart';
 
 mixin NetworkManagerOperation on NetworkManagerParameters {
   void addBaseHeader(MapEntry<String, String> mapEntry) {
-    baseOptions.headers[mapEntry.key] = mapEntry.value;
+    baseOptions.headers.addAll({mapEntry.key: mapEntry.value});
+    print(baseOptions.headers);
   }
 
   void clearHeader() {

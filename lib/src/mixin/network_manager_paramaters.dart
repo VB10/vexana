@@ -1,9 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:ui';
-
+import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:vexana/vexana.dart';
 
-class NetworkManagerParameters {
+@immutable
+class NetworkManagerParameters extends Equatable {
   final VoidCallback? onRefreshFail;
 
   static const int maxRetryCount = 3;
@@ -24,12 +25,12 @@ class NetworkManagerParameters {
 
   final BaseOptions baseOptions;
 
-  Future<DioException> Function(
+  final Future<DioException> Function(
     DioException error,
     NetworkManager newService,
   )? onRefreshToken;
 
-  NetworkManagerParameters({
+  const NetworkManagerParameters({
     required BaseOptions options,
     this.onRefreshFail,
     this.fileManager,
@@ -41,4 +42,7 @@ class NetworkManagerParameters {
     this.interceptor,
     this.onRefreshToken,
   }) : baseOptions = options;
+
+  @override
+  List<Object> get props => [baseOptions];
 }

@@ -10,7 +10,6 @@ export 'package:dio/src/options.dart';
 export 'src/cache/file/local_file.dart';
 export 'src/cache/sembast/local_sembast.dart';
 export 'src/cache/shared/local_preferences.dart';
-export 'src/extension/request_type_extension.dart';
 export 'src/feature/no_network/index.dart';
 export 'src/interface/index.dart';
 // MODEL
