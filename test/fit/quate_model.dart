@@ -1,4 +1,4 @@
-import 'package:vexana/src/interface/INetworkModel.dart';
+import 'package:vexana/src/interface/index.dart';
 
 class QuotesModel extends INetworkModel<QuotesModel> {
   QuotesModel({this.text, this.author});

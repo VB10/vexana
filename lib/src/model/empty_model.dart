@@ -1,8 +1,6 @@
-import 'package:vexana/src/interface/INetworkModel.dart';
+import 'package:vexana/src/interface/index.dart';
 
-class EmptyModel extends INetworkModel<EmptyModel> {
-  String? name;
-
+final class EmptyModel extends INetworkModel<EmptyModel> {
   EmptyModel({this.name});
 
   EmptyModel.fromJson(Map<String, dynamic>? json) {
@@ -11,6 +9,7 @@ class EmptyModel extends INetworkModel<EmptyModel> {
     }
     name = json['name'] as String?;
   }
+  String? name;
 
   @override
   Map<String, Object> toJson() {

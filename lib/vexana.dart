@@ -1,3 +1,4 @@
+export 'package:dio/dio.dart';
 export 'package:dio/src/cancel_token.dart';
 export 'package:dio/src/dio_exception.dart';
 export 'package:dio/src/dio_mixin.dart';
@@ -11,11 +12,7 @@ export 'src/cache/sembast/local_sembast.dart';
 export 'src/cache/shared/local_preferences.dart';
 export 'src/extension/request_type_extension.dart';
 export 'src/feature/no_network/index.dart';
-export 'src/interface/IErrorModel.dart';
-export 'src/interface/IFormDataModel.dart';
-export 'src/interface/INetworkModel.dart';
-export 'src/interface/INetworkService.dart';
-export 'src/interface/IResponseModel.dart';
+export 'src/interface/index.dart';
 // MODEL
 export 'src/model/empty_model.dart';
 export 'src/model/enum/request_type.dart';

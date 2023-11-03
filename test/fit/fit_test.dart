@@ -9,7 +9,7 @@ import 'quate_model.dart';
 void main() {
   INetworkManager? networkManager;
   setUp(() {
-    networkManager = NetworkManager<Null>(
+    networkManager = NetworkManager<EmptyModel>(
       isEnableLogger: true,
       isEnableTest: true,
       options: BaseOptions(baseUrl: 'https://type.fit/'),

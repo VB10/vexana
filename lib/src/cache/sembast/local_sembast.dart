@@ -6,7 +6,7 @@ import 'package:sembast/sembast_io.dart';
 import 'package:sembast_web/sembast_web.dart';
 import 'package:vexana/src/feature/path/io_path_provider.dart'
     if (dart.library.html) '../../feature/path/html_path_provider.dart' as customPath;
-import 'package:vexana/src/interface/IFileManager.dart';
+import 'package:vexana/src/interface/i_file_manager.dart';
 import 'package:vexana/src/model/local_data.dart';
 
 part 'sembast.dart';

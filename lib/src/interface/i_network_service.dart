@@ -1,11 +1,22 @@
 import 'package:dio/dio.dart';
-import 'package:vexana/src/interface/INetworkModel.dart';
-import 'package:vexana/src/interface/IResponseModel.dart';
+import 'package:vexana/src/interface/index.dart';
+import 'package:vexana/src/mixin/index.dart';
 import 'package:vexana/src/model/enum/request_type.dart';
 
 /// The INetworkManager class is an abstract class that defines a contract for managing network operations with models that
 /// implement the INetworkModel interface.
-abstract class INetworkManager<E extends INetworkModel<E>?> {
+abstract class INetworkManager<E extends INetworkModel<E>>
+    extends NetworkManagerParameters with NetworkManagerOperation {
+  INetworkManager({required super.options});
+
+  NetworkManagerParameters get parameters;
+  NetworkManagerCache get cache;
+
+  /// The `Interceptors get dioInterceptors;` is a getter method that returns the interceptors used by the Dio HTTP client.
+  /// Interceptors are functions that can be registered to intercept and modify HTTP requests or responses before they are
+  /// sent or received.
+  Interceptors get dioInterceptors;
+
   /// The `send` method is used to send an HTTP request to a specified `path` with various parameters. Here is a breakdown of
   /// the parameters:
   Future<IResponseModel<R?, E?>> send<T extends INetworkModel<T>, R>(
@@ -22,15 +33,6 @@ abstract class INetworkManager<E extends INetworkModel<E>?> {
     bool isErrorDialog = false,
     bool? forceUpdateDecode,
   });
-
-  /// The `removeAllCache()` method is used to remove all cached data from the network manager. This can be useful when you
-  /// want to clear the cache and fetch fresh data from the server.
-  Future<bool> removeAllCache();
-
-  /// The `Interceptors get dioInterceptors;` is a getter method that returns the interceptors used by the Dio HTTP client.
-  /// Interceptors are functions that can be registered to intercept and modify HTTP requests or responses before they are
-  /// sent or received.
-  Interceptors get dioInterceptors;
 
   /// The `downloadFileSimple` method is used to download a file from a specified `path` using a simple HTTP GET request. It
   /// returns a `Future<Response<List<int>?>>` which represents the response received from the server. The response contains
@@ -60,28 +62,6 @@ abstract class INetworkManager<E extends INetworkModel<E>?> {
     FormData data, {
     Map<String, dynamic>? headers,
   });
-
-  /// The `addBaseHeader` method is used to add a base header to the network manager. It takes a `MapEntry<String, String>`
-  /// as a parameter, where the key represents the header name and the value represents the header value. This method allows
-  /// you to include a common header that will be added to all HTTP requests made by the network manager.
-  void addBaseHeader(MapEntry<String, String> key);
-
-  /// The `removeHeader(String key)` method is used to remove a specific header from the network manager. It takes a
-  /// `String` parameter `key` which represents the name of the header to be removed. This method allows you to remove a
-  /// header that was previously added using the `addBaseHeader` method.
-  void removeHeader(String key);
-
-  /// The `Map<String, dynamic> get allHeaders;` is a getter method that returns a map of all the headers currently added to
-  /// the network manager. It allows you to access and retrieve all the headers that have been added using the
-  /// `addBaseHeader` method. The returned map has a key-value pair structure, where the key represents the header name and
-  /// the value represents the header value.
-  Map<String, dynamic> get allHeaders;
-
-  /// The `clearHeader()` method is used to remove all headers that have been added to the network manager using the
-  /// `addBaseHeader()` method. It clears the existing headers, so that no headers are included in the HTTP requests made by
-  /// the network manager. This can be useful when you want to remove all headers and make requests without any additional
-  /// headers.
-  void clearHeader();
 
   /// The `sendPrimitive` method is a generic method that is used to send a primitive HTTP request to a specified `path`. It
   /// takes the `path` as a parameter and an optional `headers` parameter, which is a map of additional headers to be

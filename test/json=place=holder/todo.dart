@@ -1,11 +1,6 @@
-import 'package:vexana/src/interface/INetworkModel.dart';
+import 'package:vexana/vexana.dart';
 
 class Todo extends INetworkModel<Todo> {
-  int? userId;
-  int? id;
-  String? title;
-  bool? completed;
-
   Todo({this.userId, this.id, this.title, this.completed});
 
   Todo.fromJson(Map<String, dynamic>? json) {
@@ -17,6 +12,10 @@ class Todo extends INetworkModel<Todo> {
     title = json['title'] as String?;
     completed = json['completed'] as bool?;
   }
+  int? userId;
+  int? id;
+  String? title;
+  bool? completed;
 
   @override
   Map<String, Object> toJson() {

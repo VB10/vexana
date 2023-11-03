@@ -31,7 +31,7 @@ void main() {
     );
 
     await Future<void>.delayed(Duration(seconds: 2));
-    await networkManager.removeAllCache();
+    await networkManager.cache.removeAll();
 
     final response2 = await networkManager.send<Todo, List<Todo>>(
       '/todos',
@@ -51,7 +51,7 @@ void main() {
     );
 
     await Future<void>.delayed(Duration(seconds: 1));
-    await networkManager.removeAllCache();
+    await networkManager.cache.removeAll();
 
     final response2 = await networkManager.send<Todo, List<Todo>>(
       '/todos',
@@ -78,7 +78,7 @@ void main() {
     );
 
     await Future<void>.delayed(const Duration(seconds: 1));
-    await networkManager.removeAllCache();
+    await networkManager.cache.removeAll();
 
     final response2 = await networkManager.send<Todo, List<Todo>>(
       '/todos',

@@ -1,4 +1,4 @@
-import 'package:vexana/vexana.dart';
+import 'package:vexana/src/interface/index.dart';
 
 class ResponseModel<T, E extends INetworkModel<E>?>
     extends IResponseModel<T?, E> {

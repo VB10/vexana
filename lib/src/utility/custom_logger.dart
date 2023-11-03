@@ -3,16 +3,14 @@ import 'package:logger/logger.dart';
 
 @immutable
 class CustomLogger {
-  CustomLogger({
+  const CustomLogger({
     required this.data,
     this.isEnabled = false,
-  }) {
-    _printError(data);
-  }
+  });
   final bool isEnabled;
   final String data;
 
-  void _printError(String data) {
+  void printError() {
     if (!isEnabled) return;
     Logger().e('Error ⛔', error: data);
   }
