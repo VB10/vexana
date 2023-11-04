@@ -9,12 +9,8 @@ environment:
 
 dependencies:
   collection: ^1.17.1
-  #Due to xcode 15 & ios 17 crash bug its fetched from github should be redirected to pubspec after fix
-  connectivity_plus:
-    git:
-      url: https://github.com/fluttercommunity/plus_plugins.git
-      path: packages/connectivity_plus/connectivity_plus
-      ref: cf7d93fbfc76830acf2db755543cf4235a49df60
+
+  connectivity_plus: ^5.0.1
 
   # Core
   dio: ^5.3.1
