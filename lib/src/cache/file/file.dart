@@ -3,7 +3,8 @@ part of 'local_file_io.dart';
 @immutable
 final class _FileManager {
   const _FileManager._init();
-  final String fileName = 'fireball.json';
+  static const String fileName = 'vexana';
+
   static _FileManager? _instance;
 
   /// The `static _FileManager get instance` is a getter method that returns an instance of the
@@ -23,7 +24,7 @@ final class _FileManager {
   /// File path is relative to the documents directory.
   Future<String> _documentFilePath() async {
     final path = (await documentsPath()).path;
-    return '$path/$fileName';
+    return '$path/$fileName.json';
   }
 
   /// The getFile function returns a Future object that represents a file.
@@ -51,8 +52,10 @@ final class _FileManager {
     return null;
   }
 
-  /// The `writeLocalModelInFile` function is responsible for writing a `LocalModel` object to a file. It
-  /// takes two parameters: `key`, which is a unique identifier for the data, and `local`, which is an
+  /// The `writeLocalModelInFile` function is responsible for writing
+  /// a `LocalModel` object to a file. It
+  /// takes two parameters: `key`, which is a unique identifier for the data,
+  ///  and `local`, which is an
   /// instance of the `LocalModel` class.
   Future<File> writeLocalModelInFile(String key, LocalModel local) async {
     final filePath = await _documentFilePath();
@@ -67,7 +70,8 @@ final class _FileManager {
     return userDocumentFile.writeAsString(newLocalData, flush: true);
   }
 
-  /// The `readOnlyKeyData` function is responsible for retrieving data from a file based on a given key.
+  /// The `readOnlyKeyData` function is responsible for retrieving data from
+  /// a file based on a given key.
   /// It takes a `key` parameter, which is a unique identifier for the data.
   Future<String?> readOnlyKeyData(String key) async {
     final fileItems = await fileReadAllData();
@@ -93,7 +97,9 @@ final class _FileManager {
     if (tempDirectory == null) {
       return null;
     }
-    final key0 = tempDirectory.keys.isNotEmpty ? tempDirectory.keys.singleWhereOrNull((element) => element == key) : '';
+    final key0 = tempDirectory.keys.isNotEmpty
+        ? tempDirectory.keys.singleWhereOrNull((element) => element == key)
+        : '';
     tempDirectory.remove(key0);
     final filePath = await _documentFilePath();
     final userDocumentFile = File(filePath);

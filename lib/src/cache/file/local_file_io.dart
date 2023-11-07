@@ -13,15 +13,14 @@ part 'file.dart';
 IFileManager createFileAdapter() => _LocalFileIO();
 
 class _LocalFileIO extends IFileManager {
-  /// The `_fileManager` variable is an instance of the `_FileManager` class. It is
-  /// used to perform file-related operations such as reading and writing data to
-  /// files, clearing cache directories, and removing individual cache items. It
-  /// encapsulates the logic for interacting with the file system.
   final _FileManager _fileManager = _FileManager.instance;
 
-  /// The `getUserRequestDataOnString(String key)` method is used to retrieve user
-  /// request data from a file as a string. It takes a `key` parameter to identify the
-  /// data to be retrieved. The method returns a `Future<String?>` which represents the
+  /// The `getUserRequestDataOnString(String key)` method is used to retrieve
+  /// user
+  /// request data from a file as a string. It takes a `key` parameter
+  ///  to identify the
+  /// data to be retrieved. The method returns a `Future<String?>`
+  /// which represents the
   /// user request data as a string, or `null` if the data is not found.
   @override
   Future<String?> getUserRequestDataOnString(String key) {
@@ -40,7 +39,8 @@ class _LocalFileIO extends IFileManager {
     if (time == null) {
       return false;
     } else {
-      final localModel = LocalModel(model: model, time: DateTime.now().add(time));
+      final localModel =
+          LocalModel(model: model, time: DateTime.now().add(time));
       await _fileManager.writeLocalModelInFile(key, localModel);
       return true;
     }

@@ -3,17 +3,24 @@ import 'package:vexana/src/interface/index.dart';
 import 'package:vexana/src/mixin/index.dart';
 import 'package:vexana/src/model/enum/request_type.dart';
 
-/// The INetworkManager class is an abstract class that defines a contract for managing network operations with models that
-/// implement the INetworkModel interface.
+/// The `INetworkManager` interface is used to define the methods that are used
+/// to send HTTP requests to a server. It extends the `NetworkManagerParameters`
 abstract class INetworkManager<E extends INetworkModel<E>>
     extends NetworkManagerParameters with NetworkManagerOperation {
+  /// [super.options] is a getter method that returns the `BaseOptions` object
   INetworkManager({required super.options});
 
+  /// [parameters] is a getter method that returns the `NetworkManagerParameters`
+  /// for detail
   NetworkManagerParameters get parameters;
+
+  /// [cache] is a getter method that returns the `NetworkManagerCache`
   NetworkManagerCache get cache;
 
-  /// The `Interceptors get dioInterceptors;` is a getter method that returns the interceptors used by the Dio HTTP client.
-  /// Interceptors are functions that can be registered to intercept and modify HTTP requests or responses before they are
+  /// The `Interceptors get dioInterceptors;` is a getter method that returns
+  /// the interceptors used by the Dio HTTP client.
+  /// Interceptors are functions that can be registered to intercept and modify
+  /// HTTP requests or responses before they are
   /// sent or received.
   Interceptors get dioInterceptors;
 

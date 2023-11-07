@@ -177,7 +177,7 @@ class NetworkManager<E extends INetworkModel<E>>
   @override
   Future<dio.Response<dynamic>> download(
     String urlPath,
-    savePath, {
+    dynamic savePath, {
     dio.ProgressCallback? onReceiveProgress,
     Map<String, dynamic>? queryParameters,
     dio.CancelToken? cancelToken,

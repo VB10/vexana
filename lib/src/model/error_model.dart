@@ -1,15 +1,26 @@
 import 'dart:io';
 
-import 'package:vexana/src/interface/index.dart';
 import 'package:vexana/vexana.dart';
 
+/// Error model for network response
 class ErrorModel<T extends INetworkModel<T>?> extends IErrorModel<T> {
-  ErrorModel({this.statusCode, this.description, this.model});
+  /// Error model for network response
+  /// [statusCode] Error status code as http result
+  /// [description] Error message
+  ErrorModel({int? statusCode, String? description, T? model})
+      : _statusCode = statusCode,
+        _description = description,
+        _model = model;
 
+  /// Null is returned after parsing a model
   factory ErrorModel.parseError() {
     return ErrorModel(description: 'Null is returned after parsing a model $T');
   }
 
+  /// Error model for network response
+  /// [exception] Dio exception
+  ///
+  /// return [ErrorModel]
   factory ErrorModel.dioException(DioException exception) {
     return ErrorModel<T>(
       description: exception.message,
@@ -19,13 +30,13 @@ class ErrorModel<T extends INetworkModel<T>?> extends IErrorModel<T> {
     );
   }
   @override
-  final int? statusCode;
+  final int? _statusCode;
 
   @override
-  final String? description;
+  final String? _description;
 
   @override
-  final T? model;
+  final T? _model;
 
   ErrorModel<T> copyWith({
     int? statusCode,
