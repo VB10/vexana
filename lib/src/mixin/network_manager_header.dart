@@ -1,4 +1,4 @@
-import 'package:vexana/src/mixin/network_manager_paramaters.dart';
+import 'package:vexana/src/mixin/network_manager_parameters.dart';
 
 mixin NetworkManagerOperation on NetworkManagerParameters {
   void addBaseHeader(MapEntry<String, String> mapEntry) {

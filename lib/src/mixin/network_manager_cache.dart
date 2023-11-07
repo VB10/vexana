@@ -1,14 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:vexana/src/mixin/network_manager_model_response.dart';
-import 'package:vexana/src/mixin/network_manager_paramaters.dart';
+import 'package:vexana/src/mixin/index.dart';
 import 'package:vexana/src/model/error/file_manager_not_foud.dart';
 import 'package:vexana/src/utility/network_manager_util.dart';
 import 'package:vexana/vexana.dart';
 
 mixin NetworkManagerCache<E extends INetworkModel<E>>
-    on NetworkManagerModelResponse<E>, NetworkManagerParameters {
+    on NetworkManagerResponse<E>, NetworkManagerParameters {
   String _urlKeyOnLocalData(RequestType type) =>
       '${baseOptions.baseUrl}-${type.stringValue}';
 
@@ -22,7 +21,7 @@ mixin NetworkManagerCache<E extends INetworkModel<E>>
     final cacheDataString = await _fetchOnlyData(type);
     if (cacheDataString == null) return null;
 
-    final model = generateResponseModel<R, T>(
+    final model = parseUserResponseData<R, T>(
       NetworkManagerUtil.decodeBodyWithCompute(cacheDataString),
       responseModel,
     );

@@ -5,7 +5,7 @@ import 'package:path_provider_platform_interface/path_provider_platform_interfac
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vexana/vexana.dart';
 
-import '../json=place=holder/todo.dart';
+import '../json_place_holder/todo.dart';
 import 'mock_path.dart';
 
 // ignore: always_declare_return_types

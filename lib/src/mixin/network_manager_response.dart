@@ -1,39 +1,48 @@
 import 'dart:convert';
 
-import 'package:vexana/src/mixin/network_manager_paramaters.dart';
+import 'package:vexana/src/mixin/network_manager_parameters.dart';
 import 'package:vexana/src/utility/custom_logger.dart';
 import 'package:vexana/src/utility/json_encode_util.dart';
-import 'package:vexana/src/utility/network_manager_util.dart';
+import 'package:vexana/src/utility/logger/log_items.dart';
 import 'package:vexana/vexana.dart';
 
+/// Parse response body for success and error
 mixin NetworkManagerResponse<E extends INetworkModel<E>>
     on NetworkManagerParameters {
+  /// Network manager instance
   INetworkManager<E> get instance;
 
+  /// E: Error Model for generic error
   E? get errorModel;
 
+  /// Success response fetch to parse it
+  ///
+  /// R: Response Model for user want to parse
+  /// T: Parser Model
+  /// data: Response body
+  ///
+  /// Result:
+  /// ResponseModel<R, E> -> R: Response Model, E: Error Model
   ResponseModel<R, E> successResponseFetch<T extends INetworkModel<T>, R>({
     required dynamic data,
     required T parserModel,
-    bool? forceUpdateDecode,
   }) {
-    var responseData = data;
-    if (data is String && (forceUpdateDecode ?? false)) {
-      responseData = NetworkManagerUtil.decodeBodyWithCompute(data);
-    }
-
-    final model = _parseBody<R, T>(responseData, parserModel);
-
+    final model = parseUserResponseData<R, T>(data, parserModel);
     return ResponseModel<R, E>(
       data: model,
       error: model == null ? ErrorModel<E>.parseError() : null,
     );
   }
 
+  /// Error response fetch to parse it
+  ///
+  /// R: void or null for only show error
+  ///
+  ///
   ResponseModel<R, E> errorResponseFetch<R>(DioException exception) {
     CustomLogger(
-      isEnabled: isEnableLogger ?? false,
-      data: exception.message ?? '',
+      isEnabled: isEnableLogger,
+      data: exception.message,
     ).printError();
 
     final errorResponse = exception.response;
@@ -52,69 +61,72 @@ mixin NetworkManagerResponse<E extends INetworkModel<E>>
   }
 
   ErrorModel<E> _generateErrorModel(ErrorModel<E> error, dynamic data) {
-    var generatedError = error;
-    if (errorModel == null) return generatedError;
+    if (errorModel == null) return error;
 
     if (data is String) {
       final jsonBody = JsonDecodeUtil.safeJsonDecode(data);
       if (jsonBody == null || jsonBody is! Map<String, dynamic>) return error;
-      generatedError = error.copyWith(model: errorModel!.fromJson(jsonBody));
+      return error.copyWith(model: errorModel!.fromJson(jsonBody));
     }
 
     if (data is Map<String, dynamic>) {
-      final jsonBody = data;
-      generatedError = error.copyWith(model: errorModel!.fromJson(jsonBody));
+      return error.copyWith(model: errorModel!.fromJson(data));
     }
 
-    return generatedError;
+    return error;
   }
 
-  R? _parseBody<R, T extends INetworkModel<T>>(dynamic responseBody, T model) {
-    try {
-      if (R is EmptyModel || R == EmptyModel) {
-        return EmptyModel(name: responseBody.toString()) as R;
-      }
+  /// Parse response body
+  /// R: Response Model for user want to parse
+  /// T: Parser Model
+  R? parseUserResponseData<R, T extends INetworkModel<T>>(
+    dynamic responseBody,
+    T model,
+  ) {
+    if (R is EmptyModel || R == EmptyModel) {
+      return EmptyModel(name: responseBody.toString()) as R;
+    }
 
-      if (responseBody is List) {
+    try {
+      if (responseBody is List<Map<String, dynamic>>) {
         return responseBody
-            .map(
-              (data) =>
-                  model.fromJson(data is Map<String, dynamic> ? data : {}),
-            )
+            .map((data) {
+              return model.fromJson(data);
+            })
             .cast<T>()
             .toList() as R;
       }
 
       if (responseBody is Map<String, dynamic>) {
         return model.fromJson(responseBody) as R;
-      } else {
-        CustomLogger(
-          isEnabled: true,
-          data:
-              'Response body is not a List or a Map<String, dynamic> response:'
-              '$responseBody',
-        );
-        return null;
       }
+
+      LogItems.bodyParseErrorLog(
+        data: responseBody,
+        isEnableLogger: isEnableLogger,
+      );
+      return null;
     } catch (e) {
-      CustomLogger(
-        isEnabled: isEnableLogger ?? false,
-        data: 'Parse Error: $e - response body: $responseBody'
-            'T model: $T , R model: $R ',
+      LogItems.bodyParseGeneralLog<T, R>(
+        data: e,
+        responseBody: responseBody,
+        isEnableLogger: isEnableLogger,
       );
     }
     return null;
   }
 
-  dynamic _getBodyModel(dynamic data) {
-    if (data is IFormDataModel) {
-      return data.toFormData();
-    } else if (data is INetworkModel) {
-      return data.toJson();
-    } else if (data != null) {
-      return jsonEncode(data);
-    } else {
-      return data;
-    }
+  /// Make a body for request
+  ///
+  /// data: dynamic data
+  ///
+  /// if data is IFormDataModel -> return data.toFormData()
+  /// if data is INetworkModel -> return data.toJson()
+  /// if data is not null -> return jsonEncode(data)
+  dynamic makeRequestBodyData(dynamic data) {
+    if (data is IFormDataModel) return data.toFormData();
+    if (data is INetworkModel) return data.toJson();
+    if (data != null) return jsonEncode(data);
+    return data;
   }
 }

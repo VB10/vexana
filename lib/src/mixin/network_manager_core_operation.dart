@@ -1,4 +1,4 @@
-import 'package:vexana/src/mixin/network_manager_paramaters.dart';
+import 'package:vexana/src/mixin/network_manager_parameters.dart';
 import 'package:vexana/vexana.dart';
 
 mixin NetworkManagerCoreOperation<E extends INetworkModel<E>>

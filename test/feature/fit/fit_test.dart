@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:vexana/vexana.dart';
 
@@ -21,7 +20,6 @@ void main() {
       'api/quotes',
       parseModel: QuotesModel(),
       method: RequestType.GET,
-      forceUpdateDecode: true,
       options: Options(
         contentType: Headers.jsonContentType,
         responseType: ResponseType.json,

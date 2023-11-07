@@ -31,7 +31,6 @@ abstract class INetworkManager<E extends INetworkModel<E>>
     ProgressCallback? onReceiveProgress,
     CancelToken? cancelToken,
     bool isErrorDialog = false,
-    bool? forceUpdateDecode,
   });
 
   /// The `downloadFileSimple` method is used to download a file from a specified `path` using a simple HTTP GET request. It

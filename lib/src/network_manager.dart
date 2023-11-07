@@ -17,7 +17,6 @@ class NetworkManager<E extends INetworkModel<E>>
         NetworkManagerOperation,
         NetworkManagerCoreOperation<E>,
         NetworkManagerResponse<E>,
-        NetworkManagerModelResponse<E>,
         NetworkManagerCache<E>,
         NetworkManagerErrorInterceptor,
         NetworkManagerInitialize
@@ -67,7 +66,6 @@ class NetworkManager<E extends INetworkModel<E>>
     ProgressCallback? onReceiveProgress,
     bool isErrorDialog = false,
     CancelToken? cancelToken,
-    bool? forceUpdateDecode,
   }) async {
     final cacheData =
         await fetchDataFromCache<R, T>(expiration, method, parseModel);
@@ -76,7 +74,7 @@ class NetworkManager<E extends INetworkModel<E>>
     }
     options ??= Options();
     options.method = method.stringValue;
-    final body = getBodyModel(data);
+    final body = makeRequestBodyData(data);
 
     try {
       final response = await request<dynamic>(
@@ -92,7 +90,6 @@ class NetworkManager<E extends INetworkModel<E>>
         return successResponseFetch<T, R>(
           data: response.data,
           parserModel: parseModel,
-          forceUpdateDecode: forceUpdateDecode,
         );
       }
 
@@ -144,7 +141,7 @@ class NetworkManager<E extends INetworkModel<E>>
       ..followRedirects = true
       ..responseType = ResponseType.bytes;
 
-    final body = getBodyModel(data);
+    final body = makeRequestBodyData(data);
 
     final response = await request<List<int>>(
       path,

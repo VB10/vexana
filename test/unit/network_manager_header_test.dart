@@ -1,21 +1,9 @@
-import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
 import 'package:vexana/src/mixin/index.dart';
 
-class MockNetworkManagerParameters extends Mock
-    implements NetworkManagerParameters {
-  @override
-  final BaseOptions baseOptions = BaseOptions(
-    baseUrl: 'https://jsonplaceholder.typicode.com/',
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-    },
-  );
-}
+import 'common/mock_parameters.dart';
 
-class NetworkManagerHeaderTest extends MockNetworkManagerParameters
+final class NetworkManagerHeaderTest extends MockNetworkManagerParameters
     with NetworkManagerOperation {}
 
 void main() {

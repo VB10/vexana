@@ -5,7 +5,7 @@ import 'package:vexana/src/feature/ssl/io_custom_override.dart'
     if (dart.library.html) 'package:vexana/src/feature/ssl/html_custom_override.dart'
     as ssl;
 import 'package:vexana/src/mixin/network_manager_error_interceptor.dart';
-import 'package:vexana/src/mixin/network_manager_paramaters.dart';
+import 'package:vexana/src/mixin/network_manager_parameters.dart';
 import 'package:vexana/src/utility/network_manager_util.dart';
 import 'package:vexana/vexana.dart';
 
