@@ -7,13 +7,15 @@ class ErrorModel<T extends INetworkModel<T>?> extends IErrorModel<T> {
   /// Error model for network response
   /// [statusCode] Error status code as http result
   /// [description] Error message
-  ErrorModel({int? statusCode, String? description, T? model})
-      : _statusCode = statusCode,
-        _description = description,
-        _model = model;
+  ErrorModel({this.statusCode, this.description, this.model});
 
   /// Null is returned after parsing a model
   factory ErrorModel.parseError() {
+    return ErrorModel(description: 'JSON Decode Error ⛔');
+  }
+
+  /// Json Parse Error
+  factory ErrorModel.jsonError() {
     return ErrorModel(description: 'Null is returned after parsing a model $T');
   }
 
@@ -29,15 +31,17 @@ class ErrorModel<T extends INetworkModel<T>?> extends IErrorModel<T> {
           : HttpStatus.internalServerError,
     );
   }
-  @override
-  final int? _statusCode;
 
   @override
-  final String? _description;
+  final int? statusCode;
 
   @override
-  final T? _model;
+  final String? description;
 
+  @override
+  final T? model;
+
+  /// Make a copy of this object with new values for some of its properties
   ErrorModel<T> copyWith({
     int? statusCode,
     String? description,

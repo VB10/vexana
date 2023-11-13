@@ -1,9 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:logger/logger.dart';
-
-@immutable
+import 'package:vexana/src/utility/logger/log_items.dart';
 
 /// This class will help json encode operation with safety
 
@@ -16,7 +14,7 @@ final class JsonDecodeUtil {
     try {
       return jsonDecode(jsonString);
     } catch (e) {
-      Logger().e('JSON Decode Error ⛔', error: 'There was a problem during the JSON decoding process.');
+      LogItems.jsonDecodeError();
       return null;
     }
   }
@@ -29,7 +27,7 @@ final class JsonDecodeUtil {
         jsonString,
       );
     } catch (e) {
-      Logger().e('JSON Decode Error ⛔', error: 'There was a problem during the JSON decoding process.');
+      LogItems.jsonDecodeError();
       return null;
     }
   }

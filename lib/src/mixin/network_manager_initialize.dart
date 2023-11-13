@@ -9,8 +9,10 @@ import 'package:vexana/src/mixin/network_manager_parameters.dart';
 import 'package:vexana/src/utility/network_manager_util.dart';
 import 'package:vexana/vexana.dart';
 
+/// Network manager provide your requests with [Dio]
 mixin NetworkManagerInitialize
     on DioMixin, NetworkManagerParameters, NetworkManagerErrorInterceptor {
+  /// This method will be called when [NetworkManager] created
   void setup() {
     options = baseOptions;
     (transformer as BackgroundTransformer).jsonDecodeCallback =

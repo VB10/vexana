@@ -30,4 +30,9 @@ final class LogItems {
         isEnabled: isEnableLogger,
         data: 'FormData is parsed $T',
       ).printError();
+
+  static void jsonDecodeError() => const CustomLogger(
+        isEnabled: true,
+        data: 'JSON Decode Error ⛔',
+      ).printError();
 }

@@ -67,11 +67,12 @@ class NetworkManager<E extends INetworkModel<E>>
     bool isErrorDialog = false,
     CancelToken? cancelToken,
   }) async {
-    final cacheData =
-        await fetchDataFromCache<R, T>(expiration, method, parseModel);
-    if (cacheData is ResponseModel<R?, E>) {
-      return cacheData;
-    }
+    final cacheData = await fetchDataFromCache<R, T>(
+      expiration: expiration,
+      type: method,
+      responseModel: parseModel,
+    );
+    if (cacheData is ResponseModel<R?, E>) return cacheData;
     options ??= Options();
     options.method = method.stringValue;
     final body = makeRequestBodyData(data);
@@ -98,7 +99,7 @@ class NetworkManager<E extends INetworkModel<E>>
       );
     } on dio.DioException catch (error) {
       return handleNetworkError<T, R>(
-        path,
+        path: path,
         cancelToken: cancelToken,
         data: data,
         isErrorDialog: isErrorDialog,
@@ -118,13 +119,11 @@ class NetworkManager<E extends INetworkModel<E>>
     String path,
     ProgressCallback? callback,
   ) async {
-    final response = await dio.Dio().get<List<int>>(
+    return dio.Dio().get<List<int>>(
       path,
       options: Options(followRedirects: true, responseType: ResponseType.bytes),
       onReceiveProgress: callback,
     );
-
-    return response;
   }
 
   @override
@@ -143,14 +142,12 @@ class NetworkManager<E extends INetworkModel<E>>
 
     final body = makeRequestBodyData(data);
 
-    final response = await request<List<int>>(
+    return request<List<int>>(
       path,
       data: body,
       options: options,
       onReceiveProgress: callback,
     );
-
-    return response;
   }
 
   @override

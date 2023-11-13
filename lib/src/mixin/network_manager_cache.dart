@@ -6,17 +6,19 @@ import 'package:vexana/src/model/error/file_manager_not_foud.dart';
 import 'package:vexana/src/utility/network_manager_util.dart';
 import 'package:vexana/vexana.dart';
 
+/// Manage your data caching with [NetworkManagerCache]
 mixin NetworkManagerCache<E extends INetworkModel<E>>
     on NetworkManagerResponse<E>, NetworkManagerParameters {
   String _urlKeyOnLocalData(RequestType type) =>
       '${baseOptions.baseUrl}-${type.stringValue}';
 
+  /// Fetch data from database
   Future<ResponseModel<R?, E>?>
-      fetchDataFromCache<R, T extends INetworkModel<T>>(
-    Duration? expiration,
-    RequestType type,
-    T responseModel,
-  ) async {
+      fetchDataFromCache<R, T extends INetworkModel<T>>({
+    required Duration? expiration,
+    required RequestType type,
+    required T responseModel,
+  }) async {
     if (expiration == null) return null;
     final cacheDataString = await _fetchOnlyData(type);
     if (cacheDataString == null) return null;
@@ -32,6 +34,7 @@ mixin NetworkManagerCache<E extends INetworkModel<E>>
     );
   }
 
+  /// Write data to database
   Future<void> writeAll(
     Duration? expiration,
     dynamic body,
@@ -47,6 +50,7 @@ mixin NetworkManagerCache<E extends INetworkModel<E>>
     );
   }
 
+  /// Remove all data from database
   Future<bool> removeAll() async {
     if (fileManager == null) return false;
     return fileManager!.removeUserRequestCache(baseOptions.baseUrl);
