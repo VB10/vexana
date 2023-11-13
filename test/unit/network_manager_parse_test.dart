@@ -48,8 +48,4 @@ void main() {
     expect(response.error?.statusCode, HttpStatus.notFound);
     expect(response.error?.description, 'Not Found');
   });
-
-  test('Make a body', () {
-    const singleData = MockModels.emptyModel;
-  });
 }

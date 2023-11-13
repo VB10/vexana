@@ -5,9 +5,15 @@ import 'package:retry/retry.dart';
 import 'package:vexana/src/mixin/index.dart';
 import 'package:vexana/vexana.dart';
 
-mixin NetworkManagerErrorInterceptor on NetworkManagerParameters {
+/// Network manager error interceptor
+mixin NetworkManagerErrorInterceptor {
+  /// Network manager interceptors
   Interceptors get interceptors;
 
+  /// Network manager base request options
+  NetworkManagerParameters get parameters;
+
+  /// Add your custom network interceptor
   void addNetworkInterceptors(Interceptor? interceptor) {
     if (interceptor != null) interceptors.add(interceptor);
     interceptors.add(_onErrorWrapper());
@@ -20,16 +26,16 @@ mixin NetworkManagerErrorInterceptor on NetworkManagerParameters {
         if (errorResponse == null) {
         } else {
           if (errorResponse.statusCode == HttpStatus.unauthorized &&
-              onRefreshToken != null) {
-            final error = await onRefreshToken!(
+              parameters.onRefreshToken != null) {
+            final error = await parameters.onRefreshToken!(
               e,
-              NetworkManager<EmptyModel>(options: baseOptions),
+              NetworkManager<EmptyModel>(options: parameters.baseOptions),
             );
             final requestModel = error.requestOptions;
 
             try {
               final response = await retry(
-                () => Dio(baseOptions).request<dynamic>(
+                () => Dio(parameters.baseOptions).request<dynamic>(
                   requestModel.path,
                   queryParameters: requestModel.queryParameters,
                   data: requestModel.data,
@@ -45,7 +51,7 @@ mixin NetworkManagerErrorInterceptor on NetworkManagerParameters {
               );
               return handler.resolve(response);
             } catch (_) {
-              onRefreshFail?.call();
+              parameters.onRefreshFail?.call();
               return handler.next(e);
             }
           }

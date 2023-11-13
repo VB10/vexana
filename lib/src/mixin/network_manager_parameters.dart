@@ -3,6 +3,11 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:vexana/vexana.dart';
 
+typedef RefreshTokenCallBack = Future<DioException> Function(
+  DioException error,
+  NetworkManager newService,
+);
+
 @immutable
 class NetworkManagerParameters extends Equatable {
   final VoidCallback? onRefreshFail;
@@ -25,10 +30,7 @@ class NetworkManagerParameters extends Equatable {
 
   final BaseOptions baseOptions;
 
-  final Future<DioException> Function(
-    DioException error,
-    NetworkManager newService,
-  )? onRefreshToken;
+  final RefreshTokenCallBack? onRefreshToken;
 
   const NetworkManagerParameters({
     required BaseOptions options,

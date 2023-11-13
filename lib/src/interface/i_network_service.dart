@@ -6,12 +6,13 @@ import 'package:vexana/src/model/enum/request_type.dart';
 /// The `INetworkManager` interface is used to define the methods that are used
 /// to send HTTP requests to a server. It extends the `NetworkManagerParameters`
 abstract class INetworkManager<E extends INetworkModel<E>>
-    extends NetworkManagerParameters with NetworkManagerOperation {
+    with NetworkManagerOperation {
   /// [super.options] is a getter method that returns the `BaseOptions` object
-  INetworkManager({required super.options});
+  INetworkManager();
 
   /// [parameters] is a getter method that returns the `NetworkManagerParameters`
   /// for detail
+  @override
   NetworkManagerParameters get parameters;
 
   /// [cache] is a getter method that returns the `NetworkManagerCache`

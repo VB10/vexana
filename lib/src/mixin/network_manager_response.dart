@@ -7,9 +7,8 @@ import 'package:vexana/src/utility/logger/log_items.dart';
 import 'package:vexana/vexana.dart';
 
 /// Parse response body for success and error
-mixin NetworkManagerResponse<E extends INetworkModel<E>>
-    on NetworkManagerParameters {
-
+mixin NetworkManagerResponse<E extends INetworkModel<E>> {
+  NetworkManagerParameters get parameters;
 
   /// E: Error Model for generic error
   E? get errorModel;
@@ -40,7 +39,7 @@ mixin NetworkManagerResponse<E extends INetworkModel<E>>
   ///
   ResponseModel<R, E> errorResponseFetch<R>(DioException exception) {
     CustomLogger(
-      isEnabled: isEnableLogger,
+      isEnabled: parameters.isEnableLogger,
       data: exception.message,
     ).printError();
 
@@ -87,8 +86,9 @@ mixin NetworkManagerResponse<E extends INetworkModel<E>>
     }
 
     try {
-      if (responseBody is List<Map<String, dynamic>>) {
-        return responseBody
+      if (responseBody is List<dynamic>) {
+        final items = responseBody.whereType<Map<String, dynamic>>().toList();
+        return items
             .map((data) {
               return model.fromJson(data);
             })
@@ -102,14 +102,14 @@ mixin NetworkManagerResponse<E extends INetworkModel<E>>
 
       LogItems.bodyParseErrorLog(
         data: responseBody,
-        isEnableLogger: isEnableLogger,
+        isEnableLogger: parameters.isEnableLogger,
       );
       return null;
     } catch (e) {
       LogItems.bodyParseGeneralLog<T, R>(
         data: e,
         responseBody: responseBody,
-        isEnableLogger: isEnableLogger,
+        isEnableLogger: parameters.isEnableLogger,
       );
     }
     return null;

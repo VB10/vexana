@@ -2,9 +2,10 @@ import 'package:vexana/src/mixin/network_manager_parameters.dart';
 import 'package:vexana/vexana.dart';
 
 /// Manage network error situation
-mixin NetworkManagerCoreOperation<E extends INetworkModel<E>>
-    on NetworkManagerParameters {
+mixin NetworkManagerCoreOperation<E extends INetworkModel<E>> {
   int _noNetworkTryCount = 0;
+
+  NetworkManagerParameters get parameters;
 
   /// E: Error Model for generic error
   INetworkManager<E> get instance;
@@ -39,8 +40,8 @@ mixin NetworkManagerCoreOperation<E extends INetworkModel<E>>
     _noNetworkTryCount = 0;
     var isRetry = false;
     await NoNetworkManager(
-      context: noNetwork?.context,
-      customNoNetworkWidget: noNetwork?.customNoNetwork,
+      context: parameters.noNetwork?.context,
+      customNoNetworkWidget: parameters.noNetwork?.customNoNetwork,
       onRetry: () {
         isRetry = true;
       },

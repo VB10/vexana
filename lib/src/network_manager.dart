@@ -1,45 +1,62 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart' as dio;
+import 'package:flutter/foundation.dart';
+import 'package:vexana/src/feature/adapter/native_adapter.dart'
+    if (dart.library.html) 'package:vexana/src/feature/adapter/web_adapter.dart'
+    as adapter;
+import 'package:vexana/src/feature/ssl/io_custom_override.dart'
+    if (dart.library.html) 'package:vexana/src/feature/ssl/html_custom_override.dart'
+    as ssl;
 import 'package:vexana/src/mixin/index.dart';
 import 'package:vexana/src/utility/network_manager_util.dart';
 import 'package:vexana/vexana.dart';
+
+part './mixin/core/network_manager_initialize.dart';
 
 /// Network manager provide your requests with [Dio]
 ///
 /// Example:
 /// [NetworkManager(isEnableLogger: true, errorModel: UserErrorModel(),]
 /// [options: BaseOptions(baseUrl: "https://jsonplaceholder.typicode.com/"));]
-class NetworkManager<E extends INetworkModel<E>>
-    extends NetworkManagerParameters
+class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
     with
-        dio.DioMixin,
         NetworkManagerOperation,
         NetworkManagerCoreOperation<E>,
         NetworkManagerResponse<E>,
         NetworkManagerCache<E>,
         NetworkManagerErrorInterceptor,
-        NetworkManagerInitialize
+        _NetworkManagerInitialize
     implements INetworkManager<E> {
-  ///
-  ///
+  /// Network manager base request options
   NetworkManager({
-    required super.options,
+    required BaseOptions options,
     this.errorModel,
-    super.onRefreshToken,
-    super.skippingSSLCertificate,
-    super.noNetwork,
-    super.isEnableLogger,
-    super.isEnableTest,
-    super.onRefreshFail,
-    super.fileManager,
-    super.interceptor,
+    RefreshTokenCallBack? onRefreshToken,
+    bool? skippingSSLCertificate,
+    NoNetwork? noNetwork,
+    bool? isEnableLogger,
+    bool? isEnableTest,
+    VoidCallback? onRefreshFail,
+    IFileManager? fileManager,
+    Interceptor? interceptor,
   }) {
-    setup();
+    parameters = NetworkManagerParameters(
+      options: options,
+      fileManager: fileManager,
+      isEnableTest: isEnableTest,
+      isEnableLogger: isEnableLogger,
+      noNetwork: noNetwork,
+      skippingSSLCertificate: skippingSSLCertificate,
+      interceptor: interceptor,
+      onRefreshToken: onRefreshToken,
+      onRefreshFail: onRefreshFail,
+    );
+    _setup();
   }
 
   @override
-  NetworkManagerParameters get parameters => this;
+  late final NetworkManagerParameters parameters;
 
   @override
   INetworkManager<E> get instance => this;
@@ -72,6 +89,7 @@ class NetworkManager<E extends INetworkModel<E>>
       type: method,
       responseModel: parseModel,
     );
+
     if (cacheData is ResponseModel<R?, E>) return cacheData;
     options ??= Options();
     options.method = method.stringValue;

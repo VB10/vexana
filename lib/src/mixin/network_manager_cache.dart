@@ -8,9 +8,12 @@ import 'package:vexana/vexana.dart';
 
 /// Manage your data caching with [NetworkManagerCache]
 mixin NetworkManagerCache<E extends INetworkModel<E>>
-    on NetworkManagerResponse<E>, NetworkManagerParameters {
+    on NetworkManagerResponse<E> {
+  @override
+  NetworkManagerParameters get parameters;
+
   String _urlKeyOnLocalData(RequestType type) =>
-      '${baseOptions.baseUrl}-${type.stringValue}';
+      '${parameters.baseOptions.baseUrl}-${type.stringValue}';
 
   /// Fetch data from database
   Future<ResponseModel<R?, E>?>
@@ -41,9 +44,9 @@ mixin NetworkManagerCache<E extends INetworkModel<E>>
     RequestType type,
   ) async {
     if (expiration == null) return;
-    if (fileManager == null) throw FileManagerNotFound();
+    if (parameters.fileManager == null) throw FileManagerNotFound();
     final stringValues = await compute(jsonEncode, body);
-    await fileManager!.writeUserRequestDataWithTime(
+    await parameters.fileManager!.writeUserRequestDataWithTime(
       _urlKeyOnLocalData(type),
       stringValues,
       expiration,
@@ -52,15 +55,16 @@ mixin NetworkManagerCache<E extends INetworkModel<E>>
 
   /// Remove all data from database
   Future<bool> removeAll() async {
-    if (fileManager == null) return false;
-    return fileManager!.removeUserRequestCache(baseOptions.baseUrl);
+    if (parameters.fileManager == null) return false;
+    return parameters.fileManager!
+        .removeUserRequestCache(parameters.baseOptions.baseUrl);
   }
 
   Future<String?> _fetchOnlyData(RequestType type) async {
-    if (fileManager == null) return null;
+    if (parameters.fileManager == null) return null;
 
-    final data =
-        await fileManager!.getUserRequestDataOnString(_urlKeyOnLocalData(type));
+    final data = await parameters.fileManager!
+        .getUserRequestDataOnString(_urlKeyOnLocalData(type));
     if (data is String && data.isNotEmpty) {
       return data;
     } else {
