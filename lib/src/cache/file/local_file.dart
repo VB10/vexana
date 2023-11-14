@@ -4,8 +4,8 @@ import 'package:vexana/src/interface/i_file_manager.dart';
 
 /// Local file manager for a document folder
 final class LocalFile extends IFileManager {
-  // final _FileManager _fileManager = _FileManager.instance;
   final _customManager = adapter.createFileAdapter();
+  
   @override
   Future<String?> getUserRequestDataOnString(String key) {
     return _customManager.getUserRequestDataOnString(key);

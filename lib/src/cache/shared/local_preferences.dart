@@ -7,16 +7,9 @@ import 'package:vexana/src/utility/json_encode_util.dart';
 
 part 'preferences.dart';
 
-class LocalPreferences extends IFileManager {
-  LocalPreferences();
-
-  /// The `manager` is an instance of the `_LocalManager` class, which is
-  /// responsible for handling the local data storage and retrieval operations using
-  /// shared preferences. It provides methods like `getModelString`,
-  /// `removeAllLocalData`, `removeModel`, and `writeModelInJson` to interact with
-  /// the shared preferences and perform operations such as getting data as a
-  /// string, removing all data, removing a single data entry, and writing data in
-  /// JSON format with an optional expiration time.
+/// Manage cache with shared package
+final class LocalPreferences extends IFileManager {
+  /// Shared core operation manager class instance
   final _LocalManager manager = _LocalManager.instance;
 
   /// The `getUserRequestDataOnString` method is used to retrieve user request data from

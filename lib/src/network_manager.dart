@@ -84,13 +84,15 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
     bool isErrorDialog = false,
     CancelToken? cancelToken,
   }) async {
-    final cacheData = await fetchDataFromCache<R, T>(
-      expiration: expiration,
-      type: method,
-      responseModel: parseModel,
-    );
+    if (expiration != null) {
+      final cacheData = await fetchDataFromCache<R, T>(
+        expiration: expiration,
+        type: method,
+        responseModel: parseModel,
+      );
+      if (cacheData is ResponseModel<R?, E>) return cacheData;
+    }
 
-    if (cacheData is ResponseModel<R?, E>) return cacheData;
     options ??= Options();
     options.method = method.stringValue;
     final body = makeRequestBodyData(data);
@@ -105,7 +107,9 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
       );
 
       if (NetworkManagerUtil.isRequestHasSurceased(response.statusCode)) {
-        await cache.writeAll(expiration, response.data, method);
+        if (expiration != null) {
+          await cache.writeAll(expiration, response.data, method);
+        }
         return successResponseFetch<T, R>(
           data: response.data,
           parserModel: parseModel,

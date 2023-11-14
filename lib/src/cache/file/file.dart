@@ -1,7 +1,7 @@
 part of 'local_file_io.dart';
 
 @immutable
-final class _FileManager {
+ class _FileManager {
   const _FileManager._init();
   static const String fileName = 'vexana';
 

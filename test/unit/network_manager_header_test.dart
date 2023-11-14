@@ -3,8 +3,10 @@ import 'package:vexana/src/mixin/index.dart';
 
 import 'common/mock_parameters.dart';
 
-final class NetworkManagerHeaderTest extends MockNetworkManagerParameters
-    with NetworkManagerOperation {}
+final class NetworkManagerHeaderTest with NetworkManagerOperation {
+  @override
+  NetworkManagerParameters get parameters => MockNetworkManagerParameters();
+}
 
 void main() {
   final testClass = NetworkManagerHeaderTest();
@@ -16,17 +18,17 @@ void main() {
     });
 
     test('clearHeader should clear headers', () {
-      testClass.addBaseHeader(const MapEntry('key', 'value'));
-      testClass.clearHeader();
+      testClass
+        ..addBaseHeader(const MapEntry('key', 'value'))
+        ..clearHeader();
       expect(testClass.allHeaders.isEmpty, true);
     });
 
     test('removeHeader should remove specific header', () {
       // Header ekleyin
-      testClass.addBaseHeader(const MapEntry('key', 'value'));
-      // Belirli bir header'ı kaldırın
-      testClass.removeHeader('key');
-      // Header'ın kaldırıldığını doğrulayın
+      testClass
+        ..addBaseHeader(const MapEntry('key', 'value'))
+        ..removeHeader('key');
       expect(testClass.allHeaders.containsKey('key'), false);
     });
   });

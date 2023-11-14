@@ -9,6 +9,10 @@
 .history
 .svn/
 
+coverage/
+lcov.info
+applicationDocumentsPath/
+
 # IntelliJ related
 *.iml
 *.ipr

@@ -65,9 +65,10 @@ void main() {
 
   test('Json Place Sembast Database Test Holder Todos', () async {
     networkManager = NetworkManager<EmptyModel>(
-      fileManager: LocalSembast(),
+      fileManager: LocalFile(),
       isEnableLogger: true,
       options: BaseOptions(baseUrl: 'https://jsonplaceholder.typicode.com/'),
+      isEnableTest: true,
     );
 
     await networkManager.send<Todo, List<Todo>>(

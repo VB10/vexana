@@ -10,10 +10,14 @@ import 'package:vexana/src/utility/json_encode_util.dart';
 
 part 'file.dart';
 
-IFileManager createFileAdapter() => _LocalFileIO();
+IFileManager createFileAdapter() => LocalFileIO();
 
-class _LocalFileIO extends IFileManager {
+/// The `LocalFileIO` class is responsible for managing the local file system.
+class LocalFileIO extends IFileManager {
   final _FileManager _fileManager = _FileManager.instance;
+
+  /// File manager instance
+  _FileManager get instance => _fileManager;
 
   /// The `getUserRequestDataOnString(String key)` method is used to retrieve
   /// user
