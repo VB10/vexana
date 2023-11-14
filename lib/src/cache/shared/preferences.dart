@@ -79,7 +79,10 @@ class _LocalManager {
   Future<bool> removeAllLocalData(String url) async {
     final pref = await preferences;
 
-    pref.getKeys().where((element) => element.contains(url)).forEach((element) async {
+    pref
+        .getKeys()
+        .where((element) => element.contains(url))
+        .forEach((element) async {
       await removeModel(element);
     });
     return true;

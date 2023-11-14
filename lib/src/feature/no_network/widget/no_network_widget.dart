@@ -1,4 +1,5 @@
 part of '../no_network_manager.dart';
+
 class _NoNetworkWidget extends StatelessWidget {
   const _NoNetworkWidget({
     required String lottiePath,

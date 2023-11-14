@@ -9,24 +9,29 @@ void main() {
   late INetworkManager networkManager;
   setUp(() {
     networkManager = NetworkManager<BasicErrorModel>(
-        isEnableLogger: true,
-        errorModel: BasicErrorModel(),
-        options: BaseOptions(baseUrl: 'http://localhost:3000/'),);
+      isEnableLogger: true,
+      errorModel: BasicErrorModel(),
+      options: BaseOptions(baseUrl: 'http://localhost:3000/'),
+    );
   });
   test('Custom Api', () async {
-    final response = await networkManager.send<BasicUser, BasicUser>('/user',
-        queryParameters: {'isOk': 1},
-        parseModel: BasicUser(),
-        method: RequestType.GET,);
+    final response = await networkManager.send<BasicUser, BasicUser>(
+      '/user',
+      queryParameters: {'isOk': 1},
+      parseModel: BasicUser(),
+      method: RequestType.GET,
+    );
 
     expect(response.data, isNotNull);
   });
 
   test('Custom Api Error', () async {
-    final response = await networkManager.send<BasicUser, BasicUser>('/user',
-        queryParameters: {'isOk': 2},
-        parseModel: BasicUser(),
-        method: RequestType.GET,);
+    final response = await networkManager.send<BasicUser, BasicUser>(
+      '/user',
+      queryParameters: {'isOk': 2},
+      parseModel: BasicUser(),
+      method: RequestType.GET,
+    );
 
     expect(response.data, isNotNull);
   });

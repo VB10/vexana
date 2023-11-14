@@ -4,7 +4,8 @@ class LocalModel {
   LocalModel({this.time, this.model});
 
   LocalModel.fromJson(Map<String, dynamic> json) {
-    time = json['time'] is String ? DateTime.parse(json['time'] as String) : null;
+    time =
+        json['time'] is String ? DateTime.parse(json['time'] as String) : null;
     model = json['model'] is String ? json['model'] as String : '';
   }
   DateTime? time;

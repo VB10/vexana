@@ -5,12 +5,14 @@ import 'package:sembast/sembast.dart';
 import 'package:sembast/sembast_io.dart';
 import 'package:sembast_web/sembast_web.dart';
 import 'package:vexana/src/feature/path/io_path_provider.dart'
-    if (dart.library.html) '../../feature/path/html_path_provider.dart' as customPath;
+    if (dart.library.html) '../../feature/path/html_path_provider.dart'
+    as custom_path;
 import 'package:vexana/src/interface/i_file_manager.dart';
 import 'package:vexana/src/model/local_data.dart';
 
 part 'sembast.dart';
 
+/// File manager by using Sembast database
 class LocalSembast extends IFileManager {
   final _SembastManager _sembastManager = _SembastManager.instance;
 
@@ -20,11 +22,16 @@ class LocalSembast extends IFileManager {
   }
 
   @override
-  Future<bool> writeUserRequestDataWithTime(String key, String model, Duration? time) async {
+  Future<bool> writeUserRequestDataWithTime(
+    String key,
+    String model,
+    Duration? time,
+  ) async {
     if (time == null) {
       return false;
     } else {
-      final localModel = LocalModel(model: model, time: DateTime.now().add(time));
+      final localModel =
+          LocalModel(model: model, time: DateTime.now().add(time));
       await _sembastManager.writeLocalModelInStore(key, localModel);
       return true;
     }
