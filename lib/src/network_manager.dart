@@ -84,16 +84,12 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
     bool isErrorDialog = false,
     CancelToken? cancelToken,
   }) async {
-    if (expiration != null) {
-      final cacheData = await fetchDataFromCache<R, T>(
-        expiration: expiration,
-        type: method,
-        responseModel: parseModel,
-      );
-      if (cacheData is ResponseModel<R?, E>) return cacheData;
-    }
+    final checkFormCache =
+        await _checkCache<R, T>(expiration, method, parseModel);
+    if (checkFormCache != null) return checkFormCache;
 
-    options ??= Options();
+    final defaultOptions = Options();
+    options ??= defaultOptions;
     options.method = method.stringValue;
     final body = makeRequestBodyData(data);
 
@@ -216,5 +212,22 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
       data: data,
       options: options,
     );
+  }
+
+  Future<ResponseModel<R?, E>?> _checkCache<R, T extends INetworkModel<T>>(
+    Duration? expiration,
+    RequestType method,
+    T parseModel,
+  ) async {
+    if (expiration == null) return null;
+    final cacheData = await fetchDataFromCache<R, T>(
+      expiration: expiration,
+      type: method,
+      responseModel: parseModel,
+    );
+    if (cacheData is ResponseModel<R?, E>) {
+      return cacheData;
+    }
+    return null;
   }
 }
