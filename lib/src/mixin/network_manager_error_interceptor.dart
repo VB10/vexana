@@ -41,7 +41,6 @@ mixin NetworkManagerErrorInterceptor {
             final response = await retry(
               () {
                 final dioNewInstance = Dio(parameters.baseOptions);
-                // dioNewInstance.httpClientAdapter = httpClientAdapter;
                 return dioNewInstance.request<dynamic>(
                   error.requestOptions.path,
                   queryParameters: error.requestOptions.queryParameters,

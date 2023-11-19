@@ -1,6 +1,5 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 
 part '../no_network/widget/no_network_widget.dart';
 
@@ -45,15 +44,12 @@ final class NoNetworkManager {
           return customNoNetworkWidget!(onRetry);
         }
         return _NoNetworkWidget(
-          lottiePath: _lottiePath,
-          packageName: _packageName,
           onRetry: onRetry,
         );
       },
     );
   }
 
-  /// Todo: Remove this package for native control
   Future<bool> _checkConnectivity() async {
     final connectivityResult = await Connectivity().checkConnectivity();
     if (connectivityResult == ConnectivityResult.none) return false;

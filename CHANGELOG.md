@@ -1,4 +1,8 @@
-# [4.0.0-dev1] - 21/02/2023
+# [4.0.0-dev2] - 21/02/2023
+
+- Refresh token issue has fixed.
+
+## [4.0.0-dev1] - 21/02/2023
 
 - The new version has been released with may new coding updates
 - Package and many dependencies has been updated
