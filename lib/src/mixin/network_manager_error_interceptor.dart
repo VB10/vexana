@@ -61,10 +61,16 @@ mixin NetworkManagerErrorInterceptor {
     );
   }
 
+  /// Creates a new [DioException] with [HttpStatus.unauthorized] status code
+  /// and calls [onRefreshToken] callback.
+  /// It's retried if [exception] is [DioException] and status code is
+  /// [HttpStatus.unauthorized].
   Future<DioException> _createError(
     NetworkManagerParameters params,
     DioException exception,
-  ) {
+  ) async {
+    final error = _parallelismGuard(params, exception);
+    if (error != null) return error;
     return params.onRefreshToken!(
       exception,
       NetworkManager<EmptyModel>(
@@ -75,6 +81,9 @@ mixin NetworkManagerErrorInterceptor {
     );
   }
 
+  /// Creates a new request with the same options of [error] and returns it.
+  /// It's retried if [error] is [DioException] and status code is
+  /// [HttpStatus.unauthorized].
   Future<Response<dynamic>> _createNewRequest(DioException error) {
     final dioNewInstance = Dio(parameters.baseOptions);
     return dioNewInstance.request<dynamic>(
@@ -89,8 +98,27 @@ mixin NetworkManagerErrorInterceptor {
     );
   }
 
+  /// Checks if [e] is [DioException] and status code is [HttpStatus.unauthorized]
+  /// and returns true, otherwise returns false.
   bool _retryIf(Exception e) {
     if (e is! DioException) return false;
     return e.response?.statusCode == HttpStatus.unauthorized;
+  }
+
+  /// Checks if cancel token is cancelled and returns a [DioException] with
+  /// [HttpStatus.clientClosedRequest] status code.
+  /// It's required to prevent parallel requests from being sent to refresh token.
+  DioException? _parallelismGuard(
+    NetworkManagerParameters params,
+    DioException exception,
+  ) {
+    final cancelToken = exception.requestOptions.cancelToken;
+    if (cancelToken == null) return null;
+    if (cancelToken.isCancelled == false) return null;
+    return DioException(
+      requestOptions: exception.requestOptions,
+      response: exception.response
+        ?..statusCode = HttpStatus.clientClosedRequest,
+    );
   }
 }
