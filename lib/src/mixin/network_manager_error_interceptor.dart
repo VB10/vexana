@@ -20,63 +20,74 @@ mixin NetworkManagerErrorInterceptor {
 
   QueuedInterceptorsWrapper _onErrorWrapper() {
     return QueuedInterceptorsWrapper(
-      onRequest: (options, handler) async {
-        return handler.next(options);
-      },
-      onError: (DioException e, ErrorInterceptorHandler handler) async {
-        final errorResponse = e.response;
-        if (errorResponse == null) return handler.next(e);
+      onRequest: (options, handler) async => handler.next(options),
+      onError: (DioException exception, ErrorInterceptorHandler handler) async {
+        final errorResponse = exception.response;
 
+        /// If error response is null, then return error
+        if (errorResponse == null) return handler.next(exception);
+
+        /// If callback for onRefreshToken is null, then return error
         if (errorResponse.statusCode == HttpStatus.unauthorized &&
-            parameters.onRefreshToken != null) {
-          var error = await parameters.onRefreshToken!(
-            e,
-            NetworkManager<EmptyModel>(
-              options: parameters.baseOptions,
-              isEnableTest: parameters.isEnableTest,
-            ),
-          );
-
-          try {
-            final response = await retry(
-              () {
-                final dioNewInstance = Dio(parameters.baseOptions);
-                return dioNewInstance.request<dynamic>(
-                  error.requestOptions.path,
-                  queryParameters: error.requestOptions.queryParameters,
-                  data: error.requestOptions.data,
-                  options: Options(
-                    method: error.requestOptions.method,
-                    headers: error.requestOptions.headers,
-                  ),
-                );
-              },
-              onRetry: (p0) async {
-                error = await parameters.onRefreshToken!(
-                  e,
-                  NetworkManager<EmptyModel>(
-                    options: parameters.baseOptions,
-                  ),
-                );
-              },
-              maxAttempts: NetworkManagerParameters.maxRetryCount,
-              retryIf: (e) {
-                if (e is DioException) {
-                  return e.response?.statusCode == HttpStatus.unauthorized;
-                }
-                return false;
-              },
-            );
-            // unlock();
-            return handler.resolve(response);
-          } catch (_) {
-            parameters.onRefreshFail?.call();
-            return handler.next(e);
-          }
+            parameters.onRefreshToken == null) {
+          return handler.next(exception);
         }
 
-        return handler.next(e);
+        /// Calling onRefreshToken first time;
+        var error = await _createError(parameters, exception);
+        error.requestOptions.cancelToken ??= CancelToken();
+        try {
+          /// lock();
+          final response = await retry(
+            () => _createNewRequest(error),
+            onRetry: (_) async =>
+                error = await _createError(parameters, exception),
+            maxAttempts: NetworkManagerParameters.maxRetryCount,
+            retryIf: _retryIf,
+          );
+
+          /// unlock();
+          return handler.resolve(response);
+        } catch (_) {
+          /// unlock and cancel request & call onRefreshFail callback
+          error.requestOptions.cancelToken?.cancel();
+          parameters.onRefreshFail?.call();
+          return handler.next(exception);
+        }
       },
     );
+  }
+
+  Future<DioException> _createError(
+    NetworkManagerParameters params,
+    DioException exception,
+  ) {
+    return params.onRefreshToken!(
+      exception,
+      NetworkManager<EmptyModel>(
+        isEnableLogger: params.isEnableLogger,
+        isEnableTest: params.isEnableTest,
+        options: parameters.baseOptions,
+      ),
+    );
+  }
+
+  Future<Response<dynamic>> _createNewRequest(DioException error) {
+    final dioNewInstance = Dio(parameters.baseOptions);
+    return dioNewInstance.request<dynamic>(
+      error.requestOptions.path,
+      queryParameters: error.requestOptions.queryParameters,
+      data: error.requestOptions.data,
+      cancelToken: error.requestOptions.cancelToken,
+      options: Options(
+        method: error.requestOptions.method,
+        headers: error.requestOptions.headers,
+      ),
+    );
+  }
+
+  bool _retryIf(Exception e) {
+    if (e is! DioException) return false;
+    return e.response?.statusCode == HttpStatus.unauthorized;
   }
 }
