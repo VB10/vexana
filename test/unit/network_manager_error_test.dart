@@ -30,12 +30,12 @@ void main() {
     await startServer();
     late MockErrorCustomNetworkManager errorNetworkManager;
     var retryCount = 0;
+    final cancelToken = CancelToken();
+
     errorNetworkManager = MockErrorCustomNetworkManager(
       serverUrl.toString(),
       () async => retryCount++,
     );
-
-    final cancelToken = CancelToken();
 
     await Future.wait<void>([
       errorNetworkManager.send<EmptyModel, EmptyModel>(
@@ -60,7 +60,8 @@ void main() {
     stopServer();
 
     /// There is something wrong here. When it called in parallel, it works like 4 times instead of 3.
-    /// So expected result is 3 but it is 4.
+    /// So expected result is 3 but it is 4. It's unrelated to parallel requests amount.
+    /// Its 4 when it is 2 or 3 or 4.
     expect(retryCount, 4);
     expect(cancelToken.isCancelled, true);
   });

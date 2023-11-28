@@ -27,15 +27,18 @@ mixin NetworkManagerErrorInterceptor {
         /// If error response is null, then return error
         if (errorResponse == null) return handler.next(exception);
 
+        /// If error response status code is not 401, then return error
+        if (errorResponse.statusCode != HttpStatus.unauthorized) {
+          return handler.next(exception);
+        }
+
         /// If callback for onRefreshToken is null, then return error
-        if (errorResponse.statusCode == HttpStatus.unauthorized &&
-            parameters.onRefreshToken == null) {
+        if (parameters.onRefreshToken == null) {
           return handler.next(exception);
         }
 
         /// Calling onRefreshToken first time;
         var error = await _createError(parameters, exception);
-        error.requestOptions.cancelToken ??= CancelToken();
         try {
           /// lock();
           final response = await retry(
@@ -49,7 +52,7 @@ mixin NetworkManagerErrorInterceptor {
           /// unlock();
           return handler.resolve(response);
         } catch (_) {
-          /// unlock and cancel request & call onRefreshFail callback
+          /// cancel request & call onRefreshFail callback and unlock
           error.requestOptions.cancelToken?.cancel();
           parameters.onRefreshFail?.call();
           return handler.next(exception);
