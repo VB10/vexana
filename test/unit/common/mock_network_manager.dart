@@ -1,5 +1,6 @@
-import 'dart:ui';
+// ignore_for_file: avoid_print
 
+import 'package:flutter/foundation.dart';
 import 'package:vexana/vexana.dart';
 
 import 'mock_parameters.dart';
@@ -65,18 +66,13 @@ final class MockErrorNetworkManager extends NetworkManager<EmptyModel> {
 }
 
 final class MockErrorCustomNetworkManager extends NetworkManager<EmptyModel> {
-  MockErrorCustomNetworkManager(String baseUrl, VoidCallback onRefresh)
+  MockErrorCustomNetworkManager(String baseUrl, AsyncCallback onRefresh)
       : super(
-          options: BaseOptions(
-            baseUrl: baseUrl,
-          ),
+          options: BaseOptions(baseUrl: baseUrl),
           isEnableTest: true,
-          onRefreshFail: () {
-            print('onRefreshFail x1');
-          },
+          onRefreshFail: () => print('onRefreshFail Triggered'),
           onRefreshToken: (e, networkManager) async {
-            await Future.delayed(const Duration(seconds: 1));
-            onRefresh.call();
+            await onRefresh.call();
             return e;
           },
         );
