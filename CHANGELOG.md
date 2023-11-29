@@ -1,4 +1,8 @@
-# [4.0.0-dev2] - 21/02/2023
+# [4.0.0-dev3] - 21/02/2023
+
+- Parallel request problem has fixed with cancel token.
+
+## [4.0.0-dev2] - 21/02/2023
 
 - Refresh token issue has fixed.
 

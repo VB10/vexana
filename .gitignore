@@ -10,6 +10,7 @@
 .svn/
 
 coverage/
+*.info
 lcov.info
 applicationDocumentsPath/
 
