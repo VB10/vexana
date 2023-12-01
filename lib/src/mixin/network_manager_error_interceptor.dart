@@ -20,7 +20,6 @@ mixin NetworkManagerErrorInterceptor {
 
   QueuedInterceptorsWrapper _onErrorWrapper() {
     return QueuedInterceptorsWrapper(
-      onRequest: (options, handler) async => handler.next(options),
       onError: (DioException exception, ErrorInterceptorHandler handler) async {
         final errorResponse = exception.response;
 
@@ -49,8 +48,11 @@ mixin NetworkManagerErrorInterceptor {
             retryIf: _retryIf,
           );
 
-          /// unlock();
-          return handler.resolve(response);
+          return handler.resolve(
+            parameters.onResponseParse!(
+              response,
+            ),
+          );
         } catch (_) {
           /// cancel request & call onRefreshFail callback and unlock
           error.requestOptions.cancelToken?.cancel();

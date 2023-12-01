@@ -40,6 +40,7 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
     VoidCallback? onRefreshFail,
     IFileManager? fileManager,
     Interceptor? interceptor,
+    OnReply? onReply,
   }) {
     parameters = NetworkManagerParameters(
       options: options,
@@ -51,6 +52,7 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
       interceptor: interceptor,
       onRefreshToken: onRefreshToken,
       onRefreshFail: onRefreshFail,
+      onResponseParse: onReply,
     );
     _setup();
   }
