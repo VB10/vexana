@@ -21,9 +21,9 @@
         "editor.suggest.snippetsPreventQuickSuggestions": false,
         "editor.suggestSelection": "first",
         "editor.tabCompletion": "onlySnippets",
-        "editor.wordBasedSuggestions": true,
+        "editor.wordBasedSuggestions": "matchingDocuments",
         "editor.codeActionsOnSave": {
-            "source.fixAll": true,
+            "source.fixAll": "explicit",
             "source.organizeImports": "always"
         }
     },
@@ -34,5 +34,6 @@
     "cSpell.words": [
         "Sembast",
         "vexana"
-    ]
+    ],
+    "dart.previewSdkDaps": false
 }

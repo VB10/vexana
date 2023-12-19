@@ -10,7 +10,7 @@ final class LogItems {
   }) =>
       CustomLogger(
         isEnabled: isEnableLogger,
-        data: 'Response body is not a'
+        data: 'Response body is not a '
             'List or a Map<String, dynamic> response,:'
             '$data',
       ).printError();

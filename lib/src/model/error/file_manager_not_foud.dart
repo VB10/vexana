@@ -1,8 +1,7 @@
-class FileManagerNotFound implements Exception {
-  String get message => 'File Manager is not found';
-
+/// Error when file manager is not found
+final class FileManagerNotFound implements Exception {
   @override
   String toString() {
-    return message;
+    return 'File Manager is not found';
   }
 }

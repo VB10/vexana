@@ -8,6 +8,10 @@ typedef RefreshTokenCallBack = Future<DioException> Function(
   NetworkManager newService,
 );
 
+typedef OnReply = Response<dynamic> Function(
+  Response<dynamic> e,
+);
+
 @immutable
 class NetworkManagerParameters extends Equatable {
   final VoidCallback? onRefreshFail;
@@ -31,6 +35,7 @@ class NetworkManagerParameters extends Equatable {
   final BaseOptions baseOptions;
 
   final RefreshTokenCallBack? onRefreshToken;
+  final OnReply? onResponseParse;
 
   const NetworkManagerParameters({
     required BaseOptions options,
@@ -43,6 +48,7 @@ class NetworkManagerParameters extends Equatable {
     this.skippingSSLCertificate,
     this.interceptor,
     this.onRefreshToken,
+    this.onResponseParse,
   }) : baseOptions = options;
 
   @override

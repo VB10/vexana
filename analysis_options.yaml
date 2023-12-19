@@ -15,3 +15,5 @@ analyzer:
     - example/
 
 linter:
+  rules:
+    prefer_constructors_over_static_methods: false

@@ -9,6 +9,7 @@ import 'package:vexana/src/feature/ssl/io_custom_override.dart'
     if (dart.library.html) 'package:vexana/src/feature/ssl/html_custom_override.dart'
     as ssl;
 import 'package:vexana/src/mixin/index.dart';
+import 'package:vexana/src/utility/extension/request_type_extension.dart';
 import 'package:vexana/src/utility/network_manager_util.dart';
 import 'package:vexana/vexana.dart';
 
@@ -40,6 +41,7 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
     VoidCallback? onRefreshFail,
     IFileManager? fileManager,
     Interceptor? interceptor,
+    OnReply? onReply,
   }) {
     parameters = NetworkManagerParameters(
       options: options,
@@ -51,6 +53,7 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
       interceptor: interceptor,
       onRefreshToken: onRefreshToken,
       onRefreshFail: onRefreshFail,
+      onResponseParse: onReply,
     );
     _setup();
   }

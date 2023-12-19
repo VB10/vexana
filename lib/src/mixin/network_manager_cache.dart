@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:vexana/src/mixin/index.dart';
 import 'package:vexana/src/model/error/file_manager_not_foud.dart';
+import 'package:vexana/src/utility/extension/request_type_extension.dart';
 import 'package:vexana/src/utility/network_manager_util.dart';
 import 'package:vexana/vexana.dart';
 
