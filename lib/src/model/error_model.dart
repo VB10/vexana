@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'dart:io' if (dart.library.html) 'dart:html' show HttpStatus;
 
 import 'package:vexana/vexana.dart';
 
