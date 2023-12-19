@@ -1,15 +1,13 @@
 part of 'local_file_io.dart';
 
 @immutable
- class _FileManager {
+class _FileManager {
   const _FileManager._init();
   static const String fileName = 'vexana';
 
   static _FileManager? _instance;
 
-  /// The `static _FileManager get instance` is a getter method that returns an instance of the
-  /// `_FileManager` class. It follows the singleton design pattern, which ensures that only one
-  /// instance of the class is created and shared across the application.
+  /// Singleton instance
   static _FileManager get instance {
     return _instance ??= const _FileManager._init();
   }
@@ -35,7 +33,8 @@ part of 'local_file_io.dart';
     return userDocumentFile;
   }
 
-  /// The function fileReadAllData reads all data from a file and returns it as a Map.
+  /// The function fileReadAllData reads all data from a file and returns
+  /// it as a Map.
   /// If the file does not exist, it returns null.
   /// If the file is empty, it returns an empty Map.
   /// If the file contains data, it returns a Map with the data.

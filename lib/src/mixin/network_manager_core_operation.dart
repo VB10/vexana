@@ -5,6 +5,7 @@ import 'package:vexana/vexana.dart';
 mixin NetworkManagerCoreOperation<E extends INetworkModel<E>> {
   int _noNetworkTryCount = 0;
 
+  /// Network manager parameters
   NetworkManagerParameters get parameters;
 
   /// E: Error Model for generic error

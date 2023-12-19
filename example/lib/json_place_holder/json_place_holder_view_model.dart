@@ -16,7 +16,7 @@ abstract class JsonPlaceHolderViewModel extends State<JsonPlaceHolder> {
     super.initState();
     networkManager = NetworkManager<Post>(
       isEnableLogger: true,
-      fileManager: LocalSembast(),
+      // fileManager: LocalSembast(),
 
       noNetwork: NoNetwork(
         context,
@@ -73,7 +73,7 @@ class NoNetworkSample extends StatelessWidget {
             Navigator.of(context).pop();
           },
           child: const Text('data'),
-        )
+        ),
       ],
     );
   }

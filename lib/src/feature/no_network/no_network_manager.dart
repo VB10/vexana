@@ -1,5 +1,5 @@
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:vexana/src/feature/network_check/network_check.dart';
 
 part '../no_network/widget/no_network_widget.dart';
 
@@ -12,9 +12,6 @@ final class NoNetworkManager {
     this.isEnable = false,
     this.customNoNetworkWidget,
   });
-
-  final _lottiePath = 'assets/lottie/lottie_no_network.json';
-  final _packageName = 'vexana';
 
   /// BuildContext for show modal bottom sheet
   final BuildContext? context;
@@ -51,8 +48,7 @@ final class NoNetworkManager {
   }
 
   Future<bool> _checkConnectivity() async {
-    final connectivityResult = await Connectivity().checkConnectivity();
-    if (connectivityResult == ConnectivityResult.none) return false;
-    return true;
+    final connectivityResult = await NetworkCheck.instance.isNetworkAvailable();
+    return connectivityResult;
   }
 }

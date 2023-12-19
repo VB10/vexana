@@ -64,7 +64,6 @@ mixin NetworkManagerErrorInterceptor {
   }
 
   /// Creates a new [DioException] with [HttpStatus.unauthorized] status code
-  /// and calls [onRefreshToken] callback.
   /// It's retried if [exception] is [DioException] and status code is
   /// [HttpStatus.unauthorized].
   Future<DioException> _createError(
@@ -100,7 +99,8 @@ mixin NetworkManagerErrorInterceptor {
     );
   }
 
-  /// Checks if [e] is [DioException] and status code is [HttpStatus.unauthorized]
+  /// Checks if [e] is [DioException] and
+  ///  status code is [HttpStatus.unauthorized]
   /// and returns true, otherwise returns false.
   bool _retryIf(Exception e) {
     if (e is! DioException) return false;
@@ -109,7 +109,8 @@ mixin NetworkManagerErrorInterceptor {
 
   /// Checks if cancel token is cancelled and returns a [DioException] with
   /// [HttpStatus.clientClosedRequest] status code.
-  /// It's required to prevent parallel requests from being sent to refresh token.
+  /// It's required to prevent parallel requests from being sent
+  ///  to refresh token.
   DioException? _parallelismGuard(
     NetworkManagerParameters params,
     DioException exception,
