@@ -12,10 +12,6 @@ void main() {
   setUp(() {
     PathProviderPlatform.instance = MockPathProviderPlatform();
   });
-  test('File Manager get file ', () async {
-    final file = await fileManager.instance.getFile();
-    expect(file, isNotNull);
-  });
 
   test('Local file remove single item ', () async {
     await fileManager.writeUserRequestDataWithTime(

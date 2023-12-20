@@ -22,7 +22,7 @@ final class JsonDecodeUtil {
   /// Decode your [jsonString] value or null
   static Future<dynamic> safeJsonDecodeCompute(String jsonString) async {
     try {
-      return await compute<String, dynamic>(
+      return compute<String, dynamic>(
         jsonDecode,
         jsonString,
       );

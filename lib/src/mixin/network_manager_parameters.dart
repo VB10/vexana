@@ -13,7 +13,7 @@ typedef OnReply = Response<dynamic> Function(
 );
 
 @immutable
-class NetworkManagerParameters extends Equatable {
+final class NetworkManagerParameters extends Equatable {
   final VoidCallback? onRefreshFail;
 
   static const int maxRetryCount = 3;

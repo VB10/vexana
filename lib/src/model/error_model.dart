@@ -3,7 +3,7 @@ import 'dart:io' if (dart.library.html) 'dart:html' show HttpStatus;
 import 'package:vexana/vexana.dart';
 
 /// Error model for network response
-class ErrorModel<T extends INetworkModel<T>?> extends IErrorModel<T> {
+final class ErrorModel<T extends INetworkModel<T>?> extends IErrorModel<T> {
   /// Error model for network response
   /// [statusCode] Error status code as http result
   /// [description] Error message

@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:vexana/src/mixin/index.dart';
-import 'package:vexana/src/model/error/file_manager_not_foud.dart';
+import 'package:vexana/src/model/error/file_manager_not_foud_exception.dart';
 import 'package:vexana/src/utility/extension/request_type_extension.dart';
 import 'package:vexana/src/utility/network_manager_util.dart';
 import 'package:vexana/vexana.dart';
@@ -45,7 +45,7 @@ mixin NetworkManagerCache<E extends INetworkModel<E>>
     RequestType type,
   ) async {
     if (expiration == null) return;
-    if (parameters.fileManager == null) throw FileManagerNotFound();
+    if (parameters.fileManager == null) throw FileManagerNotFoundException();
     final stringValues = await compute(jsonEncode, body);
     await parameters.fileManager!.writeUserRequestDataWithTime(
       _urlKeyOnLocalData(type),
