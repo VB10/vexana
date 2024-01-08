@@ -1,21 +1,8 @@
 # vexana
 
-## **Before Starting MY COUNTRY NEEDS TO HELP BECAUSE EARTHQUAKE 7.8 and 7.6 within some day!**
-
-![help](./github/FpK_Eb7aQAAXOCD.jpeg)
-
-Turkey has recently been struck by a devastating earthquake with a magnitude of 7.8. The impact has been widespread and many communities have been severely affected. In this difficult time, we are reaching out to ask for your support. Any donation, no matter how small, will help us provide much-needed aid to those affected by the earthquake. Your generosity will help provide shelter, food, and medical supplies to those in need. Your contribution will make a real difference in the lives of those affected by this disaster. Thank you for your kindness and support.
-
-You can donate for AHBAP with this site
-[AHBAP_DONATE](https://bagis.ahbap.org/bagis)
-
-Vexana is easy to use network process with dio. You can do dynamic model parsing, base error model, timeout and many utility functions.
-
-![Vexana-Game](https://thumbs.gfycat.com/RightSoupyCrow-size_restricted.gif)
-
 ## Getting Started 🔥
 
-Let's talk about usage details.
+Let's talk about usage details. **You can learn more detail about vexana in test folder.** Please check it out before using this package. I'm not good to write a readme 😅
 
 ### **Network Manager** 😎
 
@@ -256,3 +243,14 @@ INetworkManager  networkManager = NetworkManage<UserErrorModel>(isEnableLogger: 
 </a>
 
 Made with [contrib.rocks](https://contrib.rocks).
+
+## **EARTHQUAKE 7.8 and 7.6 6Feb2023**
+
+![help](./github/FpK_Eb7aQAAXOCD.jpeg)
+
+Turkey has recently been struck by a devastating earthquake with a magnitude of 7.8. The impact has been widespread and many communities have been severely affected. In this difficult time, we are reaching out to ask for your support. Any donation, no matter how small, will help us provide much-needed aid to those affected by the earthquake. Your generosity will help provide shelter, food, and medical supplies to those in need. Your contribution will make a real difference in the lives of those affected by this disaster. Thank you for your kindness and support.
+
+You can donate for AHBAP with this site
+[AHBAP_DONATE](https://bagis.ahbap.org/bagis)
+
+Vexana is easy to use network process with dio. You can do dynamic model parsing, base error model, timeout and many utility functions.
