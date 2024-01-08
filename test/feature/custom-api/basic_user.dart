@@ -1,8 +1,6 @@
 import 'package:vexana/vexana.dart';
 
 class BasicUser extends INetworkModel<BasicUser> {
-  String? user;
-
   BasicUser({this.user});
 
   BasicUser.fromJson(Map<String, dynamic>? json) {
@@ -11,6 +9,7 @@ class BasicUser extends INetworkModel<BasicUser> {
     }
     user = json['user'] as String?;
   }
+  String? user;
 
   @override
   Map<String, Object> toJson() {
