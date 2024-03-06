@@ -6,6 +6,8 @@ import 'user.dart';
 // ignore: always_declare_return_types
 void main() {
   late INetworkManager<EmptyModel> networkManager;
+  const isServiceOn = false;
+
   setUp(() {
     networkManager = NetworkManager<EmptyModel>(
       isEnableLogger: true,
@@ -22,6 +24,8 @@ void main() {
   });
 
   test('Json Place Holder Todos', () async {
+    if (!isServiceOn) return;
+
     final response = await networkManager.send<User, User>(
       '/user',
       parseModel: User(),

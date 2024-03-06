@@ -7,6 +7,7 @@ import 'basic_user.dart';
 // ignore: always_declare_return_types
 void main() {
   late INetworkManager networkManager;
+  const isServiceOn = false;
   setUp(() {
     networkManager = NetworkManager<BasicErrorModel>(
       isEnableLogger: true,
