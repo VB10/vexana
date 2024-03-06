@@ -204,8 +204,6 @@ INetworkManager  networkManager = NetworkManage<UserErrorModel>(isEnableLogger: 
         parseModel: Post(), method: RequestType.GET);
       <!-- Error.model came from your backend with your declaration -->
       showDialog(response.error?.model?.message)
-
-    response
 ```
 
 ### Tasks
@@ -216,12 +214,12 @@ INetworkManager  networkManager = NetworkManage<UserErrorModel>(isEnableLogger: 
 - [x] Unit Test with json place holder
 - [x] Unit Test with custom api
 - [x] Handle network problem
-- [ ] Make a unit test all layers.
+- [x] Make a unit test all layers(%70).
 - [x] Cache Option
-  - [ ] ISAAR Support
+  - [ ] Hive Support
   - [x] Web Cache Support
 - [x] Refresh Token Architecture
-- [ ] Usage Utility
+- [x] Usage Utility
 - [ ] Readme Update
 
 ## License
