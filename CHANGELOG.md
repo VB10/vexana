@@ -1,4 +1,13 @@
-# [4.0.0-dev5] - 20/12/2023
+# [4.0.0] - 6/4/2024
+
+- The new version has been released with many new coding updates
+- Package and many dependencies has been updated
+- Removed unused code with package
+- Added new unit test
+- Added new documentation
+- Updated example project
+
+## [4.0.0-dev5] - 20/12/2023
 
 - Coding improvement for test coverage
 
