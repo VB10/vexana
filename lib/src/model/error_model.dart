@@ -1,18 +1,38 @@
-import 'package:vexana/src/interface/IErrorModel.dart';
-import 'package:vexana/src/interface/INetworkModel.dart';
+import 'dart:io' if (dart.library.html) 'dart:html' show HttpStatus;
 
-class ErrorModel<T extends INetworkModel<T>?> extends IErrorModel<T> {
-  ErrorModel({this.statusCode, this.description, this.model});
+import 'package:vexana/vexana.dart';
 
-  @override
-  final int? statusCode;
+/// Error model for network response
+final class ErrorModel<T extends INetworkModel<T>?> extends IErrorModel<T> {
+  /// Error model for network response
+  /// [statusCode] Error status code as http result
+  /// [description] Error message
+  ErrorModel({super.statusCode, super.description, super.model});
 
-  @override
-  final String? description;
+  /// Null is returned after parsing a model
+  factory ErrorModel.parseError() {
+    return ErrorModel(description: 'JSON Decode Error ⛔');
+  }
 
-  @override
-  final T? model;
+  /// Json Parse Error
+  factory ErrorModel.jsonError() {
+    return ErrorModel(description: 'Null is returned after parsing a model $T');
+  }
 
+  /// Error model for network response
+  /// [exception] Dio exception
+  ///
+  /// return [ErrorModel]
+  factory ErrorModel.dioException(DioException exception) {
+    return ErrorModel<T>(
+      description: exception.message,
+      statusCode: exception.response != null
+          ? exception.response!.statusCode
+          : HttpStatus.internalServerError,
+    );
+  }
+
+  /// Make a copy of this object with new values for some of its properties
   ErrorModel<T> copyWith({
     int? statusCode,
     String? description,

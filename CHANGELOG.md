@@ -1,6 +1,35 @@
-# [3.5.4] - 02/10/2023
+# [4.0.0] - 6/4/2024
 
-- Updated some code fix and version migration
+- The new version has been released with many new coding updates
+- Package and many dependencies has been updated
+- Removed unused code with package
+- Added new unit test
+- Added new documentation
+- Updated example project
+
+## [4.0.0-dev5] - 20/12/2023
+
+- Coding improvement for test coverage
+
+## [4.0.0-dev4] - 19/12/2023
+
+- Coding improvement with documentation
+- Fixed refresh token issues
+
+## [4.0.0-dev3] - 21/02/2023
+
+- Parallel request problem has fixed with cancel token.
+
+## [4.0.0-dev2] - 21/02/2023
+
+- Refresh token issue has fixed.
+
+## [4.0.0-dev1] - 21/02/2023
+
+- The new version has been released with may new coding updates
+- Package and many dependencies has been updated
+- Added new unit test
+- Added new documentation
 
 ## [3.5.2] - 21/02/2023
 

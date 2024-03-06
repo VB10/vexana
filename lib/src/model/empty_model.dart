@@ -1,36 +1,23 @@
-import 'package:vexana/src/interface/INetworkModel.dart';
+import 'package:equatable/equatable.dart';
+import 'package:vexana/src/interface/index.dart';
 
-class EmptyModel extends INetworkModel<EmptyModel> {
-  String? name;
-
+/// [EmptyModel] is a model class that is used to
+/// general model or primitive type.
+final class EmptyModel extends INetworkModel<EmptyModel> with EquatableMixin {
+  /// [EmptyModel] constructor is used to create a new [EmptyModel]
   EmptyModel({this.name});
 
-  EmptyModel.fromJson(Map<String, dynamic>? json) {
-    if (json == null) {
-      return;
-    }
-    name = json['name'] as String?;
-  }
+  /// [name] is a getter method that returns the name of the model.
+  final String? name;
 
   @override
-  Map<String, Object> toJson() {
-    final data = <String, Object>{};
-    data['name'] = name ?? '';
-    return data;
-  }
+  Map<String, Object>? toJson() => null;
 
   @override
   EmptyModel fromJson(Map<String, dynamic>? json) {
-    return EmptyModel.fromJson(json);
+    return EmptyModel(name: json?['name'] as String? ?? '');
   }
 
   @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is EmptyModel && other.name == name;
-  }
-
-  @override
-  int get hashCode => name.hashCode;
+  List<Object?> get props => [name];
 }
