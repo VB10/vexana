@@ -1,4 +1,4 @@
-# [4.0.0] - 6/4/2024
+# [4.0.0] - 06/04/2024
 
 - The new version has been released with many new coding updates
 - Package and many dependencies has been updated
