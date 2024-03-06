@@ -1,5 +1,10 @@
 # vexana
 
+Vexana is easy to use network process with dio. You can do dynamic model parsing, base error model, timeout and many utility functions.
+
+![Vexana-Game](https://thumbs.gfycat.com/RightSoupyCrow-size_restricted.gif)
+
+
 ## Getting Started 🔥
 
 Let's talk about usage details. **You can learn more detail about vexana in test folder.** Please check it out before using this package. I'm not good to write a readme 😅
@@ -250,5 +255,3 @@ Turkey has recently been struck by a devastating earthquake with a magnitude of 
 
 You can donate for AHBAP with this site
 [AHBAP_DONATE](https://bagis.ahbap.org/bagis)
-
-Vexana is easy to use network process with dio. You can do dynamic model parsing, base error model, timeout and many utility functions.
