@@ -5,5 +5,5 @@ class ResponseModel<T, E extends INetworkModel<E>?>
     extends IResponseModel<T?, E> {
   /// T: success model
   /// E: error model
-  ResponseModel({T? data, IErrorModel<E>? error}) : super(data, error);
+  const ResponseModel({T? data, IErrorModel<E>? error}) : super(data, error);
 }

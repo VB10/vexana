@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 
 /// Network manager utility class for general usage
 final class NetworkManagerUtil {
-  NetworkManagerUtil._();
+  const NetworkManagerUtil._();
 
   /// status code for success check with 200 and 300
   static bool isRequestHasSurceased(int? statusCode) {
