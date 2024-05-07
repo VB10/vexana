@@ -17,9 +17,10 @@ abstract class JsonPlaceHolderViewModel extends State<JsonPlaceHolder> {
     networkManager = NetworkManager<Post>(
       isEnableLogger: true,
       // fileManager: LocalSembast(),
-
+      isEnableTest: true,
       noNetwork: NoNetwork(
         context,
+
         // customNoNetwork: (onRetry) {
         //   return NoNetworkSample(onPressed: onRetry);
         // },
@@ -37,7 +38,6 @@ abstract class JsonPlaceHolderViewModel extends State<JsonPlaceHolder> {
       parseModel: Post(),
       method: RequestType.GET,
       isErrorDialog: true,
-      expiration: const Duration(seconds: 1),
     );
 
     if (response.data is List) {

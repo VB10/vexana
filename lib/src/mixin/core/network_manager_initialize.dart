@@ -15,7 +15,6 @@ mixin _NetworkManagerInitialize on DioMixin, NetworkManagerErrorInterceptor {
     if (parameters.skippingSSLCertificate ?? false) ssl.createAdapter().make();
     if (parameters.isEnableLogger ?? false) interceptors.add(LogInterceptor());
     addNetworkInterceptors(parameters.interceptor);
-    httpClientAdapter =
-        adapter.createAdapter(isEnableTest: parameters.isEnableTest ?? false);
+    httpClientAdapter = adapter.createAdapter();
   }
 }
