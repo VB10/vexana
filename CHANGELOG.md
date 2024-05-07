@@ -1,6 +1,9 @@
 # [4.0.2]
 - Removed unused code with package (Native adapter)
 
+## [4.0.3]
+- Updated readme with some invited social media links
+
 ## [4.0.1] - 06/04/2024
 
 - The new version has been released with many new coding updates
