@@ -3,7 +3,7 @@ description: Manage your network layer with dio. You will be able to use it very
   easily network operations.
 version: 4.0.3
 homepage: https://github.com/VB10/vexana
-issue_tracker: https://github.com/vexana/issues
+issue_tracker: https://github.com/VB10/vexana/issues
 funding:
   - https://github.com/sponsors/vb10/
 topics:
