@@ -1,4 +1,8 @@
-# [4.0.2]
+
+# [4.0.4]
+- Removed transformer custom implementation
+
+## [4.0.2]
 - Removed unused code with package (Native adapter)
 
 ## [4.0.3]

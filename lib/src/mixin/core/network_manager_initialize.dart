@@ -10,8 +10,6 @@ mixin _NetworkManagerInitialize on DioMixin, NetworkManagerErrorInterceptor {
 
   void _setup() {
     options = parameters.baseOptions;
-    (transformer as BackgroundTransformer).jsonDecodeCallback =
-        NetworkManagerUtil.decodeBodyWithCompute;
     if (parameters.skippingSSLCertificate ?? false) ssl.createAdapter().make();
     if (parameters.isEnableLogger ?? false) interceptors.add(LogInterceptor());
     addNetworkInterceptors(parameters.interceptor);
