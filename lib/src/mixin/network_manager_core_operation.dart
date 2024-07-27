@@ -68,6 +68,10 @@ mixin NetworkManagerCoreOperation<E extends INetworkModel<E>> {
     return onError.call(error);
   }
 
+  /// The handleErrorResponse method handles network errors by either invoking
+  /// an error callback or retrying the request based on certain conditions.
+  /// If the network is unavailable and retries are enabled, it shows a custom
+  /// no-network widget and retries the request if the user opts to retry.
   Future<NetworkResult<R, E>>
       handleErrorResponse<T extends INetworkModel<T>, R>({
     required String path,
