@@ -1,7 +1,5 @@
-import 'package:dio/dio.dart';
-import 'package:vexana/src/interface/index.dart';
 import 'package:vexana/src/mixin/index.dart';
-import 'package:vexana/src/model/enum/request_type.dart';
+import 'package:vexana/vexana.dart';
 
 /// The `INetworkManager` interface is used to define the methods that are used
 /// to send HTTP requests to a server. It extends the `NetworkManagerParameters`
@@ -29,6 +27,20 @@ abstract class INetworkManager<E extends INetworkModel<E>>
   /// `path` with various parameters. Here is a breakdown of
   /// the parameters:
   Future<IResponseModel<R?, E?>> send<T extends INetworkModel<T>, R>(
+    String path, {
+    required T parseModel,
+    required RequestType method,
+    String? urlSuffix,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    Duration? expiration,
+    dynamic data,
+    ProgressCallback? onReceiveProgress,
+    CancelToken? cancelToken,
+    bool isErrorDialog = false,
+  });
+
+  Future<NetworkResult<R, E>> sendRequest<T extends INetworkModel<T>, R>(
     String path, {
     required T parseModel,
     required RequestType method,

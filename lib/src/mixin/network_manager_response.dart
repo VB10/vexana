@@ -33,6 +33,15 @@ mixin NetworkManagerResponse<E extends INetworkModel<E>> {
     );
   }
 
+  NetworkResult<R, E> fetchSuccessResponse<T extends INetworkModel<T>, R>({
+    required dynamic data,
+    required T parserModel,
+  }) {
+    final model = parseUserResponseData<R, T>(data, parserModel);
+    if (model != null) return NetworkSuccessResult(model);
+    return NetworkErrorResult(ErrorModel<E>.parseError());
+  }
+
   /// Error response fetch to parse it
   ///
   /// R: void or null for only show error
@@ -57,6 +66,20 @@ mixin NetworkManagerResponse<E extends INetworkModel<E>> {
         statusCode: error.statusCode,
       ),
     );
+  }
+
+  NetworkResult<R, E> fetchErrorResponse<R>(DioException exception) {
+    CustomLogger(
+      isEnabled: parameters.isEnableLogger,
+      data: exception.message,
+    ).printError();
+
+    final errorResponse = exception.response;
+    var error = ErrorModel<E>.dioException(exception);
+    if (errorResponse != null) {
+      error = _generateErrorModel(error, errorResponse.data);
+    }
+    return NetworkErrorResult(error);
   }
 
   ErrorModel<E> _generateErrorModel(ErrorModel<E> error, dynamic data) {
