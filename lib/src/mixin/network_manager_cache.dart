@@ -38,6 +38,25 @@ mixin NetworkManagerCache<E extends INetworkModel<E>>
     );
   }
 
+  Future<NetworkResult<R, E>?> loadFromCache<R, T extends INetworkModel<T>>({
+    required Duration? expiration,
+    required RequestType type,
+    required T responseModel,
+  }) async {
+    if (expiration == null) return null;
+    final cacheDataString = await _fetchOnlyData(type);
+    if (cacheDataString == null) return null;
+
+    final model = parseUserResponseData<R, T>(
+      NetworkManagerUtil.decodeBodyWithCompute(cacheDataString),
+      responseModel,
+    );
+
+    if (model is R) return NetworkSuccessResult(model);
+    final error = ErrorModel<E>.parseError();
+    return NetworkErrorResult(error);
+  }
+
   /// Write data to database
   Future<void> writeAll(
     Duration? expiration,

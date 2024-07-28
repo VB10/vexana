@@ -136,6 +136,71 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
   }
 
   @override
+  Future<NetworkResult<R, E>> sendRequest<T extends INetworkModel<T>, R>(
+    String path, {
+    required T parseModel,
+    required RequestType method,
+    String? urlSuffix = '',
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    Duration? expiration,
+    dynamic data,
+    ProgressCallback? onReceiveProgress,
+    bool isErrorDialog = false,
+    CancelToken? cancelToken,
+  }) async {
+    final verifyFormCache = await _verifyCache<R, T>(
+      expiration,
+      method,
+      parseModel,
+    );
+    if (verifyFormCache != null) return verifyFormCache;
+
+    final defaultOptions = Options();
+    options ??= defaultOptions;
+    options.method = method.stringValue;
+    final body = makeRequestBodyData(data);
+
+    try {
+      final response = await request<dynamic>(
+        '$path$urlSuffix',
+        data: body,
+        options: options,
+        queryParameters: queryParameters,
+        cancelToken: cancelToken,
+      );
+
+      if (NetworkManagerUtil.isRequestHasSurceased(response.statusCode)) {
+        if (expiration != null) {
+          await cache.writeAll(expiration, response.data, method);
+        }
+        return fetchSuccessResponse<T, R>(
+          data: response.data,
+          parserModel: parseModel,
+        );
+      }
+
+      return NetworkErrorResult(
+        ErrorModel(description: response.data.toString()),
+      );
+    } on dio.DioException catch (error) {
+      return handleErrorResponse<T, R>(
+        path: path,
+        cancelToken: cancelToken,
+        data: data,
+        isErrorDialog: isErrorDialog,
+        options: options,
+        urlSuffix: urlSuffix,
+        queryParameters: queryParameters,
+        parseModel: parseModel,
+        method: method,
+        error: error,
+        onError: fetchErrorResponse,
+      );
+    }
+  }
+
+  @override
   Future<dio.Response<List<int>>> downloadFileSimple(
     String path,
     ProgressCallback? callback,
@@ -232,5 +297,19 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
       return cacheData;
     }
     return null;
+  }
+
+  Future<NetworkResult<R, E>?> _verifyCache<R, T extends INetworkModel<T>>(
+    Duration? expiration,
+    RequestType method,
+    T parseModel,
+  ) async {
+    if (expiration == null) return null;
+    final cacheData = await loadFromCache<R, T>(
+      expiration: expiration,
+      type: method,
+      responseModel: parseModel,
+    );
+    return cacheData;
   }
 }
