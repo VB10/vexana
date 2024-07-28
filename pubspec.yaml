@@ -21,7 +21,7 @@ dependencies:
   native_dio_adapter: ^1.0.0+2
 
   # Core
-  dio: ^5.3.1
+  dio: ^5.5.0
 
   flutter:
     sdk: flutter
