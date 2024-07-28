@@ -41,7 +41,7 @@ class Post extends INetworkModel<Post> {
   final String? title;
   final String? body;
 
-  Post({
+  const Post({
     this.userId,
     this.id,
     this.title,
