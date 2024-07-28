@@ -40,6 +40,10 @@ abstract class INetworkManager<E extends INetworkModel<E>>
     bool isErrorDialog = false,
   });
 
+  /// The sendRequest method is used to send an HTTP request
+  /// and handle the response. It supports various HTTP methods and
+  /// can parse the response into a specified model. This method also provides
+  /// options for handling progress, cancellation, and caching.
   Future<NetworkResult<R, E>> sendRequest<T extends INetworkModel<T>, R>(
     String path, {
     required T parseModel,

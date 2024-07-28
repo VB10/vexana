@@ -33,6 +33,10 @@ mixin NetworkManagerResponse<E extends INetworkModel<E>> {
     );
   }
 
+  /// The fetchSuccessResponse method parses the provided data into the
+  /// specified model and returns a NetworkResult. If the parsing is successful,
+  /// it returns a NetworkSuccessResult with the parsed model. If parsing fails,
+  /// it returns a NetworkErrorResult with an error model.
   NetworkResult<R, E> fetchSuccessResponse<T extends INetworkModel<T>, R>({
     required dynamic data,
     required T parserModel,
@@ -68,6 +72,10 @@ mixin NetworkManagerResponse<E extends INetworkModel<E>> {
     );
   }
 
+  /// The fetchErrorResponse method handles a DioException,
+  /// logs the error message if logging is enabled, and generates an error model
+  /// based on the exception and its response data.
+  /// It then returns a NetworkErrorResult containing the error model.
   NetworkResult<R, E> fetchErrorResponse<R>(DioException exception) {
     CustomLogger(
       isEnabled: parameters.isEnableLogger,

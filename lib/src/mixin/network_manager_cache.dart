@@ -38,6 +38,11 @@ mixin NetworkManagerCache<E extends INetworkModel<E>>
     );
   }
 
+  /// The loadFromCache method retrieves data from the cache based on the
+  /// request type and expiration duration. If the data is found and not
+  /// expired, it parses the data into the specified model and returns a
+  /// success result. If the data is not found or is expired,
+  /// it returns null or an error result.
   Future<NetworkResult<R, E>?> loadFromCache<R, T extends INetworkModel<T>>({
     required Duration? expiration,
     required RequestType type,
