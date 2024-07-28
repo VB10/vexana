@@ -26,6 +26,9 @@ abstract class INetworkManager<E extends INetworkModel<E>>
   /// The `send` method is used to send an HTTP request to a specified
   /// `path` with various parameters. Here is a breakdown of
   /// the parameters:
+  @Deprecated(
+    'Use sendRequest instead. This method will be removed in future versions.',
+  )
   Future<IResponseModel<R?, E?>> send<T extends INetworkModel<T>, R>(
     String path, {
     required T parseModel,
