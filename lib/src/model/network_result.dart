@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:vexana/vexana.dart';
 
 /// NetworkResult is a sealed class representing the result of a request.
@@ -32,13 +34,13 @@ sealed class NetworkResult<T, E extends INetworkModel<E>> {
   ///   );
   /// }
   /// ```
-  B fold<B>({
-    required B Function(T data) onSuccess,
-    required B Function(IErrorModel<E>) onError,
+  FutureOr<B?> fold<B>({
+    required FutureOr<B> Function(T data) onSuccess,
+    FutureOr<B> Function(IErrorModel<E>)? onError,
   }) {
     return switch (this) {
       NetworkSuccessResult<T, E>(:final data) => onSuccess.call(data),
-      NetworkErrorResult<T, E>(:final error) => onError.call(error),
+      NetworkErrorResult<T, E>(:final error) => onError?.call(error),
     };
   }
 }

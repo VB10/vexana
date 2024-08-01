@@ -18,12 +18,18 @@ void main() {
       expect(response.isError, isFalse);
       expect((response as NetworkSuccessResult).data is List<Post>, isTrue);
 
-      final data = response.fold(
-        onSuccess: (data) => data,
-        onError: (_) => null,
+      final isSuccess = response.fold(
+        onSuccess: (data) {
+          // handle success case
+          return true;
+        },
+        onError: (error) {
+          // handle error case
+          return false;
+        },
       );
 
-      expect(data, isNotNull);
+      expect(isSuccess, isTrue);
     });
 
     test('Success response parse - Single', () async {

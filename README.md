@@ -45,18 +45,18 @@ final response = await networkManager.sendRequest<Todo, List<Todo>>(
   );
   response.fold(
     onSuccess: (data) {
-      print('${data.length}');
+      // handle success case
     },
     onError: (error) {
-      print('Error: ${error.message}');
+      // handle error case
     },
   );
   
   // or
   
   final _ = switch (response) {
-        NetworkSuccessResult(:final data) => print(data),
-        NetworkErrorResult(:final error) => print(error),
+        NetworkSuccessResult(:final data) => data,
+        NetworkErrorResult(:final error) => error,
       };
 ```
 
