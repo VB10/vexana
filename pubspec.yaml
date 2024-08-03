@@ -1,7 +1,7 @@
 name: vexana
 description: Manage your network layer with dio. You will be able to use it very
   easily network operations.
-version: 4.0.3
+version: 4.0.4
 homepage: https://github.com/VB10/vexana
 issue_tracker: https://github.com/VB10/vexana/issues
 funding:
@@ -18,10 +18,8 @@ environment:
 
 dependencies:
   collection: ^1.17.1
-  native_dio_adapter: ^1.0.0+2
-
   # Core
-  dio: ^5.3.1
+  dio: ^5.5.0
 
   flutter:
     sdk: flutter
@@ -38,13 +36,13 @@ dependencies:
   equatable: ^2.0.5
 
 dev_dependencies:
-  flutter_lints: ^3.0.1
+  flutter_lints: ^4.0.0
   flutter_test:
     sdk: flutter
-  lints: ^3.0.0
+  lints: ^4.0.0
   mockito: ^5.0.0
   path_provider_platform_interface: ^2.0.1
   plugin_platform_interface: ^2.0.0
-  very_good_analysis: ^5.0.0+1
+  very_good_analysis: ^6.0.0
 
 flutter:
