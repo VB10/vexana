@@ -47,12 +47,12 @@ mixin NetworkManagerErrorInterceptor {
             maxAttempts: NetworkManagerParameters.maxRetryCount,
             retryIf: _retryIf,
           );
-
-          return handler.resolve(
-            parameters.onResponseParse!(
-              response,
-            ),
-          );
+          // onResponseParse is null, then return response
+          if (parameters.onResponseParse == null) {
+            return handler.resolve(response);
+          }
+          // Call onResponseParse callback and return response
+          return handler.resolve(parameters.onResponseParse!(response));
         } catch (_) {
           /// cancel request & call onRefreshFail callback and unlock
           error.requestOptions.cancelToken?.cancel();
