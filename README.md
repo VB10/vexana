@@ -152,13 +152,18 @@ Many projects use authentication structure for mobile security (like a jwt). It 
 > Since i locked all requests, I am giving a new service instance.
 
 ```dart
-INetworkManager  networkManager = NetworkManager(isEnableLogger: true, options: BaseOptions(baseUrl: "https://jsonplaceholder.typicode.com/"),
-onRefreshFail: () {  //Navigate to login },
- onRefreshToken: (error, newService) async {
-    <!-- Write your refresh token business -->
-    <!-- Then update error.req.headers to new token -->
-    return error;
-});
+INetworkManager  networkManager = NetworkManager(
+        isEnableLogger: true,
+        options: BaseOptions(baseUrl: "https://jsonplaceholder.typicode.com/"),
+        onRefreshFail: () {
+            //Navigate to login 
+        }, 
+        onRefreshToken: (error, newService) async {
+             <!-- Write your refresh token business -->
+             <!-- Then update error.req.headers to new token -->
+          return error;
+        }
+);
 ```
 
 ### **Caching** 🧲
