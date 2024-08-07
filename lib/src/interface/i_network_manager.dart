@@ -1,7 +1,5 @@
-import 'package:dio/dio.dart';
-import 'package:vexana/src/interface/index.dart';
 import 'package:vexana/src/mixin/index.dart';
-import 'package:vexana/src/model/enum/request_type.dart';
+import 'package:vexana/vexana.dart';
 
 /// The `INetworkManager` interface is used to define the methods that are used
 /// to send HTTP requests to a server. It extends the `NetworkManagerParameters`
@@ -28,7 +26,28 @@ abstract class INetworkManager<E extends INetworkModel<E>>
   /// The `send` method is used to send an HTTP request to a specified
   /// `path` with various parameters. Here is a breakdown of
   /// the parameters:
+  @Deprecated(
+    'Use sendRequest instead. This method will be removed in future versions.',
+  )
   Future<IResponseModel<R?, E?>> send<T extends INetworkModel<T>, R>(
+    String path, {
+    required T parseModel,
+    required RequestType method,
+    String? urlSuffix,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    Duration? expiration,
+    dynamic data,
+    ProgressCallback? onReceiveProgress,
+    CancelToken? cancelToken,
+    bool isErrorDialog = false,
+  });
+
+  /// The sendRequest method is used to send an HTTP request
+  /// and handle the response. It supports various HTTP methods and
+  /// can parse the response into a specified model. This method also provides
+  /// options for handling progress, cancellation, and caching.
+  Future<NetworkResult<R, E>> sendRequest<T extends INetworkModel<T>, R>(
     String path, {
     required T parseModel,
     required RequestType method,

@@ -38,8 +38,26 @@ INetworkManager  networkManager = NetworkManage<Null or UserErrorModel>(isEnable
 First, you have to provide the parse model, then the result model. (Result model could be a list, model or primitive)
 
 ```dart
-final response =
-await networkManager.send<Todo, List<Todo>>("/todos", parseModel: Todo(), method: RequestType.GET);
+final response = await networkManager.sendRequest<Todo, List<Todo>>(
+    '/todos',
+    parseModel: Todo(),
+    method: RequestType.GET,
+  );
+  response.fold(
+    onSuccess: (data) {
+      // handle success case
+    },
+    onError: (error) {
+      // handle error case
+    },
+  );
+  
+  // or
+  
+  final _ = switch (response) {
+        NetworkSuccessResult(:final data) => data,
+        NetworkErrorResult(:final error) => error,
+      };
 ```
 
 ### **Base Headers** 📍

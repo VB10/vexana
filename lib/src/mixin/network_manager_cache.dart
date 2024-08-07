@@ -38,6 +38,30 @@ mixin NetworkManagerCache<E extends INetworkModel<E>>
     );
   }
 
+  /// The loadFromCache method retrieves data from the cache based on the
+  /// request type and expiration duration. If the data is found and not
+  /// expired, it parses the data into the specified model and returns a
+  /// success result. If the data is not found or is expired,
+  /// it returns null or an error result.
+  Future<NetworkResult<R, E>?> loadFromCache<R, T extends INetworkModel<T>>({
+    required Duration? expiration,
+    required RequestType type,
+    required T responseModel,
+  }) async {
+    if (expiration == null) return null;
+    final cacheDataString = await _fetchOnlyData(type);
+    if (cacheDataString == null) return null;
+
+    final model = parseUserResponseData<R, T>(
+      NetworkManagerUtil.decodeBodyWithCompute(cacheDataString),
+      responseModel,
+    );
+
+    if (model is R) return NetworkSuccessResult(model);
+    final error = ErrorModel<E>.parseError();
+    return NetworkErrorResult(error);
+  }
+
   /// Write data to database
   Future<void> writeAll(
     Duration? expiration,

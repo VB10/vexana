@@ -15,6 +15,7 @@ export 'src/interface/index.dart';
 export 'src/model/empty_model.dart';
 export 'src/model/enum/request_type.dart';
 export 'src/model/error_model.dart';
+export 'src/model/network_result.dart';
 export 'src/model/response_model.dart';
 // NETWORK
 export 'src/network_manager.dart';
