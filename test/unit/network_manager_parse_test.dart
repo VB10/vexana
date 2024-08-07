@@ -32,7 +32,7 @@ void main() {
     final responsePrimitive =
         testParseManager.successResponseFetch<EmptyModel, EmptyModel>(
       data: '1',
-      parserModel: EmptyModel(),
+      parserModel: const EmptyModel(),
     );
 
     expect(responsePrimitive.data?.name, '1');
@@ -46,6 +46,6 @@ void main() {
 
     expect(response.error?.model?.name, singleData.values.first);
     expect(response.error?.statusCode, HttpStatus.notFound);
-    expect(response.error?.description, 'Not Found');
+    expect(response.error?.description, 'Mock Message');
   });
 }
