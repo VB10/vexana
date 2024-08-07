@@ -9,7 +9,8 @@ class MockException extends Mock implements DioException {
   @override
   // TODO: implement requestOptions
   RequestOptions get requestOptions =>
-      RequestOptions(baseUrl: 'test', path: 'mock');
+      RequestOptions(baseUrl: 'https://pub.dev/', path: 'mock');
+
   @override
   Response<dynamic> get response => Response(
         requestOptions: requestOptions,
@@ -17,4 +18,10 @@ class MockException extends Mock implements DioException {
         statusCode: HttpStatus.notFound,
         statusMessage: 'Not Found',
       );
+
+  @override
+  Object? get error => 'Mock Error';
+
+  @override
+  String? get message => 'Mock Message';
 }

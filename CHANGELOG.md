@@ -1,4 +1,12 @@
 
+# [4.1.0]
+ - Refresh Token Dart Code example update #106 from @behzodfaiziev
+ - fix formData finalized exception #105 from @aligconnectinno
+ - Refactor NetworkManagerErrorInterceptor to handle null onResponseParse #100 from @aligconnectinno
+ - updated issue_tracker link #94 from @behzodfaiziev
+ - Updated unit test capabilities
+
+ 
 # [4.0.4]
 - Removed transformer custom implementation
 

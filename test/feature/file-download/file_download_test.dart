@@ -12,12 +12,12 @@ void main() {
     networkManager = NetworkManager<EmptyModel>(
       isEnableLogger: true,
       isEnableTest: true,
-      options: BaseOptions(baseUrl: 'http://www.africau.edu/images/default/'),
+      options: BaseOptions(baseUrl: 'https://pdfobject.com/pdf/'),
     );
   });
   test('Primitive Type', () async {
     final response = await networkManager.downloadFileSimple(
-        'http://www.africau.edu/images/default/sample.pdf', (count, total) {
+        'https://pdfobject.com/pdf/sample.pdf', (count, total) {
       print('${count}');
     });
     expect(response.data, isList);

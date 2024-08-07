@@ -5,7 +5,7 @@ import 'common/mock_parameters.dart';
 
 final class NetworkManagerHeaderTest with NetworkManagerOperation {
   @override
-  NetworkManagerParameters get parameters => MockNetworkManagerParameters();
+  final NetworkManagerParameters parameters = MockNetworkManagerParameters();
 }
 
 void main() {
@@ -21,6 +21,7 @@ void main() {
       testClass
         ..addBaseHeader(const MapEntry('key', 'value'))
         ..clearHeader();
+
       expect(testClass.allHeaders.isEmpty, true);
     });
 
