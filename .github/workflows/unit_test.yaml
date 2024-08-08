@@ -18,6 +18,10 @@ jobs:
         with:
           flutter-version: 3.24.0
 
+      # Check for formatting issues
+      - name: Check formatting
+        run: flutter format --set-exit-if-changed .
+
       - name: Install dependencies
         run: flutter pub get
       # Analyze the project source
