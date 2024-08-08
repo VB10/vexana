@@ -7,7 +7,7 @@ final class ErrorModel<T extends INetworkModel<T>?> extends IErrorModel<T> {
   /// Error model for network response
   /// [statusCode] Error status code as http result
   /// [description] Error message
- const ErrorModel({super.statusCode, super.description, super.model});
+  const ErrorModel({super.statusCode, super.description, super.model});
 
   /// Null is returned after parsing a model
   factory ErrorModel.parseError() {
