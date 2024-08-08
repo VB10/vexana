@@ -17,3 +17,4 @@ analyzer:
 linter:
   rules:
     prefer_constructors_over_static_methods: false
+    sort_pub_dependencies: false
