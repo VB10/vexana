@@ -20,7 +20,7 @@ jobs:
 
       # Check for formatting issues
       - name: Check formatting
-        run: flutter format --set-exit-if-changed .
+        run: dart format --set-exit-if-changed .
 
       - name: Install dependencies
         run: flutter pub get
