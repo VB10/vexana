@@ -1,29 +1,31 @@
+# This workflow will test the Dart code in the repository
+# to make sure that the quality of the code is high.
 name: Dart
-
 on:
   push:
+    # Run the workflow on the master branch on push
     branches: [ "master" ]
   pull_request:
+    # Run the workflow on the master branch on pull requests
     branches: [ "master" ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
-
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: 3.24.0
+      # Install dependencies
+      - name: Install dependencies
+        run: flutter pub get
 
       # Check for formatting issues
       - name: Check formatting
         run: dart format --set-exit-if-changed .
 
-      - name: Install dependencies
-        run: flutter pub get
       # Analyze the project source
       - name: Analyze project source
         run: flutter analyze --fatal-infos --fatal-warnings
