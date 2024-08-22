@@ -119,10 +119,6 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
         requestOptions: response.requestOptions,
         response: response,
       );
-
-      // return ResponseModel(
-      //   error: ErrorModel(description: response.data.toString()),
-      // );
     } on dio.DioException catch (error) {
       return handleNetworkError<T, R>(
         path: path,
