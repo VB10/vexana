@@ -5,6 +5,8 @@ import 'package:vexana/vexana.dart';
 class MockNetworkManagerParameters extends Mock
     implements NetworkManagerParameters {
   @override
+  bool? get isEnableLogger => true;
+  @override
   final BaseOptions baseOptions = BaseOptions(
     baseUrl: 'https://jsonplaceholder.typicode.com/',
     headers: {

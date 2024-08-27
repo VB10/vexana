@@ -87,16 +87,29 @@ mixin NetworkManagerErrorInterceptor {
   /// [HttpStatus.unauthorized].
   Future<Response<dynamic>> _createNewRequest(DioException error) {
     final dioNewInstance = Dio(parameters.baseOptions);
+    final dataNewInstance = _createNewData(error.requestOptions.data);
     return dioNewInstance.request<dynamic>(
       error.requestOptions.path,
       queryParameters: error.requestOptions.queryParameters,
-      data: error.requestOptions.data,
+      data: dataNewInstance,
       cancelToken: error.requestOptions.cancelToken,
       options: Options(
         method: error.requestOptions.method,
         headers: error.requestOptions.headers,
       ),
     );
+  }
+
+  /// Creates a new data with the same type of [data] and returns it.
+  /// It's required to FormData to be cloned before sending a new request.
+  /// Otherwise, it throws an FormData has already been finalized error.
+  /// If [data] is [FormData], then it's cloned and returned.
+  /// Otherwise, it's returned as it is.
+  dynamic _createNewData(dynamic data) {
+    return switch (data) {
+      FormData() => data.clone(),
+      _ => data,
+    };
   }
 
   /// Checks if [e] is [DioException] and

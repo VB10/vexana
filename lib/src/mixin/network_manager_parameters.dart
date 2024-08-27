@@ -35,6 +35,7 @@ class NetworkManagerParameters extends Equatable {
   final BaseOptions baseOptions;
 
   final RefreshTokenCallBack? onRefreshToken;
+
   final OnReply? onResponseParse;
 
   const NetworkManagerParameters({
