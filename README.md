@@ -35,14 +35,28 @@ INetworkManager  networkManager = NetworkManage<Null or UserErrorModel>(isEnable
 
 ### **Model Parse** ⚔️
 
-First, you have to provide the parse model, then the result model. (Result model could be a list, model or primitive)
+- First, you have to provide the parse model, then the result model. (Result model could be a list, model or primitive)
+- "You have two options: you can use either the `send` method or the `sendRequest` method."
+
+### `send`
+```dart
+    final response = await networkManager.send<Todo, List<Todo>>(
+      "/todos",
+      parseModel: Todo(),
+      method: RequestType.GET,
+    );
+```
+
+### `sendRequest`
 
 ```dart
-final response = await networkManager.sendRequest<Todo, List<Todo>>(
+  final response = await networkManager.sendRequest<Todo, List<Todo>>(
     '/todos',
     parseModel: Todo(),
     method: RequestType.GET,
   );
+
+  // usage 1:
   response.fold(
     onSuccess: (data) {
       // handle success case
@@ -51,13 +65,31 @@ final response = await networkManager.sendRequest<Todo, List<Todo>>(
       // handle error case
     },
   );
-  
-  // or
-  
+
+  // usage 2
   final _ = switch (response) {
-        NetworkSuccessResult(:final data) => data,
-        NetworkErrorResult(:final error) => error,
-      };
+    NetworkSuccessResult(:final data) => data,
+    NetworkErrorResult(:final error) => error,
+  };
+
+  // usage 3
+  if (response is NetworkSuccessResult<List<Todo>, EmptyModel>) {
+    final List<Todo> todos = response.data;
+    // use the data
+  }
+
+  // You can check the response using the `isSuccess` and `isError` getters. 
+  if (response.isSuccess) {
+    final data = (response as NetworkSuccessResult<List<Todo>,EmptyModel>).data;
+    // handle success case
+    return;
+  }
+  
+  if (response.isError) {
+    final error = (response as NetworkErrorResult<List<Todo>,EmptyModel>).error;
+    // handle error case
+    return;
+  }
 ```
 
 ### **Base Headers** 📍
