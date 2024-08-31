@@ -49,6 +49,8 @@ INetworkManager  networkManager = NetworkManage<Null or UserErrorModel>(isEnable
 
 ### `sendRequest`
 
+This method is designed to improve the 'send' method. The response is a 'NetworkResult' object, which is a `sealed class`. You can use it however you like, either with pattern matching or other methods.
+
 ```dart
   final response = await networkManager.sendRequest<Todo, List<Todo>>(
     '/todos',
@@ -84,7 +86,7 @@ INetworkManager  networkManager = NetworkManage<Null or UserErrorModel>(isEnable
     // handle success case
     return;
   }
-  
+
   if (response.isError) {
     final error = (response as NetworkErrorResult<List<Todo>,EmptyModel>).error;
     // handle error case
