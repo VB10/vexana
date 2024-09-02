@@ -84,4 +84,22 @@ class CustomNetworkManager extends INetworkManager<EmptyModel> {
   }) {
     return Future.value(Response<T>(requestOptions: RequestOptions()));
   }
+
+  @override
+  Future<NetworkResult<R, EmptyModel>>
+      sendRequest<T extends INetworkModel<T>, R>(
+    String path, {
+    required T parseModel,
+    required RequestType method,
+    String? urlSuffix,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    Duration? expiration,
+    data,
+    ProgressCallback? onReceiveProgress,
+    CancelToken? cancelToken,
+    bool isErrorDialog = false,
+  }) {
+    return Future.value(NetworkSuccessResult(const EmptyModel() as R));
+  }
 }

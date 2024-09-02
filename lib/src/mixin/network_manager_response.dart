@@ -33,6 +33,19 @@ mixin NetworkManagerResponse<E extends INetworkModel<E>> {
     );
   }
 
+  /// The fetchSuccessResponse method parses the provided data into the
+  /// specified model and returns a NetworkResult. If the parsing is successful,
+  /// it returns a NetworkSuccessResult with the parsed model. If parsing fails,
+  /// it returns a NetworkErrorResult with an error model.
+  NetworkResult<R, E> fetchSuccessResponse<T extends INetworkModel<T>, R>({
+    required dynamic data,
+    required T parserModel,
+  }) {
+    final model = parseUserResponseData<R, T>(data, parserModel);
+    if (model != null) return NetworkSuccessResult(model);
+    return NetworkErrorResult(ErrorModel<E>.parseError());
+  }
+
   /// Error response fetch to parse it
   ///
   /// R: void or null for only show error
@@ -57,6 +70,24 @@ mixin NetworkManagerResponse<E extends INetworkModel<E>> {
         statusCode: error.statusCode,
       ),
     );
+  }
+
+  /// The fetchErrorResponse method handles a DioException,
+  /// logs the error message if logging is enabled, and generates an error model
+  /// based on the exception and its response data.
+  /// It then returns a NetworkErrorResult containing the error model.
+  NetworkResult<R, E> fetchErrorResponse<R>(DioException exception) {
+    CustomLogger(
+      isEnabled: parameters.isEnableLogger,
+      data: exception.message,
+    ).printError();
+
+    final errorResponse = exception.response;
+    var error = ErrorModel<E>.dioException(exception);
+    if (errorResponse != null) {
+      error = _generateErrorModel(error, errorResponse.data);
+    }
+    return NetworkErrorResult(error);
   }
 
   ErrorModel<E> _generateErrorModel(ErrorModel<E> error, dynamic data) {
