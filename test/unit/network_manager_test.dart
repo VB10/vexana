@@ -4,7 +4,6 @@ import 'package:vexana/src/mixin/network_manager_parameters.dart';
 import 'package:vexana/vexana.dart';
 
 void main() {
-  setUp(() {});
   test(' CustomNetworkManager test is valid', () async {
     final manager = CustomNetworkManager();
     expect(manager, isNotNull);
