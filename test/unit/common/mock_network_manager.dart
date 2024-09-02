@@ -25,11 +25,3 @@ final class MockErrorCustomNetworkManager extends NetworkManager<EmptyModel> {
           },
         );
 }
-
-final class MockNetworkManager extends NetworkManager<EmptyModel> {
-  MockNetworkManager()
-      : super(
-          options: MockNetworkManagerParameters().baseOptions,
-          isEnableTest: true,
-        );
-}
