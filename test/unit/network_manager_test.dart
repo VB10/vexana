@@ -3,6 +3,23 @@ import 'package:vexana/src/mixin/network_manager_cache.dart';
 import 'package:vexana/src/mixin/network_manager_parameters.dart';
 import 'package:vexana/vexana.dart';
 
+void main() {
+  test(' CustomNetworkManager test is valid', () async {
+    final manager = CustomNetworkManager();
+    expect(manager, isNotNull);
+
+    final primitiveResponse = await manager.sendPrimitive<EmptyModel>('test');
+    expect(primitiveResponse, isNull);
+
+    final downloadFileResponse = await manager.downloadFile('test', null);
+    expect(downloadFileResponse, isNotNull);
+
+    final downloadFileSimpleResponse =
+        await manager.downloadFileSimple('test', null);
+    expect(downloadFileSimpleResponse, isNotNull);
+  });
+}
+
 class CustomNetworkManager extends INetworkManager<EmptyModel> {
   @override
   NetworkManagerCache<INetworkModel<EmptyModel>> get cache =>
@@ -51,7 +68,7 @@ class CustomNetworkManager extends INetworkManager<EmptyModel> {
     CancelToken? cancelToken,
     bool isErrorDialog = false,
   }) {
-    return Future.value(ResponseModel(data: EmptyModel() as R));
+    return Future.value(ResponseModel(data: const EmptyModel() as R));
   }
 
   @override
@@ -67,22 +84,4 @@ class CustomNetworkManager extends INetworkManager<EmptyModel> {
   }) {
     return Future.value(Response<T>(requestOptions: RequestOptions()));
   }
-}
-
-void main() {
-  setUp(() {});
-  test(' CustomNetworkManager test is valid', () async {
-    final manager = CustomNetworkManager();
-    expect(manager, isNotNull);
-
-    final primitiveResponse = await manager.sendPrimitive<EmptyModel>('test');
-    expect(primitiveResponse, isNull);
-
-    final downloadFileResponse = await manager.downloadFile('test', null);
-    expect(downloadFileResponse, isNotNull);
-
-    final downloadFileSimpleResponse =
-        await manager.downloadFileSimple('test', null);
-    expect(downloadFileSimpleResponse, isNotNull);
-  });
 }
