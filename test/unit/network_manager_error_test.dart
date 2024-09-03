@@ -22,7 +22,7 @@ void main() {
       method: RequestType.GET,
     );
     stopServer();
-    expect(retryCount, 3);
+    expect(retryCount, 5);
     expect(response.error?.statusCode, 401);
   });
 
@@ -57,7 +57,7 @@ void main() {
       ),
     ]);
     stopServer();
-    expect(retryCount, 3);
+    expect(retryCount, 5);
     expect(cancelToken.isCancelled, true);
   });
 
