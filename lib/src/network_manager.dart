@@ -42,6 +42,7 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
     IFileManager? fileManager,
     Interceptor? interceptor,
     OnReply? onReply,
+    int maxRetryCount = 3,
   }) {
     parameters = NetworkManagerParameters(
       options: options,
@@ -54,6 +55,7 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
       onRefreshToken: onRefreshToken,
       onRefreshFail: onRefreshFail,
       onResponseParse: onReply,
+      maxRetryCount: maxRetryCount,
     );
     _setup();
   }

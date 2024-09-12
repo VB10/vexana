@@ -16,8 +16,6 @@ typedef OnReply = Response<dynamic> Function(
 class NetworkManagerParameters extends Equatable {
   final VoidCallback? onRefreshFail;
 
-  static const int maxRetryCount = 3;
-
   final IFileManager? fileManager;
 
   final bool? isEnableTest;
@@ -38,6 +36,8 @@ class NetworkManagerParameters extends Equatable {
 
   final OnReply? onResponseParse;
 
+  final int maxRetryCount;
+
   const NetworkManagerParameters({
     required BaseOptions options,
     this.onRefreshFail,
@@ -50,6 +50,7 @@ class NetworkManagerParameters extends Equatable {
     this.interceptor,
     this.onRefreshToken,
     this.onResponseParse,
+    this.maxRetryCount = 3,
   }) : baseOptions = options;
 
   @override

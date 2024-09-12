@@ -33,8 +33,7 @@ mixin NetworkManagerCoreOperation<E extends INetworkModel<E>> {
     CancelToken? cancelToken,
     bool? forceUpdateDecode,
   }) async {
-    if (!isErrorDialog ||
-        _noNetworkTryCount == NetworkManagerParameters.maxRetryCount) {
+    if (!isErrorDialog || _noNetworkTryCount == parameters.maxRetryCount) {
       return onError.call(error);
     }
 
@@ -89,8 +88,7 @@ mixin NetworkManagerCoreOperation<E extends INetworkModel<E>> {
     CancelToken? cancelToken,
     bool? forceUpdateDecode,
   }) async {
-    if (!isErrorDialog ||
-        _noNetworkTryCount == NetworkManagerParameters.maxRetryCount) {
+    if (!isErrorDialog || _noNetworkTryCount == parameters.maxRetryCount) {
       return onError.call(error);
     }
 
