@@ -1,19 +1,29 @@
+# [5.0.0]
+
+- Added new method for sending request it is enable to "fold" option for every response
+
+# [5.0.1]
+
+- Fixed [#115](https://github.com/VB10/vexana/issues/115)
 
 # [4.1.0]
- - Refresh Token Dart Code example update #106 from @behzodfaiziev
- - fix formData finalized exception #105 from @aligconnectinno
- - Refactor NetworkManagerErrorInterceptor to handle null onResponseParse #100 from @aligconnectinno
- - updated issue_tracker link #94 from @behzodfaiziev
- - Updated unit test capabilities
 
- 
+- Refresh Token Dart Code example update #106 from @behzodfaiziev
+- fix formData finalized exception #105 from @aligconnectinno
+- Refactor NetworkManagerErrorInterceptor to handle null onResponseParse #100 from @aligconnectinno
+- updated issue_tracker link #94 from @behzodfaiziev
+- Updated unit test capabilities
+
 # [4.0.4]
+
 - Removed transformer custom implementation
 
 ## [4.0.2]
+
 - Removed unused code with package (Native adapter)
 
 ## [4.0.3]
+
 - Updated readme with some invited social media links
 
 ## [4.0.1] - 06/04/2024
