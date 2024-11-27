@@ -2,6 +2,12 @@
 
 - Added new method for sending request it is enable to "fold" option for every response
 
+# [5.0.2]
+
+- [Fix Issue with Retrying Failed Request After Successful Token Refresh #119](https://github.com/VB10/vexana/issues/119)
+- [add maxRetryCount param #114](https://github.com/VB10/vexana/issues/114)
+- [Optimize Package Size by Removing Unused GitHub Folder Assets #120](https://github.com/VB10/vexana/issues/120)
+
 # [5.0.1]
 
 - Fixed [#115](https://github.com/VB10/vexana/issues/115)
