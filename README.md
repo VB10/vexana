@@ -265,7 +265,8 @@ Especially, mobile device many times lost connection for many reasons so if you 
 
 **And result!!**
 
-![alt](./github/Simulator%20Screen%20Recording%20-%20iPhone%2011%20-%202022-07-21%20at%2012.00.41.gif)
+![alt](https://github.com/user-attachments/assets/6f236181-ad00-41da-98bf-02213f84216d)
+
 
 ### **Error model handle** ❎
 
@@ -319,7 +320,7 @@ Made with [contrib.rocks](https://contrib.rocks).
 
 ## **EARTHQUAKE 7.8 and 7.6 6Feb2023**
 
-![help](./github/FpK_Eb7aQAAXOCD.jpeg)
+![help](https://github.com/user-attachments/assets/a4f59e46-67e6-46e4-97c2-90b252f1e4d2)
 
 Turkey has recently been struck by a devastating earthquake with a magnitude of 7.8. The impact has been widespread and many communities have been severely affected. In this difficult time, we are reaching out to ask for your support. Any donation, no matter how small, will help us provide much-needed aid to those affected by the earthquake. Your generosity will help provide shelter, food, and medical supplies to those in need. Your contribution will make a real difference in the lives of those affected by this disaster. Thank you for your kindness and support.
 
