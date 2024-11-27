@@ -53,10 +53,17 @@ mixin NetworkManagerErrorInterceptor {
           }
           // Call onResponseParse callback and return response
           return handler.resolve(parameters.onResponseParse!(response));
-        } catch (_) {
+        } catch (err) {
           /// cancel request & call onRefreshFail callback and unlock
           error.requestOptions.cancelToken?.cancel();
           parameters.onRefreshFail?.call();
+
+          /// If error is DioException, then return error
+          if (err is DioException) {
+            return handler.next(err);
+          }
+
+          /// If error is not DioException, then return error
           return handler.next(exception);
         }
       },
