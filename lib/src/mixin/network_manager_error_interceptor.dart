@@ -44,7 +44,7 @@ mixin NetworkManagerErrorInterceptor {
             () => _createNewRequest(error),
             onRetry: (_) async =>
                 error = await _createError(parameters, exception),
-            maxAttempts: NetworkManagerParameters.maxRetryCount,
+            maxAttempts: parameters.maxRetryCount,
             retryIf: _retryIf,
           );
           // onResponseParse is null, then return response
@@ -78,6 +78,7 @@ mixin NetworkManagerErrorInterceptor {
         isEnableLogger: params.isEnableLogger,
         isEnableTest: params.isEnableTest,
         options: parameters.baseOptions,
+        maxRetryCount: params.maxRetryCount,
       ),
     );
   }

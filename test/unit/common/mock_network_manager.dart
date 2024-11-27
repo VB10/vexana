@@ -18,6 +18,7 @@ final class MockErrorCustomNetworkManager extends NetworkManager<EmptyModel> {
       : super(
           options: BaseOptions(baseUrl: baseUrl),
           isEnableTest: true,
+          maxRetryCount: 5,
           onRefreshFail: () => print('onRefreshFail Triggered'),
           onRefreshToken: (e, networkManager) async {
             await onRefresh.call();
