@@ -1,18 +1,23 @@
-# [5.0.0]
+# [5.0.3]
+
+- Updated dio package to 5.8.0
+- Added download method for newer dio version
+
+## [5.0.0]
 
 - Added new method for sending request it is enable to "fold" option for every response
 
-# [5.0.2]
+## [5.0.2]
 
 - [Fix Issue with Retrying Failed Request After Successful Token Refresh #119](https://github.com/VB10/vexana/issues/119)
 - [add maxRetryCount param #114](https://github.com/VB10/vexana/issues/114)
 - [Optimize Package Size by Removing Unused GitHub Folder Assets #120](https://github.com/VB10/vexana/issues/120)
 
-# [5.0.1]
+## [5.0.1]
 
 - Fixed [#115](https://github.com/VB10/vexana/issues/115)
 
-# [4.1.0]
+## [4.1.0]
 
 - Refresh Token Dart Code example update #106 from @behzodfaiziev
 - fix formData finalized exception #105 from @aligconnectinno
@@ -20,7 +25,7 @@
 - updated issue_tracker link #94 from @behzodfaiziev
 - Updated unit test capabilities
 
-# [4.0.4]
+## [4.0.4]
 
 - Removed transformer custom implementation
 
