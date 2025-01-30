@@ -2,7 +2,7 @@
 <p align="center">
 <a href="https://pub.dev/packages/vexana"><img src="https://img.shields.io/pub/v/vexana.svg" alt="Pub"></a>
 <a href="https://pub.dev/packages/vexana"><img src="https://img.shields.io/badge/vexana-package-blue" alt="Pub"></a>
-<a href="https://github.com/felangel/bloc"><img src="https://img.shields.io/github/stars/vb10/vexana.svg?style=flat&logo=github&colorB=deeppink&label=stars" alt="Star on Github"></a> 
+<a href="https://github.com/VB10/vexana"><img src="https://img.shields.io/github/stars/vb10/vexana.svg?style=flat&logo=github&colorB=deeppink&label=stars" alt="Star on Github"></a> 
 <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-purple.svg" alt="License: MIT"></a>   
 <a href="https://www.youtube.com/hardwareandro"><img src="https://img.shields.io/youtube/channel/subscribers/UCdUaAKTLJrPZFStzEJnpQAg" alt="Youtube: HardwareAndro"></a>
 <a href="https://medium.com/@vbacik-10"> <img src="https://img.shields.io/badge/Medium-12100E?style=for-the-badge&logo=medium&logoColor=white" alt="Medium: Vbacik">  </a> 
