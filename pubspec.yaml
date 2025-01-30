@@ -20,8 +20,8 @@ dependencies:
   collection: ^1.17.1
 
   # Core
-  dio: ^5.7.0
-  dio_web_adapter: ^2.0.0
+  dio: ^5.8.0+1
+  dio_web_adapter: ^2.1.0
 
   flutter:
     sdk: flutter

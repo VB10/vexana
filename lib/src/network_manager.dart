@@ -269,6 +269,7 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
     bool deleteOnError = true,
     String lengthHeader = Headers.contentLengthHeader,
     Object? data,
+    dio.FileAccessMode fileAccessMode = dio.FileAccessMode.write,
     dio.Options? options,
   }) {
     return this.download(
@@ -281,6 +282,7 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
       lengthHeader: lengthHeader,
       data: data,
       options: options,
+      fileAccessMode: fileAccessMode,
     );
   }
 
