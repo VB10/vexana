@@ -107,6 +107,52 @@ networkManager.removeHeader('\${response.data?.first.id}');
 networkManager.clearHeader();
 ```
 
+### **FormData Upload and Response** 📤
+
+You can send FormData and parse responses using IFormDataModel. This is particularly useful when uploading files or handling multipart/form-data requests.
+
+#### **Sending FormData**
+
+Create your form data model by extending `INetworkModel` and using the `IFormDataModel` mixin:
+
+```dart
+class UserFormData extends INetworkModel<UserFormData> with IFormDataModel<UserFormData> {
+  UserFormData({required this.name, required this.avatar});
+  
+  final String name;
+  final File avatar;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'avatar': MultipartFile.fromFileSync(avatar.path),
+    };
+  }
+
+  @override
+  UserFormData fromJson(Map<String, dynamic> json) {
+    // Implement fromJson if needed for response parsing
+    throw UnimplementedError();
+  }
+}
+```
+
+Then use it with the uploadFile method:
+
+```dart
+final formData = UserFormData(
+  name: 'John Doe',
+  avatar: File('path/to/avatar.jpg'),
+).toFormData();
+
+final response = await networkManager.uploadFile<UserResponse>(
+  '/upload',
+  formData,
+  headers: {'Content-Type': 'multipart/form-data'},
+);
+```
+
 ### **Download File** 📍
 
 #### **Download File Simple**
