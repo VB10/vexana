@@ -7,16 +7,21 @@ import 'model/post.dart';
 abstract class JsonPlaceHolderViewModel extends State<JsonPlaceHolder> {
   List<Post> posts = [];
 
-  late INetworkManager<Post> networkManager;
+  late INetworkManager<Post, String> networkManager;
 
   bool isLoading = false;
 
   @override
   void initState() {
     super.initState();
-    networkManager = NetworkManager<Post>(
+    networkManager = NetworkManager<Post, String>(
       isEnableLogger: true,
       // fileManager: LocalSembast(),
+      onRefreshToken: (error, newService) {
+        final param = newService.parameters.customParameter;
+        print(param);
+        return Future.value(error);
+      },
       isEnableTest: true,
       noNetwork: NoNetwork(
         context,
@@ -33,7 +38,7 @@ abstract class JsonPlaceHolderViewModel extends State<JsonPlaceHolder> {
 
   Future<void> getAllPosts() async {
     changeLoading();
-    final response = await networkManager.send<Post, List<Post>>(
+    final response = await networkManager.send<Post, List<Post>, String>(
       '/posts',
       parseModel: Post(),
       method: RequestType.GET,

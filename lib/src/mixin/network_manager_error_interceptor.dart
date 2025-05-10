@@ -5,12 +5,12 @@ import 'package:vexana/src/mixin/index.dart';
 import 'package:vexana/vexana.dart';
 
 /// Network manager error interceptor
-mixin NetworkManagerErrorInterceptor {
+mixin NetworkManagerErrorInterceptor<E extends INetworkModel<E>, P> {
   /// Network manager interceptors
   Interceptors get interceptors;
 
   /// Network manager base request options
-  NetworkManagerParameters get parameters;
+  NetworkManagerParameters<E, P> get parameters;
 
   /// Add your custom network interceptor
   void addNetworkInterceptors(Interceptor? interceptor) {
@@ -74,14 +74,14 @@ mixin NetworkManagerErrorInterceptor {
   /// It's retried if [exception] is [DioException] and status code is
   /// [HttpStatus.unauthorized].
   Future<DioException> _createError(
-    NetworkManagerParameters params,
+    NetworkManagerParameters<E, P> params,
     DioException exception,
   ) async {
     final error = _parallelismGuard(params, exception);
     if (error != null) return error;
     return params.onRefreshToken!(
       exception,
-      NetworkManager<EmptyModel>(
+      NetworkManager<E, P>(
         isEnableLogger: params.isEnableLogger,
         isEnableTest: params.isEnableTest,
         options: parameters.baseOptions,
@@ -134,7 +134,7 @@ mixin NetworkManagerErrorInterceptor {
   /// It's required to prevent parallel requests from being sent
   ///  to refresh token.
   DioException? _parallelismGuard(
-    NetworkManagerParameters params,
+    NetworkManagerParameters<E, P> params,
     DioException exception,
   ) {
     final cancelToken = exception.requestOptions.cancelToken;

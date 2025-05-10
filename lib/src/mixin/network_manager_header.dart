@@ -1,9 +1,10 @@
 import 'package:vexana/src/mixin/network_manager_parameters.dart';
+import 'package:vexana/vexana.dart';
 
 /// Network manager operation
-mixin NetworkManagerOperation {
+mixin NetworkManagerOperation<E extends INetworkModel<E>, P> {
   /// Network manager parameters
-  NetworkManagerParameters get parameters;
+  NetworkManagerParameters<E, P> get parameters;
 
   /// This method will add your [MapEntry] to header
   void addBaseHeader(MapEntry<String, String> mapEntry) {

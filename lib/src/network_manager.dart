@@ -20,20 +20,20 @@ part './mixin/core/network_manager_initialize.dart';
 /// Example:
 /// [NetworkManager(isEnableLogger: true, errorModel: UserErrorModel(),]
 /// [options: BaseOptions(baseUrl: "https://jsonplaceholder.typicode.com/"));]
-class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
+class NetworkManager<E extends INetworkModel<E>, P> extends dio.DioMixin
     with
-        NetworkManagerOperation,
-        NetworkManagerCoreOperation<E>,
-        NetworkManagerResponse<E>,
-        NetworkManagerCache<E>,
-        NetworkManagerErrorInterceptor,
+        NetworkManagerOperation<E, P>,
+        NetworkManagerCoreOperation<E, P>,
+        NetworkManagerResponse<E, P>,
+        NetworkManagerCache<E, P>,
+        NetworkManagerErrorInterceptor<E, P>,
         _NetworkManagerInitialize
-    implements INetworkManager<E> {
+    implements INetworkManager<E, P> {
   /// Network manager base request options
   NetworkManager({
     required BaseOptions options,
     this.errorModel,
-    RefreshTokenCallBack? onRefreshToken,
+    RefreshTokenCallBack<E, P>? onRefreshToken,
     bool? skippingSSLCertificate,
     NoNetwork? noNetwork,
     bool? isEnableLogger,
@@ -44,8 +44,9 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
     OnReply? onReply,
     int maxRetryCount = 3,
     bool? handleRefreshToken,
+    P? customParameter,
   }) {
-    parameters = NetworkManagerParameters(
+    parameters = NetworkManagerParameters<E, P>(
       options: options,
       fileManager: fileManager,
       isEnableTest: isEnableTest,
@@ -58,18 +59,19 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
       onResponseParse: onReply,
       maxRetryCount: maxRetryCount,
       handleRefreshToken: handleRefreshToken,
+      customParameter: customParameter,
     );
     _setup();
   }
 
   @override
-  late final NetworkManagerParameters parameters;
+  late final NetworkManagerParameters<E, P> parameters;
 
   @override
-  INetworkManager<E> get instance => this;
+  INetworkManager<E, P> get instance => this;
 
   @override
-  NetworkManagerCache get cache => this;
+  NetworkManagerCache<E, P> get cache => this;
 
   @override
   final E? errorModel;
@@ -78,12 +80,18 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
   dio.Interceptors get dioInterceptors => interceptors;
 
   /// This method is used to update the parameters of the network manager.
-  void _updateParameters({bool? handleRefreshToken}) {
-    parameters.copyWith(handleRefreshToken: handleRefreshToken);
+  void _updateParameters({
+    bool? handleRefreshToken,
+    P? customParameter,
+  }) {
+    parameters = parameters.copyWith(
+      handleRefreshToken: handleRefreshToken,
+      customParameter: customParameter,
+    );
   }
 
   @override
-  Future<IResponseModel<R?, E?>> send<T extends INetworkModel<T>, R>(
+  Future<IResponseModel<R?, E?>> send<T extends INetworkModel<T>, R, O>(
     String path, {
     required T parseModel,
     required RequestType method,
@@ -96,8 +104,13 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
     bool isErrorDialog = false,
     CancelToken? cancelToken,
     bool? handleRefreshToken,
+    O? customParameter,
   }) async {
-    _updateParameters(handleRefreshToken: handleRefreshToken);
+    _updateParameters(
+      handleRefreshToken: handleRefreshToken,
+      customParameter: customParameter as P?,
+    );
+
     final checkFormCache =
         await _checkCache<R, T>(expiration, method, parseModel);
     if (checkFormCache != null) return checkFormCache;
@@ -130,7 +143,7 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
         error: ErrorModel(description: response.data.toString()),
       );
     } on dio.DioException catch (error) {
-      return handleNetworkError<T, R>(
+      return handleNetworkError<T, R, O>(
         path: path,
         cancelToken: cancelToken,
         data: data,
@@ -141,7 +154,7 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
         parseModel: parseModel,
         method: method,
         error: error,
-        onError: errorResponseFetch,
+        onError: (e) => errorResponseFetch<R>(e),
       );
     }
   }
@@ -206,7 +219,7 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
         parseModel: parseModel,
         method: method,
         error: error,
-        onError: fetchErrorResponse,
+        onError: (e) => fetchErrorResponse<R>(e),
       );
     }
   }

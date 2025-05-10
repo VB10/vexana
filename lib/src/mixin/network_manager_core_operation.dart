@@ -2,14 +2,14 @@ import 'package:vexana/src/mixin/network_manager_parameters.dart';
 import 'package:vexana/vexana.dart';
 
 /// Manage network error situation
-mixin NetworkManagerCoreOperation<E extends INetworkModel<E>> {
+mixin NetworkManagerCoreOperation<E extends INetworkModel<E>, P> {
   int _noNetworkTryCount = 0;
 
   /// Network manager parameters
-  NetworkManagerParameters get parameters;
+  NetworkManagerParameters<E, P> get parameters;
 
   /// E: Error Model for generic error
-  INetworkManager<E> get instance;
+  INetworkManager<E, P> get instance;
 
   /// Manage any error according from server
   ///
@@ -17,7 +17,7 @@ mixin NetworkManagerCoreOperation<E extends INetworkModel<E>> {
   /// T: Parser Model
   /// data: Response body
   Future<IResponseModel<R?, E?>>
-      handleNetworkError<T extends INetworkModel<T>, R>({
+      handleNetworkError<T extends INetworkModel<T>, R, O>({
     required String path,
     required T parseModel,
     required RequestType method,
@@ -51,7 +51,7 @@ mixin NetworkManagerCoreOperation<E extends INetworkModel<E>> {
     if (isRetry) {
       _noNetworkTryCount = _noNetworkTryCount + 1;
 
-      return instance.send(
+      return instance.send<T, R, O>(
         path,
         parseModel: parseModel,
         method: method,

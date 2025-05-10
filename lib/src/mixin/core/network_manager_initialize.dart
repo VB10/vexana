@@ -1,12 +1,10 @@
 part of '../../network_manager.dart';
 
 /// Network manager provide your requests with [Dio]
-mixin _NetworkManagerInitialize on DioMixin, NetworkManagerErrorInterceptor {
-  /// This method will be called when [NetworkManager] created
-  ///
-  ///   NetworkManagerParameters get parameters;
+mixin _NetworkManagerInitialize<E extends INetworkModel<E>, P>
+    on dio.DioMixin, NetworkManagerErrorInterceptor<E, P> {
   @override
-  NetworkManagerParameters get parameters;
+  late final NetworkManagerParameters<E, P> parameters;
 
   void _setup() {
     options = parameters.baseOptions;

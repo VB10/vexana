@@ -3,18 +3,18 @@ import 'package:vexana/vexana.dart';
 
 /// The `INetworkManager` interface is used to define the methods that are used
 /// to send HTTP requests to a server. It extends the `NetworkManagerParameters`
-abstract class INetworkManager<E extends INetworkModel<E>>
-    with NetworkManagerOperation {
+abstract class INetworkManager<E extends INetworkModel<E>, P>
+    with NetworkManagerOperation<E, P> {
   /// [super.options] is a getter method that returns the `BaseOptions` object
   INetworkManager();
 
   /// [parameters] is a getter method that returns
   ///  the `NetworkManagerParameters`for detail
   @override
-  NetworkManagerParameters get parameters;
+  NetworkManagerParameters<E, P> get parameters;
 
   /// [cache] is a getter method that returns the `NetworkManagerCache`
-  NetworkManagerCache get cache;
+  NetworkManagerCache<E, P> get cache;
 
   /// The `Interceptors get dioInterceptors;` is a getter method that returns
   /// the interceptors used by the Dio HTTP client.
@@ -26,7 +26,7 @@ abstract class INetworkManager<E extends INetworkModel<E>>
   /// The `send` method is used to send an HTTP request to a specified
   /// `path` with various parameters. Here is a breakdown of
   /// the parameters:
-  Future<IResponseModel<R?, E?>> send<T extends INetworkModel<T>, R>(
+  Future<IResponseModel<R?, E?>> send<T extends INetworkModel<T>, R, O>(
     String path, {
     required T parseModel,
     required RequestType method,
@@ -39,6 +39,7 @@ abstract class INetworkManager<E extends INetworkModel<E>>
     CancelToken? cancelToken,
     bool isErrorDialog = false,
     bool? handleRefreshToken,
+    O? customParameter,
   });
 
   /// The sendRequest method is used to send an HTTP request

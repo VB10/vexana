@@ -3,9 +3,10 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:vexana/vexana.dart';
 
-typedef RefreshTokenCallBack = Future<DioException> Function(
+typedef RefreshTokenCallBack<E extends INetworkModel<E>, P>
+    = Future<DioException> Function(
   DioException error,
-  NetworkManager newService,
+  NetworkManager<E, P> newService,
 );
 
 typedef OnReply = Response<dynamic> Function(
@@ -13,7 +14,8 @@ typedef OnReply = Response<dynamic> Function(
 );
 
 @immutable
-class NetworkManagerParameters extends Equatable {
+class NetworkManagerParameters<E extends INetworkModel<E>, P extends Object?>
+    extends Equatable {
   final VoidCallback? onRefreshFail;
 
   final IFileManager? fileManager;
@@ -32,13 +34,15 @@ class NetworkManagerParameters extends Equatable {
 
   final BaseOptions baseOptions;
 
-  final RefreshTokenCallBack? onRefreshToken;
+  final RefreshTokenCallBack<E, P>? onRefreshToken;
 
   final OnReply? onResponseParse;
 
   final int maxRetryCount;
 
   final bool handleRefreshToken;
+
+  final P? customParameter;
 
   const NetworkManagerParameters({
     required BaseOptions options,
@@ -54,6 +58,7 @@ class NetworkManagerParameters extends Equatable {
     this.onResponseParse,
     this.maxRetryCount = 3,
     bool? handleRefreshToken,
+    this.customParameter,
   })  : assert(
           handleRefreshToken != true || onRefreshToken != null,
           'handleRefreshToken cannot be true if onRefreshToken is null',
@@ -61,7 +66,7 @@ class NetworkManagerParameters extends Equatable {
         baseOptions = options,
         handleRefreshToken = handleRefreshToken ?? onRefreshToken != null;
 
-  NetworkManagerParameters copyWith({
+  NetworkManagerParameters<E, P> copyWith({
     VoidCallback? onRefreshFail,
     IFileManager? fileManager,
     bool? isEnableTest,
@@ -71,12 +76,13 @@ class NetworkManagerParameters extends Equatable {
     bool? skippingSSLCertificate,
     Interceptor? interceptor,
     BaseOptions? baseOptions,
-    RefreshTokenCallBack? onRefreshToken,
+    RefreshTokenCallBack<E, P>? onRefreshToken,
     OnReply? onResponseParse,
     int? maxRetryCount,
     bool? handleRefreshToken,
+    P? customParameter,
   }) {
-    return NetworkManagerParameters(
+    return NetworkManagerParameters<E, P>(
       options: baseOptions ?? this.baseOptions,
       onRefreshFail: onRefreshFail ?? this.onRefreshFail,
       fileManager: fileManager ?? this.fileManager,
@@ -91,9 +97,10 @@ class NetworkManagerParameters extends Equatable {
       onResponseParse: onResponseParse ?? this.onResponseParse,
       maxRetryCount: maxRetryCount ?? this.maxRetryCount,
       handleRefreshToken: handleRefreshToken ?? this.handleRefreshToken,
+      customParameter: customParameter ?? this.customParameter,
     );
   }
 
   @override
-  List<Object> get props => [baseOptions, handleRefreshToken];
+  List<Object?> get props => [baseOptions, handleRefreshToken, customParameter];
 }

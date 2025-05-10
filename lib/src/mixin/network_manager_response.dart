@@ -7,9 +7,9 @@ import 'package:vexana/src/utility/logger/log_items.dart';
 import 'package:vexana/vexana.dart';
 
 /// Parse response body for success and error
-mixin NetworkManagerResponse<E extends INetworkModel<E>> {
+mixin NetworkManagerResponse<E extends INetworkModel<E>, P> {
   /// Network manager parameters
-  NetworkManagerParameters get parameters;
+  NetworkManagerParameters<E, P> get parameters;
 
   /// E: Error Model for generic error
   E? get errorModel;

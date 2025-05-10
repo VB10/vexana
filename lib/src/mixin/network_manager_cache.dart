@@ -8,10 +8,10 @@ import 'package:vexana/src/utility/network_manager_util.dart';
 import 'package:vexana/vexana.dart';
 
 /// Manage your data caching with [NetworkManagerCache]
-mixin NetworkManagerCache<E extends INetworkModel<E>>
-    on NetworkManagerResponse<E> {
+mixin NetworkManagerCache<E extends INetworkModel<E>, P>
+    on NetworkManagerResponse<E, P> {
   @override
-  NetworkManagerParameters get parameters;
+  NetworkManagerParameters<E, P> get parameters;
 
   String _urlKeyOnLocalData(RequestType type) =>
       '${parameters.baseOptions.baseUrl}-${type.stringValue}';
