@@ -38,6 +38,7 @@ abstract class INetworkManager<E extends INetworkModel<E>>
     ProgressCallback? onReceiveProgress,
     CancelToken? cancelToken,
     bool isErrorDialog = false,
+    bool? handleRefreshToken,
   });
 
   /// The sendRequest method is used to send an HTTP request
