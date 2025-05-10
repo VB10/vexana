@@ -38,6 +38,8 @@ class NetworkManagerParameters extends Equatable {
 
   final int maxRetryCount;
 
+  final bool handleRefreshToken;
+
   const NetworkManagerParameters({
     required BaseOptions options,
     this.onRefreshFail,
@@ -51,8 +53,47 @@ class NetworkManagerParameters extends Equatable {
     this.onRefreshToken,
     this.onResponseParse,
     this.maxRetryCount = 3,
-  }) : baseOptions = options;
+    bool? handleRefreshToken,
+  })  : assert(
+          handleRefreshToken != true || onRefreshToken != null,
+          'handleRefreshToken cannot be true if onRefreshToken is null',
+        ),
+        baseOptions = options,
+        handleRefreshToken = handleRefreshToken ?? onRefreshToken != null;
+
+  NetworkManagerParameters copyWith({
+    VoidCallback? onRefreshFail,
+    IFileManager? fileManager,
+    bool? isEnableTest,
+    bool? isEnableLogger,
+    NoNetwork? noNetwork,
+    int? noNetworkTryCount,
+    bool? skippingSSLCertificate,
+    Interceptor? interceptor,
+    BaseOptions? baseOptions,
+    RefreshTokenCallBack? onRefreshToken,
+    OnReply? onResponseParse,
+    int? maxRetryCount,
+    bool? handleRefreshToken,
+  }) {
+    return NetworkManagerParameters(
+      options: baseOptions ?? this.baseOptions,
+      onRefreshFail: onRefreshFail ?? this.onRefreshFail,
+      fileManager: fileManager ?? this.fileManager,
+      isEnableTest: isEnableTest ?? this.isEnableTest,
+      isEnableLogger: isEnableLogger ?? this.isEnableLogger,
+      noNetwork: noNetwork ?? this.noNetwork,
+      noNetworkTryCount: noNetworkTryCount ?? this.noNetworkTryCount,
+      skippingSSLCertificate:
+          skippingSSLCertificate ?? this.skippingSSLCertificate,
+      interceptor: interceptor ?? this.interceptor,
+      onRefreshToken: onRefreshToken ?? this.onRefreshToken,
+      onResponseParse: onResponseParse ?? this.onResponseParse,
+      maxRetryCount: maxRetryCount ?? this.maxRetryCount,
+      handleRefreshToken: handleRefreshToken ?? this.handleRefreshToken,
+    );
+  }
 
   @override
-  List<Object> get props => [baseOptions];
+  List<Object> get props => [baseOptions, handleRefreshToken];
 }

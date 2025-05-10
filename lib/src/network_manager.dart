@@ -43,6 +43,7 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
     Interceptor? interceptor,
     OnReply? onReply,
     int maxRetryCount = 3,
+    bool? handleRefreshToken,
   }) {
     parameters = NetworkManagerParameters(
       options: options,
@@ -56,6 +57,7 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
       onRefreshFail: onRefreshFail,
       onResponseParse: onReply,
       maxRetryCount: maxRetryCount,
+      handleRefreshToken: handleRefreshToken,
     );
     _setup();
   }
@@ -75,6 +77,11 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
   @override
   dio.Interceptors get dioInterceptors => interceptors;
 
+  /// This method is used to update the parameters of the network manager.
+  void _updateParameters({bool? handleRefreshToken}) {
+    parameters.copyWith(handleRefreshToken: handleRefreshToken);
+  }
+
   @override
   Future<IResponseModel<R?, E?>> send<T extends INetworkModel<T>, R>(
     String path, {
@@ -88,7 +95,9 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
     ProgressCallback? onReceiveProgress,
     bool isErrorDialog = false,
     CancelToken? cancelToken,
+    bool? handleRefreshToken,
   }) async {
+    _updateParameters(handleRefreshToken: handleRefreshToken);
     final checkFormCache =
         await _checkCache<R, T>(expiration, method, parseModel);
     if (checkFormCache != null) return checkFormCache;
