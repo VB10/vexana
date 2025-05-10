@@ -66,6 +66,7 @@ class CustomNetworkManager extends INetworkManager<EmptyModel> {
     data,
     ProgressCallback? onReceiveProgress,
     CancelToken? cancelToken,
+    bool? handleRefreshToken,
     bool isErrorDialog = false,
   }) {
     return Future.value(ResponseModel(data: const EmptyModel() as R));

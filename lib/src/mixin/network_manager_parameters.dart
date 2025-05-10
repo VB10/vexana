@@ -54,11 +54,7 @@ class NetworkManagerParameters extends Equatable {
     this.onResponseParse,
     this.maxRetryCount = 3,
     bool? handleRefreshToken,
-  })  : assert(
-          handleRefreshToken != true || onRefreshToken != null,
-          'handleRefreshToken cannot be true if onRefreshToken is null',
-        ),
-        baseOptions = options,
+  })  : baseOptions = options,
         handleRefreshToken = handleRefreshToken ?? onRefreshToken != null;
 
   NetworkManagerParameters copyWith({
