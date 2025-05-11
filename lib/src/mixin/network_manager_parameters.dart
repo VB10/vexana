@@ -14,7 +14,7 @@ typedef OnReply = Response<dynamic> Function(
 );
 
 @immutable
-class NetworkManagerParameters<E extends INetworkModel<E>, P extends Object?>
+class NetworkManagerParameters<E extends INetworkModel<E>, P>
     extends Equatable {
   final VoidCallback? onRefreshFail;
 
