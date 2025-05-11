@@ -5,12 +5,13 @@ import 'package:vexana/vexana.dart';
 import './index.dart';
 
 final class NetworkManagerResponseParseTest extends Mock
-    with NetworkManagerResponse<EmptyModel>
+    with NetworkManagerResponse<EmptyModel, EmptyModel>
     implements MockNetworkManagerParameters {
-  INetworkManager<EmptyModel> get instance => MockNetworkManager();
+  INetworkManager<EmptyModel, EmptyModel> get instance => MockNetworkManager();
 
   @override
-  NetworkManagerParameters get parameters => MockNetworkManagerParameters();
+  NetworkManagerParameters<EmptyModel, EmptyModel> get parameters =>
+      MockNetworkManagerParameters();
   @override
   bool? get isEnableLogger => true;
 
@@ -18,7 +19,7 @@ final class NetworkManagerResponseParseTest extends Mock
   EmptyModel? get errorModel => const EmptyModel();
 }
 
-final class MockNetworkManager extends NetworkManager<EmptyModel> {
+final class MockNetworkManager extends NetworkManager<EmptyModel, EmptyModel> {
   MockNetworkManager()
       : super(
           options: MockNetworkManagerParameters().baseOptions,

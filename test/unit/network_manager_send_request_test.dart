@@ -4,7 +4,7 @@ import 'package:vexana/vexana.dart';
 import 'common/index.dart';
 
 void main() {
-  final INetworkManager manager = MockNetworkManager();
+  final INetworkManager<EmptyModel, EmptyModel> manager = MockNetworkManager();
 
   group('NetworkManager sendRequest tests', () {
     test('Success response parse - List', () async {

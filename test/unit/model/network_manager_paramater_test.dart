@@ -8,7 +8,7 @@ void main() {
   setUp(() {});
   test('Network Parameter is valid', () {
     final mockContext = MockBuildContext();
-    final manager = NetworkManagerParameters(
+    final manager = NetworkManagerParameters<EmptyModel, EmptyModel>(
       options: BaseOptions(),
       isEnableTest: true,
       isEnableLogger: true,

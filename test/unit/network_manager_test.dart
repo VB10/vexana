@@ -20,9 +20,9 @@ void main() {
   });
 }
 
-class CustomNetworkManager extends INetworkManager<EmptyModel> {
+class CustomNetworkManager extends INetworkManager<EmptyModel, EmptyModel> {
   @override
-  NetworkManagerCache<INetworkModel<EmptyModel>> get cache =>
+  NetworkManagerCache<EmptyModel, EmptyModel> get cache =>
       throw UnimplementedError();
 
   @override
@@ -52,10 +52,12 @@ class CustomNetworkManager extends INetworkManager<EmptyModel> {
   }
 
   @override
-  NetworkManagerParameters get parameters => throw UnimplementedError();
+  NetworkManagerParameters<EmptyModel, EmptyModel> get parameters =>
+      throw UnimplementedError();
 
   @override
-  Future<IResponseModel<R?, EmptyModel?>> send<T extends INetworkModel<T>, R>(
+  Future<IResponseModel<R?, EmptyModel?>>
+      send<T extends INetworkModel<T>, R, O>(
     String path, {
     required T parseModel,
     required RequestType method,
@@ -63,9 +65,10 @@ class CustomNetworkManager extends INetworkManager<EmptyModel> {
     Map<String, dynamic>? queryParameters,
     Options? options,
     Duration? expiration,
-    data,
+    dynamic data,
     ProgressCallback? onReceiveProgress,
     CancelToken? cancelToken,
+    O? customParameter,
     bool? handleRefreshToken,
     bool isErrorDialog = false,
   }) {
@@ -96,7 +99,7 @@ class CustomNetworkManager extends INetworkManager<EmptyModel> {
     Map<String, dynamic>? queryParameters,
     Options? options,
     Duration? expiration,
-    data,
+    dynamic data,
     ProgressCallback? onReceiveProgress,
     CancelToken? cancelToken,
     bool isErrorDialog = false,

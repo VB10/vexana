@@ -1,11 +1,14 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:vexana/src/mixin/index.dart';
+import 'package:vexana/vexana.dart';
 
 import 'common/mock_parameters.dart';
 
-final class NetworkManagerHeaderTest with NetworkManagerOperation {
+final class NetworkManagerHeaderTest
+    with NetworkManagerOperation<EmptyModel, EmptyModel> {
   @override
-  final NetworkManagerParameters parameters = MockNetworkManagerParameters();
+  final NetworkManagerParameters<EmptyModel, EmptyModel> parameters =
+      MockNetworkManagerParameters();
 }
 
 void main() {
