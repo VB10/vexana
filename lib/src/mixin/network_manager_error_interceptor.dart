@@ -31,8 +31,10 @@ mixin NetworkManagerErrorInterceptor<E extends INetworkModel<E>, P> {
           return handler.next(exception);
         }
 
-        /// If handleRefreshToken is false, then return error
-        if (!parameters.handleRefreshToken) {
+        /// If handleRefreshToken is false or onRefreshToken is null,
+        /// then return error
+        if (!parameters.handleRefreshToken ||
+            parameters.onRefreshToken == null) {
           return handler.next(exception);
         }
 

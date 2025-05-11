@@ -59,11 +59,7 @@ class NetworkManagerParameters<E extends INetworkModel<E>, P extends Object?>
     this.maxRetryCount = 3,
     bool? handleRefreshToken,
     this.customParameter,
-  })  : assert(
-          handleRefreshToken != true || onRefreshToken != null,
-          'handleRefreshToken cannot be true if onRefreshToken is null',
-        ),
-        baseOptions = options,
+  })  : baseOptions = options,
         handleRefreshToken = handleRefreshToken ?? onRefreshToken != null;
 
   NetworkManagerParameters<E, P> copyWith({
