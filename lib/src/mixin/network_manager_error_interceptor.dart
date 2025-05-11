@@ -89,6 +89,7 @@ mixin NetworkManagerErrorInterceptor<E extends INetworkModel<E>, P> {
         options: parameters.baseOptions,
         maxRetryCount: params.maxRetryCount,
         handleRefreshToken: params.handleRefreshToken,
+        customParameter: params.customParameter,
       ),
     );
   }
