@@ -4,7 +4,8 @@ part of '../../network_manager.dart';
 mixin _NetworkManagerInitialize<E extends INetworkModel<E>, P>
     on dio.DioMixin, NetworkManagerErrorInterceptor<E, P> {
   @override
-  late final NetworkManagerParameters<E, P> parameters;
+  NetworkManagerParameters<E, P> parameters =
+      NetworkManagerParameters<E, P>(options: BaseOptions());
 
   void _setup() {
     options = parameters.baseOptions;
