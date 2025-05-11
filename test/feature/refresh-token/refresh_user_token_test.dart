@@ -5,11 +5,11 @@ import 'user.dart';
 
 // ignore: always_declare_return_types
 void main() {
-  late INetworkManager<EmptyModel> networkManager;
+  late INetworkManager<EmptyModel, EmptyModel> networkManager;
   const isServiceOn = false;
 
   setUp(() {
-    networkManager = NetworkManager<EmptyModel>(
+    networkManager = NetworkManager<EmptyModel, EmptyModel>(
       isEnableLogger: true,
       isEnableTest: true,
       // onRefreshFail: () {  Navigate to login },
@@ -26,7 +26,7 @@ void main() {
   test('Json Place Holder Todos', () async {
     if (!isServiceOn) return;
 
-    final response = await networkManager.send<User, User>(
+    final response = await networkManager.send<User, User, EmptyModel>(
       '/user',
       parseModel: User(),
       method: RequestType.GET,

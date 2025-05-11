@@ -7,9 +7,9 @@ import 'file_download_model.dart';
 
 // ignore: always_declare_return_types
 void main() {
-  late INetworkManager networkManager;
+  late INetworkManager<EmptyModel, EmptyModel> networkManager;
   setUp(() {
-    networkManager = NetworkManager<EmptyModel>(
+    networkManager = NetworkManager<EmptyModel, EmptyModel>(
       isEnableLogger: true,
       isEnableTest: true,
       options: BaseOptions(baseUrl: 'https://pdfobject.com/pdf/'),

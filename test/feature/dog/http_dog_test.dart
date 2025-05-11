@@ -3,9 +3,9 @@ import 'package:vexana/vexana.dart';
 
 // ignore: always_declare_return_types
 void main() {
-  late INetworkManager networkManager;
+  late INetworkManager<EmptyModel, EmptyModel> networkManager;
   setUp(() {
-    networkManager = NetworkManager<EmptyModel>(
+    networkManager = NetworkManager<EmptyModel, EmptyModel>(
       isEnableLogger: true,
       isEnableTest: true,
       interceptor: InterceptorsWrapper(
@@ -20,9 +20,10 @@ void main() {
     );
   });
   test('Primitive Type', () async {
-    final response = await networkManager.send<EmptyModel, EmptyModel>(
+    final response =
+        await networkManager.send<EmptyModel, EmptyModel, EmptyModel>(
       '/dogs/0/code.json',
-      parseModel: EmptyModel(),
+      parseModel: const EmptyModel(),
       method: RequestType.GET,
     );
     expect(response.data, isNotNull);

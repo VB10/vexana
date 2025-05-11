@@ -4,9 +4,9 @@ import 'package:vexana/vexana.dart';
 import 'req_res_model.dart';
 
 void main() {
-  late INetworkManager<EmptyModel> networkManager;
+  late INetworkManager<EmptyModel, EmptyModel> networkManager;
   setUp(() {
-    networkManager = NetworkManager<EmptyModel>(
+    networkManager = NetworkManager<EmptyModel, EmptyModel>(
       isEnableLogger: true,
       options: BaseOptions(baseUrl: 'https://reqres.in/api'),
       isEnableTest: true,
@@ -15,7 +15,7 @@ void main() {
   test('Delay Request', () async {
     final cancelToken = CancelToken();
     await networkManager
-        .send<ReqResModel, ReqResModel>(
+        .send<ReqResModel, ReqResModel, EmptyModel>(
       '/users?delay=5',
       parseModel: ReqResModel(),
       method: RequestType.GET,
@@ -33,7 +33,8 @@ void main() {
   });
 
   test('error Request', () async {
-    final response = await networkManager.send<ReqResModel, ReqResModel>(
+    final response =
+        await networkManager.send<ReqResModel, ReqResModel, EmptyModel>(
       '/users/23',
       parseModel: ReqResModel(),
       method: RequestType.GET,

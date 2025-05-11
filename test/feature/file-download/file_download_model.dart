@@ -1,8 +1,6 @@
 import 'package:vexana/vexana.dart';
 
 class FileDownloadModel extends INetworkModel<FileDownloadModel> {
-  String? fileId;
-
   FileDownloadModel({this.fileId});
 
   FileDownloadModel.fromJson(Map<String, dynamic>? json) {
@@ -11,6 +9,7 @@ class FileDownloadModel extends INetworkModel<FileDownloadModel> {
     }
     fileId = json['fileId'] as String?;
   }
+  String? fileId;
 
   @override
   Map<String, Object> toJson() {

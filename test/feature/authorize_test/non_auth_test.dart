@@ -3,9 +3,9 @@ import 'package:vexana/vexana.dart';
 
 // ignore: always_declare_return_types
 void main() {
-  late INetworkManager networkManager;
+  late INetworkManager<EmptyModel, EmptyModel> networkManager;
   setUp(() {
-    networkManager = NetworkManager<EmptyModel>(
+    networkManager = NetworkManager<EmptyModel, EmptyModel>(
       isEnableLogger: true,
       isEnableTest: true,
       onRefreshToken: (error, newService) async {
@@ -28,21 +28,22 @@ void main() {
   });
 
   test('Retry Auth Test', () async {
-    await networkManager.send<EmptyModel, EmptyModel>(
+    await networkManager.send<EmptyModel, EmptyModel, EmptyModel>(
       '/words.json',
-      parseModel: EmptyModel(),
+      parseModel: const EmptyModel(),
       method: RequestType.GET,
     );
 
-    await networkManager.send<EmptyModel, EmptyModel>(
+    await networkManager.send<EmptyModel, EmptyModel, EmptyModel>(
       '/words2.json',
-      parseModel: EmptyModel(),
+      parseModel: const EmptyModel(),
       method: RequestType.GET,
     );
 
-    final response = await networkManager.send<EmptyModel, EmptyModel>(
+    final response =
+        await networkManager.send<EmptyModel, EmptyModel, EmptyModel>(
       '/words2.json',
-      parseModel: EmptyModel(),
+      parseModel: const EmptyModel(),
       method: RequestType.GET,
     );
 

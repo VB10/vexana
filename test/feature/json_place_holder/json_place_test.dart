@@ -6,19 +6,19 @@ import 'package:vexana/vexana.dart';
 import 'todo.dart';
 
 void main() {
-  late INetworkManager<EmptyModel> networkManager;
+  late INetworkManager<EmptyModel, EmptyModel> networkManager;
 
   setUp(() {
-    networkManager = NetworkManager<EmptyModel>(
+    networkManager = NetworkManager<EmptyModel, EmptyModel>(
       isEnableLogger: true,
       options: BaseOptions(baseUrl: 'https://jsonplaceholder.typicode.com/'),
       isEnableTest: true,
     );
   });
   test('Json Place Holder Todos', () async {
-    final response = await networkManager.send<Todo, List<Todo>>(
+    final response = await networkManager.send<Todo, List<Todo>, EmptyModel>(
       '/todos',
-      parseModel: Todo(),
+      parseModel: const Todo(),
       method: RequestType.GET,
     );
 
@@ -26,9 +26,9 @@ void main() {
   });
 
   test('First value add to all every request headers.', () async {
-    final response = await networkManager.send<Todo, List<Todo>>(
+    final response = await networkManager.send<Todo, List<Todo>, EmptyModel>(
       '/todos',
-      parseModel: Todo(),
+      parseModel: const Todo(),
       method: RequestType.GET,
     );
 
