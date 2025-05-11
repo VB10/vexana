@@ -5,7 +5,8 @@ import 'package:vexana/vexana.dart';
 
 import 'mock_parameters.dart';
 
-final class MockErrorNetworkManager extends NetworkManager<EmptyModel> {
+final class MockErrorNetworkManager
+    extends NetworkManager<EmptyModel, EmptyModel> {
   MockErrorNetworkManager()
       : super(
           options: MockNetworkManagerLocalParameters().baseOptions,
@@ -13,7 +14,8 @@ final class MockErrorNetworkManager extends NetworkManager<EmptyModel> {
         );
 }
 
-final class MockErrorCustomNetworkManager extends NetworkManager<EmptyModel> {
+final class MockErrorCustomNetworkManager
+    extends NetworkManager<EmptyModel, EmptyModel> {
   MockErrorCustomNetworkManager(String baseUrl, AsyncCallback onRefresh)
       : super(
           options: BaseOptions(baseUrl: baseUrl),

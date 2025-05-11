@@ -65,9 +65,6 @@ class NetworkManager<E extends INetworkModel<E>, P> extends dio.DioMixin
   }
 
   @override
-  late final NetworkManagerParameters<E, P> parameters;
-
-  @override
   INetworkManager<E, P> get instance => this;
 
   @override
@@ -79,7 +76,8 @@ class NetworkManager<E extends INetworkModel<E>, P> extends dio.DioMixin
   @override
   dio.Interceptors get dioInterceptors => interceptors;
 
-  /// This method is used to update the parameters of the network manager.
+  /// This method is used to update the
+  /// parameters of the network manager.
   void _updateParameters({
     bool? handleRefreshToken,
     P? customParameter,
