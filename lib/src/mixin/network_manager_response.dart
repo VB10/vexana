@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:vexana/src/feature/compression/network_compression_service.dart';
-import 'package:vexana/src/feature/compression/network_compression_type.dart';
 import 'package:vexana/src/mixin/network_manager_parameters.dart';
 import 'package:vexana/src/utility/custom_logger.dart';
 import 'package:vexana/src/utility/json_encode_util.dart';

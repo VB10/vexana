@@ -1,4 +1,3 @@
-import 'package:vexana/src/feature/compression/network_compression_type.dart';
 import 'package:vexana/src/mixin/index.dart';
 import 'package:vexana/vexana.dart';
 
