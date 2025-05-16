@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:vexana/src/feature/adapter/native_adapter.dart'
     if (dart.library.html) 'package:vexana/src/feature/adapter/web_adapter.dart'
     as adapter;
+import 'package:vexana/src/feature/compression/network_compression_type.dart';
 import 'package:vexana/src/feature/ssl/io_custom_override.dart'
     if (dart.library.html) 'package:vexana/src/feature/ssl/html_custom_override.dart'
     as ssl;
@@ -88,6 +89,7 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
     ProgressCallback? onReceiveProgress,
     bool isErrorDialog = false,
     CancelToken? cancelToken,
+    NetworkCompressionType compressionType = NetworkCompressionType.none,
   }) async {
     final checkFormCache =
         await _checkCache<R, T>(expiration, method, parseModel);
@@ -96,7 +98,7 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
     final defaultOptions = Options();
     options ??= defaultOptions;
     options.method = method.stringValue;
-    final body = makeRequestBodyData(data);
+    final body = makeRequestBodyData(data, compressionType);
 
     try {
       final response = await request<dynamic>(
@@ -150,6 +152,7 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
     ProgressCallback? onReceiveProgress,
     bool isErrorDialog = false,
     CancelToken? cancelToken,
+    NetworkCompressionType compressionType = NetworkCompressionType.none,
   }) async {
     final verifyFormCache = await _verifyCache<R, T>(
       expiration,
@@ -161,7 +164,7 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
     final defaultOptions = Options();
     options ??= defaultOptions;
     options.method = method.stringValue;
-    final body = makeRequestBodyData(data);
+    final body = makeRequestBodyData(data, compressionType);
 
     try {
       final response = await request<dynamic>(
@@ -228,7 +231,7 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
       ..followRedirects = true
       ..responseType = ResponseType.bytes;
 
-    final body = makeRequestBodyData(data);
+    final body = makeRequestBodyData(data, NetworkCompressionType.none);
 
     return request<List<int>>(
       path,

@@ -1,0 +1,42 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
+import 'package:archive/archive.dart';
+import 'package:vexana/src/model/error/compression_exception.dart';
+import 'package:vexana/vexana.dart';
+
+/// Service for handling data compression
+final class NetworkCompressionService {
+  /// Constructor for CompressionService
+  ///
+  /// [type] is the compression type
+  const NetworkCompressionService();
+
+  /// Compresses data based on the specified compression type
+  /// works only gzip compression
+  static Uint8List gzipCompressModelMap(
+    Map<String, dynamic> model,
+  ) {
+    try {
+      final jsonString = jsonEncode(model);
+      final bytes = utf8.encode(jsonString);
+      final compressed = const GZipEncoder().encode(bytes);
+      return Uint8List.fromList(compressed);
+    } catch (e) {
+      throw CompressionException(model);
+    }
+  }
+
+  static Uint8List gzipCompressModelFormData(
+    FormData formData,
+  ) {
+    try {
+      final jsonString = jsonEncode(formData);
+      final bytes = utf8.encode(jsonString);
+      final compressed = const GZipEncoder().encode(bytes);
+      return Uint8List.fromList(compressed);
+    } catch (e) {
+      throw CompressionException(formData);
+    }
+  }
+}

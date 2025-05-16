@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:vexana/src/feature/compression/network_compression_type.dart';
 import 'package:vexana/src/mixin/network_manager_cache.dart';
 import 'package:vexana/src/mixin/network_manager_parameters.dart';
 import 'package:vexana/vexana.dart';
@@ -67,6 +68,7 @@ class CustomNetworkManager extends INetworkManager<EmptyModel> {
     ProgressCallback? onReceiveProgress,
     CancelToken? cancelToken,
     bool isErrorDialog = false,
+    NetworkCompressionType compressionType = NetworkCompressionType.none,
   }) {
     return Future.value(ResponseModel(data: const EmptyModel() as R));
   }
@@ -99,6 +101,7 @@ class CustomNetworkManager extends INetworkManager<EmptyModel> {
     ProgressCallback? onReceiveProgress,
     CancelToken? cancelToken,
     bool isErrorDialog = false,
+    NetworkCompressionType compressionType = NetworkCompressionType.none,
   }) {
     return Future.value(NetworkSuccessResult(const EmptyModel() as R));
   }
