@@ -8,8 +8,6 @@ import 'package:vexana/vexana.dart';
 /// Service for handling data compression
 final class NetworkCompressionService {
   /// Constructor for CompressionService
-  ///
-  /// [type] is the compression type
   const NetworkCompressionService();
 
   /// Compresses data based on the specified compression type
@@ -27,6 +25,11 @@ final class NetworkCompressionService {
     }
   }
 
+  /// Compresses a [FormData] object using gzip compression
+  ///
+  /// [formData] is the [FormData] object to compress
+  ///
+  /// Returns a [Uint8List] containing the compressed data
   static Uint8List gzipCompressModelFormData(
     FormData formData,
   ) {

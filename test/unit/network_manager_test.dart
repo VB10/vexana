@@ -1,5 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:vexana/src/feature/compression/network_compression_type.dart';
 import 'package:vexana/src/mixin/network_manager_cache.dart';
 import 'package:vexana/src/mixin/network_manager_parameters.dart';
 import 'package:vexana/vexana.dart';

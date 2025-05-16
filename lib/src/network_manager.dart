@@ -119,10 +119,27 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
         );
       }
 
-      return ResponseModel(
-        error: ErrorModel(description: response.data.toString()),
+      E? parsedModel;
+      if (errorModel != null && response.data is Map<String, dynamic>) {
+        parsedModel =
+            errorModel!.fromJson(response.data as Map<String, dynamic>);
+      }
+      final error = ErrorModel<E>(
+        description: response.data.toString(),
+        model: parsedModel,
       );
+      return ResponseModel<R?, E?>(error: error);
     } on dio.DioException catch (error) {
+      if (error.type == dio.DioExceptionType.connectionTimeout ||
+          error.type == dio.DioExceptionType.receiveTimeout ||
+          error.type == dio.DioExceptionType.sendTimeout) {
+        return ResponseModel<R?, E?>(
+          error: ErrorModel<E>(
+            description:
+                'Connection timeout. Please check your internet connection.',
+          ),
+        );
+      }
       return handleNetworkError<T, R>(
         path: path,
         cancelToken: cancelToken,
@@ -135,6 +152,12 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
         method: method,
         error: error,
         onError: errorResponseFetch,
+      );
+    } catch (e) {
+      final error =
+          ErrorModel<E>(description: 'An unexpected error occurred: $e');
+      return ResponseModel<R?, E?>(
+        error: error,
       );
     }
   }
@@ -185,10 +208,27 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
         );
       }
 
-      return NetworkErrorResult(
-        ErrorModel(description: response.data.toString()),
+      E? parsedModel;
+      if (errorModel != null && response.data is Map<String, dynamic>) {
+        parsedModel =
+            errorModel!.fromJson(response.data as Map<String, dynamic>);
+      }
+      final error = ErrorModel<E>(
+        description: response.data.toString(),
+        model: parsedModel,
       );
+      return NetworkErrorResult<R, E>(error);
     } on dio.DioException catch (error) {
+      if (error.type == dio.DioExceptionType.connectionTimeout ||
+          error.type == dio.DioExceptionType.receiveTimeout ||
+          error.type == dio.DioExceptionType.sendTimeout) {
+        return NetworkErrorResult<R, E>(
+          ErrorModel<E>(
+            description:
+                'Connection timeout. Please check your internet connection.',
+          ),
+        );
+      }
       return handleErrorResponse<T, R>(
         path: path,
         cancelToken: cancelToken,
@@ -202,6 +242,10 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
         error: error,
         onError: fetchErrorResponse,
       );
+    } catch (e) {
+      final error =
+          ErrorModel<E>(description: 'An unexpected error occurred: $e');
+      return NetworkErrorResult<R, E>(error);
     }
   }
 
@@ -251,18 +295,6 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
   }
 
   @override
-  Future<T?> sendPrimitive<T>(
-    String path, {
-    Map<String, dynamic>? headers,
-  }) async {
-    final response = await dio.Dio().request<T>(
-      options.baseUrl + path,
-      options: dio.Options(headers: headers),
-    );
-    return response.data;
-  }
-
-  @override
   Future<dio.Response<dynamic>> download(
     String urlPath,
     dynamic savePath, {
@@ -275,7 +307,7 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
     dio.FileAccessMode fileAccessMode = dio.FileAccessMode.write,
     dio.Options? options,
   }) {
-    return this.download(
+    return super.download(
       urlPath,
       savePath,
       onReceiveProgress: onReceiveProgress,
@@ -287,6 +319,18 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
       options: options,
       fileAccessMode: fileAccessMode,
     );
+  }
+
+  @override
+  Future<T?> sendPrimitive<T>(
+    String path, {
+    Map<String, dynamic>? headers,
+  }) async {
+    final response = await request<T>(
+      path,
+      options: Options(headers: headers),
+    );
+    return response.data;
   }
 
   Future<ResponseModel<R?, E>?> _checkCache<R, T extends INetworkModel<T>>(

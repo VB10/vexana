@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 /// class, which implements the HttpClientAdapter
 /// interface.
 HttpClientAdapter createAdapter({bool isEnableTest = false}) {
-  final adapter = HttpClientAdapter() as BrowserHttpClientAdapter;
-  adapter.withCredentials = true;
+  final adapter = HttpClientAdapter() as BrowserHttpClientAdapter
+    ..withCredentials = true;
   return adapter;
 }
