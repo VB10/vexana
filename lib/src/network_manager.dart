@@ -79,7 +79,7 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
 
   /// This method is used to update the parameters of the network manager.
   void _updateParameters({bool? handleRefreshToken}) {
-    parameters.copyWith(handleRefreshToken: handleRefreshToken);
+    parameters = parameters.copyWith(handleRefreshToken: handleRefreshToken);
   }
 
   @override
