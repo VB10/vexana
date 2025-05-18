@@ -38,8 +38,6 @@ class NetworkManagerParameters extends Equatable {
 
   final int maxRetryCount;
 
-  final bool handleRefreshToken;
-
   const NetworkManagerParameters({
     required BaseOptions options,
     this.onRefreshFail,
@@ -53,9 +51,7 @@ class NetworkManagerParameters extends Equatable {
     this.onRefreshToken,
     this.onResponseParse,
     this.maxRetryCount = 3,
-    bool? handleRefreshToken,
-  })  : baseOptions = options,
-        handleRefreshToken = handleRefreshToken ?? onRefreshToken != null;
+  }) : baseOptions = options;
 
   NetworkManagerParameters copyWith({
     VoidCallback? onRefreshFail,
@@ -70,7 +66,6 @@ class NetworkManagerParameters extends Equatable {
     RefreshTokenCallBack? onRefreshToken,
     OnReply? onResponseParse,
     int? maxRetryCount,
-    bool? handleRefreshToken,
   }) {
     return NetworkManagerParameters(
       options: baseOptions ?? this.baseOptions,
@@ -86,10 +81,9 @@ class NetworkManagerParameters extends Equatable {
       onRefreshToken: onRefreshToken ?? this.onRefreshToken,
       onResponseParse: onResponseParse ?? this.onResponseParse,
       maxRetryCount: maxRetryCount ?? this.maxRetryCount,
-      handleRefreshToken: handleRefreshToken ?? this.handleRefreshToken,
     );
   }
 
   @override
-  List<Object> get props => [baseOptions, handleRefreshToken];
+  List<Object> get props => [baseOptions];
 }

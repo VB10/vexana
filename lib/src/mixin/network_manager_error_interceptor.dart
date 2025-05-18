@@ -31,10 +31,15 @@ mixin NetworkManagerErrorInterceptor {
           return handler.next(exception);
         }
 
-        /// If handleRefreshToken is false or onRefreshToken is null,
-        /// then return error
-        if (!parameters.handleRefreshToken ||
-            parameters.onRefreshToken == null) {
+        /// If callback for onRefreshToken is null, then return error
+        if (parameters.onRefreshToken == null) {
+          return handler.next(exception);
+        }
+
+        /// If disableRefreshToken is true, then return error
+        final disableRefreshToken =
+            exception.requestOptions.extra['disableRefreshToken'] == true;
+        if (disableRefreshToken) {
           return handler.next(exception);
         }
 
@@ -88,7 +93,6 @@ mixin NetworkManagerErrorInterceptor {
         isEnableTest: params.isEnableTest,
         options: parameters.baseOptions,
         maxRetryCount: params.maxRetryCount,
-        handleRefreshToken: params.handleRefreshToken,
       ),
     );
   }
