@@ -53,37 +53,6 @@ class NetworkManagerParameters extends Equatable {
     this.maxRetryCount = 3,
   }) : baseOptions = options;
 
-  NetworkManagerParameters copyWith({
-    VoidCallback? onRefreshFail,
-    IFileManager? fileManager,
-    bool? isEnableTest,
-    bool? isEnableLogger,
-    NoNetwork? noNetwork,
-    int? noNetworkTryCount,
-    bool? skippingSSLCertificate,
-    Interceptor? interceptor,
-    BaseOptions? baseOptions,
-    RefreshTokenCallBack? onRefreshToken,
-    OnReply? onResponseParse,
-    int? maxRetryCount,
-  }) {
-    return NetworkManagerParameters(
-      options: baseOptions ?? this.baseOptions,
-      onRefreshFail: onRefreshFail ?? this.onRefreshFail,
-      fileManager: fileManager ?? this.fileManager,
-      isEnableTest: isEnableTest ?? this.isEnableTest,
-      isEnableLogger: isEnableLogger ?? this.isEnableLogger,
-      noNetwork: noNetwork ?? this.noNetwork,
-      noNetworkTryCount: noNetworkTryCount ?? this.noNetworkTryCount,
-      skippingSSLCertificate:
-          skippingSSLCertificate ?? this.skippingSSLCertificate,
-      interceptor: interceptor ?? this.interceptor,
-      onRefreshToken: onRefreshToken ?? this.onRefreshToken,
-      onResponseParse: onResponseParse ?? this.onResponseParse,
-      maxRetryCount: maxRetryCount ?? this.maxRetryCount,
-    );
-  }
-
   @override
   List<Object> get props => [baseOptions];
 }
