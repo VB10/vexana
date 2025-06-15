@@ -35,7 +35,7 @@ abstract class JsonPlaceHolderViewModel extends State<JsonPlaceHolder> {
     changeLoading();
     final response = await networkManager.send<Post, List<Post>>(
       '/posts',
-      parseModel: Post(),
+      parseModel: const Post(),
       method: RequestType.GET,
       isErrorDialog: true,
     );
@@ -51,11 +51,6 @@ abstract class JsonPlaceHolderViewModel extends State<JsonPlaceHolder> {
     setState(() {
       isLoading = !isLoading;
     });
-  }
-
-  //You can use this function for custom generate an error model.
-  INetworkModel<Post> _errorModelFromData(Map<String, dynamic> data) {
-    return Post.fromJson(data);
   }
 }
 

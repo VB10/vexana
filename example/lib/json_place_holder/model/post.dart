@@ -1,19 +1,17 @@
 import 'package:vexana/vexana.dart';
 
 class Post extends INetworkModel<Post> {
-  int? userId;
-  int? id;
-  String? title;
-  String? body;
+  const Post({this.userId, this.id, this.title, this.body});
 
-  Post({this.userId, this.id, this.title, this.body});
-
-  Post.fromJson(Map<String, dynamic> json) {
-    userId = json['userId'];
-    id = json['id'];
-    title = json['title'];
-    body = json['body'];
-  }
+  Post.fromJson(Map<String, dynamic> json)
+      : userId = json['userId'] is int ? json['userId'] as int : null,
+        id = json['id'] is int ? json['id'] as int : null,
+        title = json['title'] is String ? json['title'] as String : null,
+        body = json['body'] is String ? json['body'] as String : null;
+  final int? userId;
+  final int? id;
+  final String? title;
+  final String? body;
 
   @override
   Map<String, dynamic> toJson() {

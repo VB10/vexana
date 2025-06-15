@@ -1,5 +1,4 @@
 import 'package:vexana/src/mixin/index.dart';
-import 'package:vexana/src/model/request_flag.dart';
 import 'package:vexana/vexana.dart';
 
 /// The `INetworkManager` interface is used to define the methods that are used
