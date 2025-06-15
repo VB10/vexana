@@ -97,7 +97,12 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
     final defaultOptions = Options();
     options ??= defaultOptions;
     options.method = method.stringValue;
-    _addDisableRefreshTokenFlag(options, disableRefreshToken);
+    if (disableRefreshToken != null) {
+      final currentExtra =
+          options.extra == null ? <String, dynamic>{} : Map.of(options.extra!);
+      currentExtra['disableRefreshToken'] = disableRefreshToken;
+      options.extra = currentExtra;
+    }
     final body = makeRequestBodyData(data);
 
     try {
