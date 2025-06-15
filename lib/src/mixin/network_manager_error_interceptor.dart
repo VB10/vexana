@@ -2,6 +2,7 @@ import 'dart:io' if (dart.library.html) 'dart:html';
 
 import 'package:retry/retry.dart';
 import 'package:vexana/src/mixin/index.dart';
+import 'package:vexana/src/model/request_flag.dart';
 import 'package:vexana/vexana.dart';
 
 /// Network manager error interceptor
@@ -36,10 +37,11 @@ mixin NetworkManagerErrorInterceptor {
           return handler.next(exception);
         }
 
-        /// If disableRefreshToken is true, then return error
-        final disableRefreshToken =
-            exception.requestOptions.extra['disableRefreshToken'] == true;
-        if (disableRefreshToken) {
+        /// Check if refresh token is disabled via request flags
+        final requestFlags = RequestFlagExtension.fromExtraMap(
+          exception.requestOptions.extra,
+        );
+        if (requestFlags.shouldDisableRefreshToken) {
           return handler.next(exception);
         }
 

@@ -1,4 +1,5 @@
 import 'package:vexana/src/mixin/index.dart';
+import 'package:vexana/src/model/request_flag.dart';
 import 'package:vexana/vexana.dart';
 
 /// The `INetworkManager` interface is used to define the methods that are used
@@ -38,7 +39,7 @@ abstract class INetworkManager<E extends INetworkModel<E>>
     ProgressCallback? onReceiveProgress,
     CancelToken? cancelToken,
     bool isErrorDialog = false,
-    bool? disableRefreshToken,
+    Set<RequestFlag>? requestFlags,
   });
 
   /// The sendRequest method is used to send an HTTP request
@@ -57,7 +58,7 @@ abstract class INetworkManager<E extends INetworkModel<E>>
     ProgressCallback? onReceiveProgress,
     CancelToken? cancelToken,
     bool isErrorDialog = false,
-    bool? disableRefreshToken,
+    Set<RequestFlag>? requestFlags,
   });
 
   /// The `downloadFileSimple` method is used to download a file from a
