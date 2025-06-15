@@ -36,6 +36,14 @@ mixin NetworkManagerErrorInterceptor {
           return handler.next(exception);
         }
 
+        /// Check if refresh token is disabled via request flags
+        final requestFlags = RequestFlagExtension.fromExtraMap(
+          exception.requestOptions.extra,
+        );
+        if (requestFlags.shouldDisableRefreshToken) {
+          return handler.next(exception);
+        }
+
         /// Calling onRefreshToken first time;
         var error = await _createError(parameters, exception);
         try {

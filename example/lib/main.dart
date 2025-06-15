@@ -1,5 +1,6 @@
-import 'package:example/json_place_holder/json_place_holder.dart';
 import 'package:flutter/material.dart';
+
+import './json_place_holder/json_place_holder.dart';
 
 void main() => runApp(const MyApp());
 

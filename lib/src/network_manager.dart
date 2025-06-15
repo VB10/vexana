@@ -88,6 +88,7 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
     ProgressCallback? onReceiveProgress,
     bool isErrorDialog = false,
     CancelToken? cancelToken,
+    Set<RequestFlag>? requestFlags,
   }) async {
     final checkFormCache =
         await _checkCache<R, T>(expiration, method, parseModel);
@@ -96,13 +97,15 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
     final defaultOptions = Options();
     options ??= defaultOptions;
     options.method = method.stringValue;
+    final configuredOptions =
+        _configureRequestFlags(options, requestFlags ?? <RequestFlag>{});
     final body = makeRequestBodyData(data);
 
     try {
       final response = await request<dynamic>(
         '$path$urlSuffix',
         data: body,
-        options: options,
+        options: configuredOptions,
         queryParameters: queryParameters,
         cancelToken: cancelToken,
       );
@@ -150,6 +153,7 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
     ProgressCallback? onReceiveProgress,
     bool isErrorDialog = false,
     CancelToken? cancelToken,
+    Set<RequestFlag>? requestFlags,
   }) async {
     final verifyFormCache = await _verifyCache<R, T>(
       expiration,
@@ -161,13 +165,15 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
     final defaultOptions = Options();
     options ??= defaultOptions;
     options.method = method.stringValue;
+    final configuredOptions =
+        _configureRequestFlags(options, requestFlags ?? <RequestFlag>{});
     final body = makeRequestBodyData(data);
 
     try {
       final response = await request<dynamic>(
         '$path$urlSuffix',
         data: body,
-        options: options,
+        options: configuredOptions,
         queryParameters: queryParameters,
         cancelToken: cancelToken,
       );
@@ -315,5 +321,40 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
       responseModel: parseModel,
     );
     return cacheData;
+  }
+
+  /// Configures request flags in the request options.
+  ///
+  /// This helper method ensures that request flags are properly
+  /// added to the [options.extra] map. It handles the creation
+  /// of a new extra map if one doesn't exist, and preserves existing values.
+  ///
+  /// The [options] parameter is the Dio options object to be configured.
+  /// The [requestFlags] parameter contains the flags to be applied.
+  ///
+  /// Returns the configured [Options] object for method chaining.
+  ///
+  /// Example:
+  /// ```dart
+  /// final options = Options();
+  /// final flags = {RequestFlag.disableRefreshToken};
+  /// final configuredOptions = _configureRequestFlags(options, flags);
+  /// // configuredOptions.extra now contains the flag information
+  /// ```
+  Options _configureRequestFlags(
+    Options options,
+    Set<RequestFlag> requestFlags,
+  ) {
+    if (requestFlags.isEmpty) return options;
+
+    final currentExtra =
+        options.extra == null ? <String, dynamic>{} : Map.of(options.extra!);
+
+    // Add request flags to extra map
+    final flagMap = requestFlags.toExtraMap();
+    currentExtra.addAll(flagMap);
+
+    final modifiedOptions = options.copyWith(extra: currentExtra);
+    return modifiedOptions;
   }
 }
