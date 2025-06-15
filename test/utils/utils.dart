@@ -61,6 +61,12 @@ Future<void> startServer() async {
             await response.close();
             return;
           }(),
+        '/test' => () async {
+            response
+              ..statusCode = 200
+              ..write('success');
+            await response.close();
+          }(),
         '/redirect' => () async {
             response
               ..statusCode = 302
