@@ -38,6 +38,7 @@ abstract class INetworkManager<E extends INetworkModel<E>>
     ProgressCallback? onReceiveProgress,
     CancelToken? cancelToken,
     bool isErrorDialog = false,
+    NetworkCompressionType compressionType = NetworkCompressionType.none,
   });
 
   /// The sendRequest method is used to send an HTTP request
@@ -56,6 +57,7 @@ abstract class INetworkManager<E extends INetworkModel<E>>
     ProgressCallback? onReceiveProgress,
     CancelToken? cancelToken,
     bool isErrorDialog = false,
+    NetworkCompressionType compressionType = NetworkCompressionType.none,
   });
 
   /// The `downloadFileSimple` method is used to download a file from a

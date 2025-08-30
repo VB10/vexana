@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:archive/archive.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -34,6 +35,18 @@ Future<void> startServer() async {
               ..statusCode = 400
               ..contentLength = content.length
               ..write(content);
+            await response.close();
+          }(),
+        '/gzip' => () async {
+            const content = 'This is a gzip compressed response';
+            final compressed = const GZipEncoder().encode(utf8.encode(content));
+            final compressedUint8List = Uint8List.fromList(compressed);
+
+            response
+              ..statusCode = 200
+              ..headers.set('content-encoding', 'gzip')
+              ..contentLength = compressedUint8List.length
+              ..add(compressedUint8List);
             await response.close();
           }(),
         '/loop' => () async {

@@ -18,7 +18,7 @@ void main() {
 
     final response = await errorNetworkManager.send<EmptyModel, EmptyModel>(
       '/unAuthorized',
-      parseModel: EmptyModel(),
+      parseModel: const EmptyModel(),
       method: RequestType.GET,
     );
     stopServer();
@@ -39,19 +39,19 @@ void main() {
     await Future.wait<void>([
       errorNetworkManager.send<EmptyModel, EmptyModel>(
         '/unAuthorized',
-        parseModel: EmptyModel(),
+        parseModel: const EmptyModel(),
         cancelToken: cancelToken,
         method: RequestType.GET,
       ),
       errorNetworkManager.send<EmptyModel, EmptyModel>(
         '/unAuthorized',
-        parseModel: EmptyModel(),
+        parseModel: const EmptyModel(),
         cancelToken: cancelToken,
         method: RequestType.GET,
       ),
       errorNetworkManager.send<EmptyModel, EmptyModel>(
         '/unAuthorized',
-        parseModel: EmptyModel(),
+        parseModel: const EmptyModel(),
         cancelToken: cancelToken,
         method: RequestType.GET,
       ),
@@ -70,7 +70,7 @@ void main() {
     );
     final response = await errorNetworkManager.send<EmptyModel, EmptyModel>(
       '/unAuthorized',
-      parseModel: EmptyModel(),
+      parseModel: const EmptyModel(),
       method: RequestType.GET,
     );
     stopServer();
@@ -89,17 +89,17 @@ void main() {
       [
         errorNetworkManager.send<EmptyModel, EmptyModel>(
           '/unAuthorized',
-          parseModel: EmptyModel(),
+          parseModel: const EmptyModel(),
           method: RequestType.GET,
         ),
         errorNetworkManager.send<EmptyModel, EmptyModel>(
           '/unAuthorized',
-          parseModel: EmptyModel(),
+          parseModel: const EmptyModel(),
           method: RequestType.GET,
         ),
         errorNetworkManager.send<EmptyModel, EmptyModel>(
           '/unAuthorized',
-          parseModel: EmptyModel(),
+          parseModel: const EmptyModel(),
           method: RequestType.GET,
         ),
       ],
@@ -115,10 +115,11 @@ void main() {
 
 class _Helpers {
   static Future<void> _addTokenOnRefresh(
-      NetworkManager<EmptyModel> manager) async {
+    NetworkManager<EmptyModel> manager,
+  ) async {
     manager.options.headers.addEntries(
       [
-        const MapEntry('Authorization', "New Token"),
+        const MapEntry('Authorization', 'New Token'),
       ],
     );
   }

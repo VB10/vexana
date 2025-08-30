@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:vexana/src/feature/compression/network_compression_service.dart';
 import 'package:vexana/src/mixin/network_manager_parameters.dart';
 import 'package:vexana/src/utility/custom_logger.dart';
 import 'package:vexana/src/utility/json_encode_util.dart';
@@ -154,9 +155,26 @@ mixin NetworkManagerResponse<E extends INetworkModel<E>> {
   /// if data is IFormDataModel -> return data.toFormData()
   /// if data is INetworkModel -> return data.toJson()
   /// if data is not null -> return jsonEncode(data)
-  dynamic makeRequestBodyData(dynamic data) {
-    if (data is IFormDataModel) return data.toFormData();
-    if (data is INetworkModel) return data.toJson();
+  dynamic makeRequestBodyData(
+    dynamic data,
+    NetworkCompressionType compressionType,
+  ) {
+    if (data is IFormDataModel) {
+      final formData = data.toFormData();
+      if (formData == null) return null;
+      if (compressionType == NetworkCompressionType.gzip) {
+        return NetworkCompressionService.gzipCompressModelFormData(formData);
+      }
+      return formData;
+    }
+    if (data is INetworkModel) {
+      final map = data.toJson();
+      if (map == null) return null;
+      if (compressionType == NetworkCompressionType.gzip) {
+        return NetworkCompressionService.gzipCompressModelMap(map);
+      }
+      return map;
+    }
     if (data != null) return jsonEncode(data);
     return data;
   }

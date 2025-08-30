@@ -9,6 +9,7 @@ export 'package:dio/src/options.dart';
 // CACHE
 export 'src/cache/file/local_file.dart';
 export 'src/cache/shared/local_preferences.dart';
+export 'src/feature/compression/network_compression_type.dart';
 export 'src/feature/no_network/index.dart';
 export 'src/interface/index.dart';
 // MODEL

@@ -1,39 +1,41 @@
 // 20231103034042
 // https://raw.githubusercontent.com/VB10/architecture_template_v2/main/.vscode/settings.json
 {
-    "dart.lineLength": 80,
-    "docwriter.hotkey.mac": "⌥ + .",
+  "dart.lineLength": 80,
+  "docwriter.hotkey.mac": "⌥ + .",
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "explorer.fileNesting.patterns": {
+    "pubspec.yaml": ".flutter-plugins, .packages, .dart_tool, .flutter-plugins-dependencies, .metadata, .packages, pubspec.lock, build.yaml, analysis_options.yaml, all_lint_rules.yaml",
+    ".gitignore": ".gitattributes, .gitmodules, .gitmessage, .mailmap, .git-blame*",
+    "readme.*": "authors, backers.md, changelog*, citation*, code_of_conduct.md, codeowners, contributing.md, contributors, copying, credits, governance.md, history.md, license*, maintainers, readme*, security.md, sponsors.md",
+    "*.dart": "$(capture).g.dart, $(capture).freezed.dart,$(capture).gr.dart"
+  },
+  "[dart]": {
     "editor.formatOnSave": true,
-    "editor.formatOnPaste": true,
-    "explorer.fileNesting.patterns": {
-        "pubspec.yaml": ".flutter-plugins, .packages, .dart_tool, .flutter-plugins-dependencies, .metadata, .packages, pubspec.lock, build.yaml, analysis_options.yaml, all_lint_rules.yaml",
-        ".gitignore": ".gitattributes, .gitmodules, .gitmessage, .mailmap, .git-blame*",
-        "readme.*": "authors, backers.md, changelog*, citation*, code_of_conduct.md, codeowners, contributing.md, contributors, copying, credits, governance.md, history.md, license*, maintainers, readme*, security.md, sponsors.md",
-        "*.dart": "$(capture).g.dart, $(capture).freezed.dart,$(capture).gr.dart"
-    },
-    "[dart]": {
-        "editor.formatOnSave": true,
-        "editor.formatOnType": true,
-        "editor.rulers": [
-            80
-        ],
-        "editor.selectionHighlight": false,
-        "editor.suggest.snippetsPreventQuickSuggestions": false,
-        "editor.suggestSelection": "first",
-        "editor.tabCompletion": "onlySnippets",
-        "editor.wordBasedSuggestions": "matchingDocuments",
-        "editor.codeActionsOnSave": {
-            "source.fixAll": "explicit",
-            "source.organizeImports": "always"
-        }
-    },
-    "workbench.colorCustomizations": {
-        "tab.activeBorderTop": "#FFE81F"
-    },
-    "editor.inlineSuggest.enabled": true,
-    "cSpell.words": [
-        "Sembast",
-        "vexana"
-    ],
-    "dart.previewSdkDaps": false
+    "editor.formatOnType": true,
+    "editor.rulers": [80],
+    "editor.selectionHighlight": false,
+    "editor.suggest.snippetsPreventQuickSuggestions": false,
+    "editor.suggestSelection": "first",
+    "editor.tabCompletion": "onlySnippets",
+    "editor.wordBasedSuggestions": "matchingDocuments",
+    "editor.codeActionsOnSave": {
+      "source.fixAll": "explicit",
+      "source.organizeImports": "always"
+    }
+  },
+  "workbench.colorCustomizations": {
+    "tab.activeBorderTop": "#FFE81F"
+  },
+  "editor.inlineSuggest.enabled": true,
+  "cSpell.words": [
+    "networkmanager",
+    "refreshtoken",
+    "Sembast",
+    "vexana",
+    "withoutnetwork"
+  ],
+  "cSpell.exclude": ["example"],
+  "dart.previewSdkDaps": false
 }
