@@ -1,5 +1,7 @@
+
 <p align="center">
 <p align="center">
+<a href="https://deepwiki.com/VB10/vexana"><img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki"></a>
 <a href="https://pub.dev/packages/vexana"><img src="https://img.shields.io/pub/v/vexana.svg" alt="Pub"></a>
 <a href="https://pub.dev/packages/vexana"><img src="https://img.shields.io/badge/vexana-package-blue" alt="Pub"></a>
 <a href="https://github.com/VB10/vexana"><img src="https://img.shields.io/github/stars/vb10/vexana.svg?style=flat&logo=github&colorB=deeppink&label=stars" alt="Star on Github"></a> 
