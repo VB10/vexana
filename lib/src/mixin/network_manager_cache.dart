@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:vexana/src/mixin/index.dart';
-import 'package:vexana/src/model/error/file_manager_not_foud_exception.dart';
+import 'package:vexana/src/model/error/file_manager_not_found_exception.dart';
 import 'package:vexana/src/utility/extension/request_type_extension.dart';
 import 'package:vexana/src/utility/network_manager_util.dart';
 import 'package:vexana/vexana.dart';
@@ -27,10 +27,9 @@ mixin NetworkManagerCache<E extends INetworkModel<E>>
     final cacheDataString = await _fetchOnlyData(type);
     if (cacheDataString == null) return null;
 
-    final model = parseUserResponseData<R, T>(
-      NetworkManagerUtil.decodeBodyWithCompute(cacheDataString),
-      responseModel,
-    );
+    final decodedBody =
+        await NetworkManagerUtil.decodeBodyWithCompute(cacheDataString);
+    final model = parseUserResponseData<R, T>(decodedBody, responseModel);
 
     return ResponseModel<R, E>(
       data: model,
@@ -52,10 +51,9 @@ mixin NetworkManagerCache<E extends INetworkModel<E>>
     final cacheDataString = await _fetchOnlyData(type);
     if (cacheDataString == null) return null;
 
-    final model = parseUserResponseData<R, T>(
-      NetworkManagerUtil.decodeBodyWithCompute(cacheDataString),
-      responseModel,
-    );
+    final decodedBody =
+        await NetworkManagerUtil.decodeBodyWithCompute(cacheDataString);
+    final model = parseUserResponseData<R, T>(decodedBody, responseModel);
 
     if (model is R) return NetworkSuccessResult(model);
     final error = ErrorModel<E>.parseError();

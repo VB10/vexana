@@ -17,7 +17,7 @@ class NetworkCheck {
     try {
       final response = await Dio().get<dynamic>('https://www.google.com');
       return response.statusCode == _httpStatusOk;
-    } catch (e) {
+    } on Object {
       return false;
     }
   }

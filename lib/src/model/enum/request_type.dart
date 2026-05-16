@@ -1,3 +1,4 @@
+// HTTP method names intentionally mirror the wire format.
 // ignore_for_file: constant_identifier_names
 
 import 'package:vexana/vexana.dart';

@@ -11,7 +11,7 @@ mixin IFormDataModel<T extends INetworkModel<T>> on INetworkModel<T> {
 
     try {
       return FormData.fromMap(formDataBody);
-    } catch (e) {
+    } on Object {
       LogItems.formDataLog<T>(isEnableLogger: true);
     }
 

@@ -99,7 +99,7 @@ class _LocalManager {
 
   /// The removeModel function is a Dart asynchronous function
   ///  that takes a URL as a parameter and
-  /// returns a Future<bool> indicating whether
+  /// returns a `Future<bool>` indicating whether
   ///  the model was successfully removed.
   ///
   /// Args:

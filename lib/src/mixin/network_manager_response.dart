@@ -21,7 +21,7 @@ mixin NetworkManagerResponse<E extends INetworkModel<E>> {
   /// data: Response body
   ///
   /// Result:
-  /// ResponseModel<R, E> -> R: Response Model, E: Error Model
+  /// `ResponseModel<R, E>` -> R: Response Model, E: Error Model
   ResponseModel<R, E> successResponseFetch<T extends INetworkModel<T>, R>({
     required dynamic data,
     required T parserModel,
@@ -137,7 +137,7 @@ mixin NetworkManagerResponse<E extends INetworkModel<E>> {
         isEnableLogger: parameters.isEnableLogger,
       );
       return null;
-    } catch (e) {
+    } on Object catch (e) {
       LogItems.bodyParseGeneralLog<T, R>(
         data: e,
         responseBody: responseBody,

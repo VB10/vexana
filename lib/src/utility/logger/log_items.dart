@@ -1,3 +1,4 @@
+// Log message helpers are intentionally self-descriptive and internal.
 // ignore_for_file: public_member_api_docs
 
 import 'package:vexana/src/utility/index.dart';

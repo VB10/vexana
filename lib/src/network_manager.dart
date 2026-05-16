@@ -272,7 +272,7 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
     dio.FileAccessMode fileAccessMode = dio.FileAccessMode.write,
     dio.Options? options,
   }) {
-    return this.download(
+    return super.download(
       urlPath,
       savePath,
       onReceiveProgress: onReceiveProgress,

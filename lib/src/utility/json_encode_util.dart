@@ -13,7 +13,7 @@ final class JsonDecodeUtil {
   static dynamic safeJsonDecode(String jsonString) {
     try {
       return jsonDecode(jsonString);
-    } catch (e) {
+    } on Object {
       LogItems.jsonDecodeError();
       return null;
     }
@@ -26,7 +26,7 @@ final class JsonDecodeUtil {
         jsonDecode,
         jsonString,
       );
-    } catch (e) {
+    } on Object {
       LogItems.jsonDecodeError();
       return null;
     }

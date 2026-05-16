@@ -20,7 +20,7 @@ mixin NetworkManagerErrorInterceptor {
 
   QueuedInterceptorsWrapper _onErrorWrapper() {
     return QueuedInterceptorsWrapper(
-      onError: (DioException exception, ErrorInterceptorHandler handler) async {
+      onError: (exception, handler) async {
         final errorResponse = exception.response;
 
         /// If error response is null, then return error
@@ -53,7 +53,7 @@ mixin NetworkManagerErrorInterceptor {
           }
           // Call onResponseParse callback and return response
           return handler.resolve(parameters.onResponseParse!(response));
-        } catch (err) {
+        } on Object catch (err) {
           /// cancel request & call onRefreshFail callback and unlock
           error.requestOptions.cancelToken?.cancel();
           parameters.onRefreshFail?.call();
@@ -138,7 +138,7 @@ mixin NetworkManagerErrorInterceptor {
   ) {
     final cancelToken = exception.requestOptions.cancelToken;
     if (cancelToken == null) return null;
-    if (cancelToken.isCancelled == false) return null;
+    if (!cancelToken.isCancelled) return null;
     return DioException(
       requestOptions: exception.requestOptions,
       response: exception.response
