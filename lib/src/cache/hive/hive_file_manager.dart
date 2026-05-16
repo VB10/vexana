@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:hive_ce/hive_ce.dart';
 import 'package:vexana/src/interface/i_file_manager.dart';
 
-/// Manage cache with Hive Community Edition
+/// Manage cache with Hive Community Edition. Call [init] before use.
 final class HiveFileManager extends IFileManager {
   /// Private constructor
   HiveFileManager({this.boxName = 'vexana_cache'});
