@@ -13,7 +13,7 @@ coverage/
 *.info
 lcov.info
 applicationDocumentsPath/
-
+example/ios/Flutter/ephemeral/
 # IntelliJ related
 *.iml
 *.ipr
