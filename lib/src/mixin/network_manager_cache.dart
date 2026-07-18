@@ -27,10 +27,17 @@ mixin NetworkManagerCache<E extends INetworkModel<E>>
     final cacheDataString = await _fetchOnlyData(type);
     if (cacheDataString == null) return null;
 
-    final model = parseUserResponseData<R, T>(
-      await NetworkManagerUtil.decodeBodyWithCompute(cacheDataString),
-      responseModel,
-    );
+    final dynamic decodedBody;
+    try {
+      decodedBody =
+          await NetworkManagerUtil.decodeBodyWithCompute(cacheDataString);
+    } on FormatException {
+      // Corrupted cache entry: treat it as a miss so the request falls back
+      // to the network instead of failing.
+      return null;
+    }
+
+    final model = parseUserResponseData<R, T>(decodedBody, responseModel);
 
     return ResponseModel<R, E>(
       data: model,
@@ -52,10 +59,17 @@ mixin NetworkManagerCache<E extends INetworkModel<E>>
     final cacheDataString = await _fetchOnlyData(type);
     if (cacheDataString == null) return null;
 
-    final model = parseUserResponseData<R, T>(
-      await NetworkManagerUtil.decodeBodyWithCompute(cacheDataString),
-      responseModel,
-    );
+    final dynamic decodedBody;
+    try {
+      decodedBody =
+          await NetworkManagerUtil.decodeBodyWithCompute(cacheDataString);
+    } on FormatException {
+      // Corrupted cache entry: treat it as a miss so the request falls back
+      // to the network instead of failing.
+      return null;
+    }
+
+    final model = parseUserResponseData<R, T>(decodedBody, responseModel);
 
     if (model is R) return NetworkSuccessResult(model);
     final error = ErrorModel<E>.parseError();

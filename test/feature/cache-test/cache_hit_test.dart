@@ -105,4 +105,44 @@ void main() {
     expect(data, isNotNull);
     expect(data, hasLength(1));
   });
+
+  test('a corrupted cache entry falls back to the network', () async {
+    final manager = NetworkManager<EmptyModel>(
+      isEnableTest: true,
+      fileManager: _CorruptCacheFileManager(),
+      options: BaseOptions(baseUrl: 'http://localhost:${server.port}'),
+    );
+
+    final result = await manager.send<Todo, List<Todo>>(
+      '/todos',
+      parseModel: const Todo(),
+      method: RequestType.GET,
+      expiration: const Duration(minutes: 5),
+    );
+
+    expect(requestCount, 1);
+    expect(result.error, isNull);
+    expect(result.data, hasLength(1));
+  });
+}
+
+/// Returns an unparseable body for every cache read so the corrupted-entry
+/// path can be exercised without touching the file system.
+final class _CorruptCacheFileManager extends IFileManager {
+  @override
+  Future<String?> getUserRequestDataOnString(String key) async => '{not json';
+
+  @override
+  Future<bool> writeUserRequestDataWithTime(
+    String key,
+    String model,
+    Duration? time,
+  ) async =>
+      true;
+
+  @override
+  Future<bool> removeUserRequestCache(String key) async => true;
+
+  @override
+  Future<bool> removeUserRequestSingleCache(String key) async => true;
 }
