@@ -28,7 +28,7 @@ mixin NetworkManagerCache<E extends INetworkModel<E>>
     if (cacheDataString == null) return null;
 
     final model = parseUserResponseData<R, T>(
-      NetworkManagerUtil.decodeBodyWithCompute(cacheDataString),
+      await NetworkManagerUtil.decodeBodyWithCompute(cacheDataString),
       responseModel,
     );
 
@@ -53,7 +53,7 @@ mixin NetworkManagerCache<E extends INetworkModel<E>>
     if (cacheDataString == null) return null;
 
     final model = parseUserResponseData<R, T>(
-      NetworkManagerUtil.decodeBodyWithCompute(cacheDataString),
+      await NetworkManagerUtil.decodeBodyWithCompute(cacheDataString),
       responseModel,
     );
 
