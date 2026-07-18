@@ -44,23 +44,23 @@ class LocalFileIO extends IFileManager {
     if (time == null) {
       return false;
     } else {
-      final localModel =
-          LocalModel(model: model, time: DateTime.now().add(time));
+      final localModel = LocalModel(
+        model: model,
+        time: DateTime.now().add(time),
+      );
       await _fileManager.writeLocalModelInFile(key, localModel);
       return true;
     }
   }
 
   /// The `removeUserRequestCache()` method is responsible for removing
-  /// all user request
-  /// cache data. It calls the `_fileManager.clearAllDirectoryItems()`
-  ///  method to clear all
-  /// items in the cache directory. After clearing the cache, it returns
-  ///  `true` to indicate
-  /// that the operation was successful.
+  /// user request cache data whose key contains the given [key]. Only the
+  /// package's own cache file is modified; other files in the documents
+  /// directory are not touched. After clearing the cache, it returns
+  /// `true` to indicate that the operation was successful.
   @override
   Future<bool> removeUserRequestCache(String key) async {
-    await _fileManager.clearAllDirectoryItems();
+    await _fileManager.clearCacheItems(key);
     return true;
   }
 
