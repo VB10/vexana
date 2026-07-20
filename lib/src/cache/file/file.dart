@@ -108,7 +108,7 @@ class _FileManager {
     );
   }
 
-  /// Remove cached entries whose key contains [url] from the cache file.
+  /// Remove cached entries stored for the base [url] from the cache file.
   ///
   /// Only the package's own cache file is touched; other files in the
   /// documents directory are left as they are.
@@ -120,7 +120,7 @@ class _FileManager {
       await userDocumentFile.delete();
       return;
     }
-    tempDirectory.removeWhere((key, _) => key.contains(url));
+    tempDirectory.removeWhere((key, _) => key.startsWith('$url-'));
     await userDocumentFile.writeAsString(
       jsonEncode(tempDirectory),
       flush: true,

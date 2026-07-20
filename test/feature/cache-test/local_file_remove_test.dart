@@ -116,6 +116,34 @@ void main() {
       isNotEmpty,
     );
   });
+
+  test('removeAll keeps a base url that merely extends the cleared one',
+      () async {
+    await networkManager.send<Todo, List<Todo>>(
+      '/todos',
+      parseModel: const Todo(),
+      method: RequestType.GET,
+      expiration: const Duration(minutes: 5),
+    );
+    final cacheFile = File('${documents.path}/vexana.json');
+    final content =
+        jsonDecode(cacheFile.readAsStringSync()) as Map<String, dynamic>;
+    final extendedKey = 'http://localhost:${server.port}/v2-GET';
+    content[extendedKey] = content.values.first;
+    cacheFile.writeAsStringSync(jsonEncode(content));
+
+    await networkManager.cache.removeAll();
+
+    final remaining =
+        jsonDecode(cacheFile.readAsStringSync()) as Map<String, dynamic>;
+    expect(remaining.keys, contains(extendedKey));
+    expect(
+      remaining.keys.where(
+        (key) => key.startsWith('http://localhost:${server.port}-'),
+      ),
+      isEmpty,
+    );
+  });
 }
 
 final class _TestPathProviderPlatform extends MockPathProviderPlatform {
