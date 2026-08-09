@@ -3,7 +3,7 @@ import 'package:vexana/src/interface/index.dart';
 
 /// [EmptyModel] is a model class that is used to
 /// general model or primitive type.
-final class EmptyModel extends INetworkModel<EmptyModel> with EquatableMixin {
+final class EmptyModel extends INetworkModel<EmptyModel> with Equatable {
   /// [EmptyModel] constructor is used to create a new [EmptyModel]
   const EmptyModel({this.name});
 

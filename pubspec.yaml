@@ -7,7 +7,7 @@ environment:
 
 workspace:
   - packages/vexana
-  - example
+  - packages/vexana/example
 
 dev_dependencies:
   melos: ^8.2.2

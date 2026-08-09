@@ -13,7 +13,7 @@ analyzer:
   exclude:
     # Monorepo yapısında yollar workspace kökünden çözülüyor.
     - packages/*/test/**
-    - example/**
+    - packages/*/example/**
     - benchmark/**
 
 linter:

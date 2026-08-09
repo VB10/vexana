@@ -272,7 +272,15 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
     dio.FileAccessMode fileAccessMode = dio.FileAccessMode.write,
     dio.Options? options,
   }) {
-    return this.download(
+    /// [DioMixin.download] gövdesi `throw UnimplementedError()` olduğu için
+    /// `super.download` çağrılamaz; gerçek indirme mantığı dio'nun platforma
+    /// özel `DioForNative` / `DioForBrowser` sınıflarında yaşıyor.
+    /// Bu yüzden aynı [BaseOptions] ile bir dio örneğine delege ediyoruz.
+    ///
+    /// `this.download(...)` çağırmak kendini çağırmak demektir (virtual
+    /// dispatch en türemiş implementasyona gider) ve [StackOverflowError]
+    /// üretir.
+    return dio.Dio(parameters.baseOptions).download(
       urlPath,
       savePath,
       onReceiveProgress: onReceiveProgress,

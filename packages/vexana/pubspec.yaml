@@ -20,24 +20,15 @@ resolution: workspace
 
 dependencies:
   collection: ^1.17.1
-
-  # Core
   dio: ^5.8.0+1
   dio_web_adapter: ^2.1.0
-
+  equatable: ^2.0.5
   flutter:
     sdk: flutter
-
-  # Log
   logger: ^2.0.2+1
-
-  # Database
   path_provider: ^2.0.1
-  shared_preferences: ^2.0.3
-
-  # Utility
   retry: ^3.1.2
-  equatable: ^2.0.5
+  shared_preferences: ^2.0.3
 
 dev_dependencies:
   flutter_test:
