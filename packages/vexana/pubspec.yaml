@@ -1,0 +1,48 @@
+name: vexana
+description: Manage your network layer with dio. You will be able to use it very
+  easily network operations.
+version: 6.0.0-dev.1
+homepage: https://github.com/VB10/vexana
+issue_tracker: https://github.com/VB10/vexana/issues
+funding:
+  - https://github.com/sponsors/vb10/
+topics:
+  - dio
+  - refreshtoken
+  - withoutnetwork
+  - networkmanager
+  - networkcache
+
+environment:
+  sdk: ^3.6.0
+
+resolution: workspace
+
+dependencies:
+  collection: ^1.17.1
+
+  # Core
+  dio: ^5.8.0+1
+  dio_web_adapter: ^2.1.0
+
+  flutter:
+    sdk: flutter
+
+  # Log
+  logger: ^2.0.2+1
+
+  # Database
+  path_provider: ^2.0.1
+  shared_preferences: ^2.0.3
+
+  # Utility
+  retry: ^3.1.2
+  equatable: ^2.0.5
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  mockito: ^5.0.0
+  path_provider_platform_interface: ^2.0.1
+  plugin_platform_interface: ^2.0.0
+  very_good_analysis: ^6.0.0
