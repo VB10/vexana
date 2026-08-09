@@ -1,5 +1,4 @@
-import 'dart:io' if (dart.library.html) 'dart:html' show HttpStatus;
-
+import 'package:vexana/src/utility/http_status.dart';
 import 'package:vexana/vexana.dart';
 
 /// Error model for network response

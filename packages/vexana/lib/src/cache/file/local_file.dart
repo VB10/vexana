@@ -1,5 +1,5 @@
 import 'package:vexana/src/cache/file/local_file_io.dart'
-    if (dart.library.html) 'local_file_web.dart' as adapter;
+    if (dart.library.js_interop) 'local_file_web.dart' as adapter;
 import 'package:vexana/src/interface/i_file_manager.dart';
 
 /// Local file manager for a document folder

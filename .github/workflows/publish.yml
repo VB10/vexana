@@ -1,29 +1,27 @@
 name: Publish to pub.dev
 
+# Publishing used to run `flutter pub publish --force`, which needs a
+# credential in the runner. This uses pub.dev's OIDC automated publishing
+# through Dart's official reusable workflow instead, so no long lived
+# credentials are stored in the repo.
+#
+# The tag scheme is the existing one (script/push_version.sh writes
+# publish_<version>), so pub.dev's automated publishing configuration does not
+# need to change.
+#
+# One time setup on pub.dev: Admin -> Automated publishing -> enable GitHub
+# Actions for VB10/vexana with the tag pattern publish_{{version}}.
 on:
   push:
     tags:
       - "publish_[0-9]+.[0-9]+.[0-9]+*"
 
-  workflow_dispatch:
-
-# Publish using custom workflow
 jobs:
   publish:
     permissions:
-      id-token: write # Required for authentication using OIDC
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: dart-lang/setup-dart@v1
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: "stable"
-      - name: Install dependencies
-        run: flutter pub get
-      # Here you can insert custom steps you need
-      # - run: dart tool/generate-code.dart
-      - name: Run All Tests
-        run: flutter test
-      - name: Publish
-        run: flutter pub publish --force
+      # Required to mint the OIDC token pub.dev verifies.
+      id-token: write
+    uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
+    with:
+      # The published package is no longer at the repo root.
+      working-directory: packages/vexana

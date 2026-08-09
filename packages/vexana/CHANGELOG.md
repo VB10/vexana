@@ -1,4 +1,49 @@
-# [5.0.3]
+# [6.0.0-dev.1]
+
+> Pre-release. `pub` does not resolve pre-releases by default, so existing 5.x
+> users are not affected.
+
+### Fixed
+
+- **`NetworkManager.download()` no longer crashes with `StackOverflowError`.**
+  It overrode `DioMixin.download` but called `this.download(...)` in its body.
+  Virtual dispatch resolves that to the most derived implementation — itself —
+  so the method recursed until the stack overflowed. It never worked in 5.0.3,
+  where it was introduced. `DioMixin.download` itself throws
+  `UnimplementedError`, so delegating to `super` is not possible; the call is
+  now delegated to a dio instance created with the same `BaseOptions`.
+  A regression test covers it.
+
+### Changed
+
+- Migrated to a Melos monorepo with Dart pub workspaces. The published package
+  now lives in `packages/vexana/`. (#65)
+- SDK constraint raised to `^3.6.0` (required by pub workspaces).
+
+### Web
+
+- **WebAssembly compatible.** Every `if (dart.library.html)` condition is now
+  `if (dart.library.js_interop)`. The old condition evaluates to false under
+  wasm, which made the compiler fall through to the `dart:io` branch — and
+  `dart:io` does not exist on wasm. `HttpStatus` moved to a pure-Dart shim
+  because it exists only in `dart:io` (never in `dart:html`).
+  Verified by `flutter build web --wasm` in CI.
+
+### Internal
+
+- Analyzer and formatter issues cleared; `dart format` is enforced in CI.
+- CI now runs analyze, format check, coverage and a wasm build. The
+  PR-comment step that failed on fork PRs with
+  "Resource not accessible by integration" was removed (#121).
+- Test coverage is measured in CI with a 75% floor instead of being estimated
+  in the README. Measured at 77.5% on 2026-08-10.
+- Publishing moved to pub.dev's OIDC automated publishing via Dart's official
+  reusable workflow; no credentials are stored in the repo.
+- Added a benchmark harness (`benchmark/`) with baseline measurements.
+- The example app is deployed to <https://vb10.github.io/vexana/> on every
+  push to master.
+
+## [5.0.3]
 
 - Updated dio package to 5.8.0
 - Added download method for newer dio version

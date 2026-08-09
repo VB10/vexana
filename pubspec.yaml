@@ -8,6 +8,7 @@ environment:
 workspace:
   - packages/vexana
   - packages/vexana/example
+  - benchmark
 
 dev_dependencies:
   melos: ^8.2.2
@@ -18,10 +19,17 @@ melos:
       run: dart analyze --fatal-infos --fatal-warnings
       description: Tüm paketleri analiz et
 
+    # benchmark hariç: ölçümler dakikalar sürüyor, CI'ı gereksiz uzatır.
     test:
-      run: melos exec --dir-exists=test -- flutter test
-      description: Testi olan her pakette flutter test koş
+      run: melos exec --dir-exists=test --ignore="benchmark" -- flutter test
+      description: Testi olan her pakette flutter test koş (benchmark hariç)
 
     coverage:
-      run: melos exec --dir-exists=test -- flutter test --coverage
+      run: >-
+        melos exec --dir-exists=test --ignore="benchmark" --
+        flutter test --coverage
       description: Coverage ile test koş
+
+    benchmark:
+      run: melos exec --scope="benchmark" -- flutter test --reporter expanded
+      description: Performans ölçümlerini koş (benchmark/RESULTS.md'yi güncelle)

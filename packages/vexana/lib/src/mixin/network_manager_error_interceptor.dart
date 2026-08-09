@@ -1,7 +1,6 @@
-import 'dart:io' if (dart.library.html) 'dart:html';
-
 import 'package:retry/retry.dart';
 import 'package:vexana/src/mixin/index.dart';
+import 'package:vexana/src/utility/http_status.dart';
 import 'package:vexana/vexana.dart';
 
 /// Network manager error interceptor

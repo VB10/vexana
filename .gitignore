@@ -1,3 +1,13 @@
+# Yerel çalışma dokümanları — tasarım spec'leri, uygulama planları, raporlar.
+# Bunlar geliştirme sürecine ait, pakete ya da repoya ait değil.
+# docs/ altında yayına giden bir şey olursa (örn. docs/site) bu kurallar onu
+# etkilemez, sadece aşağıdaki iki dizin hariç tutulur.
+docs/superpowers/
+docs/reports/
+
+# Flutter web derlemesi bunu otomatik üretip siliyor; repoda tutmanın anlamı yok.
+**/lib/generated_plugin_registrant.dart
+
 # Miscellaneous
 *.class
 *.log

@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:dio/dio.dart' as dio;
 import 'package:flutter/foundation.dart';
 import 'package:vexana/src/feature/adapter/native_adapter.dart'
-    if (dart.library.html) 'package:vexana/src/feature/adapter/web_adapter.dart'
+    if (dart.library.js_interop) 'package:vexana/src/feature/adapter/web_adapter.dart'
     as adapter;
 import 'package:vexana/src/feature/ssl/io_custom_override.dart'
-    if (dart.library.html) 'package:vexana/src/feature/ssl/html_custom_override.dart'
+    if (dart.library.js_interop) 'package:vexana/src/feature/ssl/html_custom_override.dart'
     as ssl;
 import 'package:vexana/src/mixin/index.dart';
 import 'package:vexana/src/utility/extension/request_type_extension.dart';

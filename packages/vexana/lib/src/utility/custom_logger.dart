@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:vexana/src/feature/logger/logger_io.dart'
-    if (dart.library.html) '../feature/logger/logger_web.dart' as logger;
+    if (dart.library.js_interop) '../feature/logger/logger_web.dart' as logger;
 
 @immutable
 

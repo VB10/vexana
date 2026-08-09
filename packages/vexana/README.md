@@ -4,6 +4,8 @@
 <a href="https://deepwiki.com/VB10/vexana"><img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki"></a>
 <a href="https://pub.dev/packages/vexana"><img src="https://img.shields.io/pub/v/vexana.svg" alt="Pub"></a>
 <a href="https://pub.dev/packages/vexana"><img src="https://img.shields.io/badge/vexana-package-blue" alt="Pub"></a>
+<a href="https://github.com/VB10/vexana/actions/workflows/pr_check.yml"><img src="https://github.com/VB10/vexana/actions/workflows/pr_check.yml/badge.svg" alt="CI"></a>
+<a href="https://vb10.github.io/vexana/"><img src="https://img.shields.io/badge/playground-live-brightgreen" alt="Playground"></a>
 <a href="https://github.com/VB10/vexana"><img src="https://img.shields.io/github/stars/vb10/vexana.svg?style=flat&logo=github&colorB=deeppink&label=stars" alt="Star on Github"></a> 
 <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-purple.svg" alt="License: MIT"></a>   
 <a href="https://www.youtube.com/hardwareandro"><img src="https://img.shields.io/youtube/channel/subscribers/UCdUaAKTLJrPZFStzEJnpQAg" alt="Youtube: HardwareAndro"></a>
@@ -338,7 +340,7 @@ INetworkManager  networkManager = NetworkManage<UserErrorModel>(isEnableLogger: 
 - [x] Unit Test with json place holder
 - [x] Unit Test with custom api
 - [x] Handle network problem
-- [x] Make a unit test all layers(%70).
+- [x] Make a unit test all layers. Coverage is measured in CI (`very_good_coverage`, floor 75%), not estimated.
 - [x] Cache Option
   - [ ] Hive Support
   - [x] Web Cache Support

@@ -1,7 +1,7 @@
 import 'dart:convert';
-import 'dart:io' if (dart.library.html) 'dart:html';
 
 import 'package:flutter/foundation.dart';
+import 'package:vexana/src/utility/http_status.dart';
 
 /// Network manager utility class for general usage
 final class NetworkManagerUtil {
