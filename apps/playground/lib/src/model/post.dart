@@ -1,8 +1,7 @@
 import 'package:vexana/vexana.dart';
 
-/// jsonplaceholder `/posts` kaydı.
 class Post extends INetworkModel<Post> {
-  Post({this.id, this.title, this.body});
+  const Post({this.id, this.title, this.body});
 
   final int? id;
   final String? title;
