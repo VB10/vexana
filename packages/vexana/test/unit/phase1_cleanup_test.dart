@@ -59,7 +59,8 @@ void main() {
       expect(
         receivedHeaders.single,
         'yes',
-        reason: 'Eskiden içeride yeni Dio() kurulduğu için interceptor atlanıyordu',
+        reason:
+            'Eskiden içeride yeni Dio() kurulduğu için interceptor atlanıyordu',
       );
     });
 
