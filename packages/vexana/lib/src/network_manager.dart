@@ -315,16 +315,15 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
   /// `Dio` — dolayısıyla yeni bir `HttpClient`, yeni bağlantı havuzu ve
   /// baştan TLS el sıkışması — kuruyordu.
   ///
-  /// [options] ve [httpClientAdapter] her erişimde senkronlanır; böylece
-  /// kurulumdan sonra değişen header'lar ve base URL indirmeye de yansır.
-  /// Interceptor'lar delege ilk kurulduğunda kopyalanır.
-  dio.Dio get _downloadDelegate =>
-      (_downloadDelegateInstance ??= _createDownloadDelegate())
-        ..options = parameters.baseOptions
-        ..httpClientAdapter = httpClientAdapter;
-
-  dio.Dio _createDownloadDelegate() =>
-      dio.Dio()..interceptors.addAll(interceptors);
+  /// [DioMixin.clone] kullanılır: base options, interceptor zinciri,
+  /// transformer ve [httpClientAdapter] birebir taşınır. `clone` ayrıca
+  /// `Dio()` kurucusunun eklediği varsayılan `ImplyContentTypeInterceptor`'ı
+  /// kaldırır — elle `Dio()` kurmak bu interceptor'ı fazladan eklerdi ve
+  /// manager'ın kasten kaldırdığı hâli bozardı.
+  ///
+  /// [BaseOptions] nesnesi paylaşıldığı için sonradan eklenen header'lar
+  /// indirmeye de yansır.
+  dio.Dio get _downloadDelegate => _downloadDelegateInstance ??= clone();
 
   Future<ResponseModel<R?, E>?> _checkCache<R, T extends INetworkModel<T>>(
     Duration? expiration,
