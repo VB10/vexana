@@ -107,7 +107,7 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
         cancelToken: cancelToken,
       );
 
-      if (NetworkManagerUtil.isRequestHasSurceased(response.statusCode)) {
+      if (NetworkManagerUtil.isRequestSucceeded(response.statusCode)) {
         if (expiration != null) {
           await cache.writeAll(expiration, response.data, method);
         }
@@ -172,7 +172,7 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
         cancelToken: cancelToken,
       );
 
-      if (NetworkManagerUtil.isRequestHasSurceased(response.statusCode)) {
+      if (NetworkManagerUtil.isRequestSucceeded(response.statusCode)) {
         if (expiration != null) {
           await cache.writeAll(expiration, response.data, method);
         }

@@ -8,7 +8,7 @@ final class NetworkManagerUtil {
   const NetworkManagerUtil._();
 
   /// status code for success check with 200 and 300
-  static bool isRequestHasSurceased(int? statusCode) {
+  static bool isRequestSucceeded(int? statusCode) {
     if (statusCode == null) return false;
     return statusCode >= HttpStatus.ok &&
         statusCode <= HttpStatus.multipleChoices;
