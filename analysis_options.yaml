@@ -11,8 +11,11 @@ include: package:very_good_analysis/analysis_options.yaml
 
 analyzer:
   exclude:
-    - test/
-    - example/
+    # Monorepo yapısında yollar workspace kökünden çözülüyor.
+    - packages/*/test/**
+    - packages/*/example/**
+    - benchmark/**
+    - apps/**
 
 linter:
   rules:

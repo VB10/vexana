@@ -1,0 +1,74 @@
+name: Deploy demo
+
+# Publishes the example app to GitHub Pages on every push to master, so the
+# live demo never drifts from the code it documents.
+#
+# One time setup: Settings -> Pages -> Build and deployment -> Source:
+# "GitHub Actions". No gh-pages branch is needed.
+#
+# What is deployed today is packages/vexana/example. Plan E replaces this with
+# the VitePress docs site at the root and the playground under /playground/;
+# the deploy step below is where that swap happens.
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+# Only one deployment at a time, and let a newer push supersede an in-flight
+# one rather than queueing behind it.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+env:
+  FLUTTER_VERSION: "3.44.8"
+
+jobs:
+  build:
+    name: Build demo
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      # base-href must match the repository name, because Pages serves the
+      # site from /vexana/ rather than the domain root. The placeholder lives
+      # in packages/vexana/example/web/index.html as $FLUTTER_BASE_HREF.
+      - name: Build web
+        working-directory: packages/vexana/example
+        run: flutter build web --wasm --release --base-href /vexana/
+
+      - name: Add a 404 fallback
+        working-directory: packages/vexana/example
+        run: cp build/web/index.html build/web/404.html
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: packages/vexana/example/build/web
+
+  deploy:
+    name: Deploy to Pages
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
