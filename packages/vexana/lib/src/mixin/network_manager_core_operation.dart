@@ -11,6 +11,16 @@ mixin NetworkManagerCoreOperation<E extends INetworkModel<E>> {
   /// E: Error Model for generic error
   INetworkManager<E> get instance;
 
+  /// Bağlantı kontrolünün hedefleyeceği sunucu adı.
+  ///
+  /// `baseUrl` çözümlenemezse `null` döner; bu durumda kontrol genel ağ
+  /// bağlantısına bakar.
+  String? get _baseUrlHost {
+    final host = Uri.tryParse(parameters.baseOptions.baseUrl)?.host;
+    if (host == null || host.isEmpty) return null;
+    return host;
+  }
+
   /// Manage any error according from server
   ///
   /// R: Response Model for user want to parse
@@ -46,6 +56,7 @@ mixin NetworkManagerCoreOperation<E extends INetworkModel<E>> {
         isRetry = true;
       },
       isEnable: true,
+      host: _baseUrlHost,
     ).show();
 
     if (isRetry) {
@@ -101,6 +112,7 @@ mixin NetworkManagerCoreOperation<E extends INetworkModel<E>> {
         isRetry = true;
       },
       isEnable: true,
+      host: _baseUrlHost,
     ).show();
 
     if (isRetry) {

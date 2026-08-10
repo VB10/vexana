@@ -15,6 +15,7 @@ analyzer:
     - packages/*/test/**
     - packages/*/example/**
     - benchmark/**
+    - apps/**
 
 linter:
   rules:

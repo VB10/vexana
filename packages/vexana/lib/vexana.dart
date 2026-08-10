@@ -1,10 +1,21 @@
+/// Manage your network layer with dio.
+///
+/// ## dio yeniden export'u hakkında
+///
+/// vexana'nın public API'si dio tiplerini doğrudan alıp döndürür
+/// (`Response`, `Options`, `DioException`, `FormData`, `CancelToken`,
+/// `Interceptor`, `Transformer`, `Headers` …). Bu yüzden dio'nun **kendi
+/// küratörlüğünü yaptığı** `package:dio/dio.dart` yüzeyi olduğu gibi
+/// yeniden export edilir.
+///
+/// `package:dio/src/...` altındaki private yollar **bilerek export edilmez**:
+/// hepsi zaten `package:dio/dio.dart` içinde mevcut ve private yola bağlanmak
+/// dio'nun minor sürümlerinde kırılmaya açıktır. Ayrıca dio, `dio_mixin.dart`'ı
+/// `hide InterceptorState, InterceptorResultType` ile export eder; private
+/// yoldan export etmek dio'nun kasten gizlediği iç tipleri sızdırıyordu.
+library vexana;
+
 export 'package:dio/dio.dart';
-export 'package:dio/src/cancel_token.dart';
-export 'package:dio/src/dio_exception.dart';
-export 'package:dio/src/dio_mixin.dart';
-export 'package:dio/src/form_data.dart';
-export 'package:dio/src/multipart_file.dart';
-export 'package:dio/src/options.dart';
 
 // CACHE
 export 'src/cache/file/local_file.dart';

@@ -9,6 +9,7 @@ workspace:
   - packages/vexana
   - packages/vexana/example
   - benchmark
+  - apps/playground
 
 dev_dependencies:
   melos: ^8.2.2

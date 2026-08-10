@@ -207,7 +207,14 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
     String path,
     ProgressCallback? callback,
   ) async {
-    return dio.Dio().get<List<int>>(
+    /// Manager'ın kendi pipeline'ı kullanılır: interceptor'lar, adapter ve
+    /// connection pool paylaşılır. Daha önce burada `Dio()` kuruluyordu; bu
+    /// hem manager'ın yapılandırmasını sessizce atlıyor hem de her çağrıda
+    /// yeni bir bağlantı havuzu açıyordu.
+    ///
+    /// Mutlak URL verildiğinde dio `baseUrl`'i zaten yok sayar, bu yüzden
+    /// mevcut mutlak-URL kullanımı aynen çalışmaya devam eder.
+    return get<List<int>>(
       path,
       options: Options(followRedirects: true, responseType: ResponseType.bytes),
       onReceiveProgress: callback,
@@ -252,8 +259,13 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
     String path, {
     Map<String, dynamic>? headers,
   }) async {
-    final response = await dio.Dio().request<T>(
-      options.baseUrl + path,
+    /// Manager'ın kendi pipeline'ı kullanılır. Önceki hali `Dio()` kurup
+    /// `options.baseUrl + path` şeklinde elle birleştiriyordu; bu hem
+    /// interceptor'ları atlıyor hem de baseUrl sonunda `/` varken
+    /// `https://host//path` gibi çift eğik çizgi üretebiliyordu. dio'nun
+    /// kendi URL çözümü bu birleştirmeyi doğru yapar.
+    final response = await request<T>(
+      path,
       options: dio.Options(headers: headers),
     );
     return response.data;
@@ -275,12 +287,12 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
     /// [DioMixin.download] gövdesi `throw UnimplementedError()` olduğu için
     /// `super.download` çağrılamaz; gerçek indirme mantığı dio'nun platforma
     /// özel `DioForNative` / `DioForBrowser` sınıflarında yaşıyor.
-    /// Bu yüzden aynı [BaseOptions] ile bir dio örneğine delege ediyoruz.
+    /// Bu yüzden bir dio örneğine delege ediyoruz.
     ///
     /// `this.download(...)` çağırmak kendini çağırmak demektir (virtual
     /// dispatch en türemiş implementasyona gider) ve [StackOverflowError]
     /// üretir.
-    return dio.Dio(parameters.baseOptions).download(
+    return _downloadDelegate.download(
       urlPath,
       savePath,
       onReceiveProgress: onReceiveProgress,
@@ -293,6 +305,26 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
       fileAccessMode: fileAccessMode,
     );
   }
+
+  dio.Dio? _downloadDelegateInstance;
+
+  /// [download] için tek seferlik kurulan delege.
+  ///
+  /// Manager'ın [httpClientAdapter]'ını paylaşır: connection pool ve TLS
+  /// oturumu yeniden kullanılır. Daha önce her `download()` çağrısı yeni bir
+  /// `Dio` — dolayısıyla yeni bir `HttpClient`, yeni bağlantı havuzu ve
+  /// baştan TLS el sıkışması — kuruyordu.
+  ///
+  /// [options] ve [httpClientAdapter] her erişimde senkronlanır; böylece
+  /// kurulumdan sonra değişen header'lar ve base URL indirmeye de yansır.
+  /// Interceptor'lar delege ilk kurulduğunda kopyalanır.
+  dio.Dio get _downloadDelegate =>
+      (_downloadDelegateInstance ??= _createDownloadDelegate())
+        ..options = parameters.baseOptions
+        ..httpClientAdapter = httpClientAdapter;
+
+  dio.Dio _createDownloadDelegate() =>
+      dio.Dio()..interceptors.addAll(interceptors);
 
   Future<ResponseModel<R?, E>?> _checkCache<R, T extends INetworkModel<T>>(
     Duration? expiration,

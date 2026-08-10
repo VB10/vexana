@@ -11,6 +11,7 @@ final class NoNetworkManager {
     required this.onRetry,
     this.isEnable = false,
     this.customNoNetworkWidget,
+    this.host,
   });
 
   /// BuildContext for show modal bottom sheet
@@ -24,6 +25,12 @@ final class NoNetworkManager {
 
   /// Define your custom no network widget
   final Widget Function(VoidCallback? onRetry)? customNoNetworkWidget;
+
+  /// Bağlantı kontrolünün hedefleyeceği sunucu adı.
+  ///
+  /// Genellikle isteğin gittiği `baseUrl`'in host'udur. Verildiğinde kontrol
+  /// "internet var mı" yerine "bu sunucu erişilebilir mi" sorusunu yanıtlar.
+  final String? host;
 
   /// Open no network modal bottom sheet
   Future<void> show() async {
@@ -48,7 +55,9 @@ final class NoNetworkManager {
   }
 
   Future<bool> _checkConnectivity() async {
-    final connectivityResult = await NetworkCheck.instance.isNetworkAvailable();
+    final connectivityResult = await NetworkCheck.instance.isNetworkAvailable(
+      host: host,
+    );
     return connectivityResult;
   }
 }
