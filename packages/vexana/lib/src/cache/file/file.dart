@@ -108,9 +108,22 @@ class _FileManager {
     );
   }
 
-  /// Remove old [Directory].
-  Future<void> clearAllDirectoryItems() async {
-    final tempDirectory = await documentsPath();
-    await tempDirectory.delete(recursive: true);
+  /// Remove cached entries stored for the base [url] from the cache file.
+  ///
+  /// Only the package's own cache file is touched; other files in the
+  /// documents directory are left as they are.
+  Future<void> clearCacheItems(String url) async {
+    final userDocumentFile = await getFile();
+    if (!userDocumentFile.existsSync()) return;
+    final tempDirectory = await fileReadAllData();
+    if (tempDirectory == null) {
+      await userDocumentFile.delete();
+      return;
+    }
+    tempDirectory.removeWhere((key, _) => key.startsWith('$url-'));
+    await userDocumentFile.writeAsString(
+      jsonEncode(tempDirectory),
+      flush: true,
+    );
   }
 }
