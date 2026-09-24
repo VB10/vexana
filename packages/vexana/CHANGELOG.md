@@ -1,24 +1,72 @@
-# [6.0.0-dev.1]
+## [6.0.0]
 
-> Pre-release. `pub` does not resolve pre-releases by default, so existing 5.x
-> users are not affected.
+> If you use caching, upgrade. The first two entries under **Fixed** had been
+> broken for several releases: cache reads never succeeded, and clearing the
+> cache could delete unrelated application files.
+
+### Breaking
+
+- SDK constraint raised to `^3.6.0` (required by pub workspaces).
+- `cache.removeAll()` with the `LocalFile` manager now removes only the entries
+  belonging to the calling manager's base URL. It previously deleted the whole
+  application documents directory. `LocalPreferences` already behaved this way;
+  both file managers now share one contract.
+- `sendPrimitive` and `downloadFileSimple` now go through the manager's own
+  request pipeline. They used to build a fresh `Dio` internally, which silently
+  skipped the manager's interceptors, adapter and base options. If you relied on
+  those calls bypassing your interceptors — refresh-token handling included —
+  they no longer do.
+- `package:dio/src/...` paths are no longer re-exported. Everything they held is
+  already exported by `package:dio/dio.dart`, so imports keep working. The only
+  symbols that disappear are dio's internal `InterceptorState` and
+  `InterceptorResultType`, which dio itself hides from its public surface.
 
 ### Fixed
 
-- **`NetworkManager.download()` no longer crashes with `StackOverflowError`.**
-  It overrode `DioMixin.download` but called `this.download(...)` in its body.
-  Virtual dispatch resolves that to the most derived implementation — itself —
-  so the method recursed until the stack overflowed. It never worked in 5.0.3,
-  where it was introduced. `DioMixin.download` itself throws
-  `UnimplementedError`, so delegating to `super` is not possible; the call is
-  now delegated to a dio instance created with the same `BaseOptions`.
-  A regression test covers it.
+- **Every cache hit failed since 4.0.0.** `fetchDataFromCache` and
+  `loadFromCache` passed the `Future` returned by `decodeBodyWithCompute`
+  straight into the parser instead of awaiting it. The parameter is `dynamic`,
+  so nothing complained: the parser received `Instance of 'Future<dynamic>'`,
+  `send` answered `JSON Decode Error` and `sendRequest` returned
+  `NetworkErrorResult` whenever a fresh cache entry existed. With a nullable
+  result type the failure was quieter still — `NetworkSuccessResult(null)`.
+  A corrupted entry is now treated as a miss and falls back to the network.
+  Thanks to @Yusufihsangorgel (#133).
+- **`cache.removeAll()` deleted the whole application documents directory.**
+  With the `LocalFile` manager it called `clearAllDirectoryItems`, which removed
+  `getApplicationDocumentsDirectory()` recursively — databases, downloaded files
+  and everything else the app stored there — even though the cache lives in a
+  single `vexana.json`. Thanks to @Yusufihsangorgel (#134).
+- **`NetworkManager.download()` crashed with `StackOverflowError`.** It overrode
+  `DioMixin.download` but called `this.download(...)` in its body; virtual
+  dispatch resolves that to the most derived implementation — itself — so the
+  method recursed until the stack overflowed. It never worked in 5.0.3, where it
+  was introduced. `DioMixin.download` throws `UnimplementedError`, so delegating
+  to `super` is not possible either. The call is now delegated through
+  `DioMixin.clone()`, which carries the manager's base options, interceptor
+  chain, transformer and HTTP adapter, and drops the default
+  `ImplyContentTypeInterceptor` that a plain `Dio()` would add. Native and web
+  regression tests from @Yusufihsangorgel (#135).
+- `sendPrimitive` built its URL as `baseUrl + path`. When the base URL ended
+  with a slash this produced `https://host//path`, which servers read as a
+  scheme-relative request target — the path arrived empty. dio's own URL
+  resolution now handles the join.
 
 ### Changed
 
 - Migrated to a Melos monorepo with Dart pub workspaces. The published package
   now lives in `packages/vexana/`. (#65)
-- SDK constraint raised to `^3.6.0` (required by pub workspaces).
+- `NetworkCheck` no longer sends an HTTPS request to `google.com` on every
+  check. That leaked a signal to a third party whenever a request failed,
+  reported "no internet" on networks where Google is unreachable, and had no
+  timeout at all. It now uses the platform's own facilities: a DNS lookup (or an
+  interface check when no host is known) on IO, `navigator.onLine` on web, both
+  behind a timeout. `isNetworkAvailable` takes optional `host` and `timeout`
+  arguments, and `NoNetworkManager` takes an optional `host`, so the check can
+  target the server the request was actually going to.
+- `download` now reuses a single delegate instead of building a new `Dio` — and
+  therefore a new `HttpClient`, connection pool and TLS handshake — on every
+  call.
 
 ### Web
 
@@ -42,6 +90,12 @@
 - Added a benchmark harness (`benchmark/`) with baseline measurements.
 - The example app is deployed to <https://vb10.github.io/vexana/> on every
   push to master.
+- Renamed two misspelled internals (neither is exported):
+  `file_manager_not_foud_exception.dart` → `file_manager_not_found_exception.dart`
+  and `NetworkManagerUtil.isRequestHasSurceased` → `isRequestSucceeded`.
+  Rename contributed by @mehmetfiskindal (#132).
+- Added a `script/verify.sh` entry point that runs analyze, tests and the web
+  and wasm builds in one command.
 
 ## [5.0.3]
 
