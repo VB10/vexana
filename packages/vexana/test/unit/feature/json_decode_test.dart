@@ -35,6 +35,9 @@ void main() {
       expect(resultMap['age'], 30);
     });
 
-    // Repeat similar tests for safeJsonDecodeCompute
+    test('safeJsonDecodeCompute with invalid JSON string', () async {
+      final result = await JsonDecodeUtil.safeJsonDecodeCompute('invalid json');
+      expect(result, isNull);
+    });
   });
 }
