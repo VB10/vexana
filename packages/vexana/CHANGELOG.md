@@ -51,6 +51,9 @@
   with a slash this produced `https://host//path`, which servers read as a
   scheme-relative request target — the path arrived empty. dio's own URL
   resolution now handles the join.
+- `JsonDecodeUtil.safeJsonDecodeCompute` returned the `compute` future without
+  awaiting it, so a decode error escaped its `try` and was thrown instead of
+  returning `null`.
 
 ### Changed
 
