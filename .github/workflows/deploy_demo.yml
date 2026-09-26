@@ -1,14 +1,13 @@
 name: Deploy demo
 
-# Publishes the example app to GitHub Pages on every push to master, so the
-# live demo never drifts from the code it documents.
+# Publishes the playground (apps/playground) to GitHub Pages on every push to
+# master, so the live demo never drifts from the code it documents.
 #
 # One time setup: Settings -> Pages -> Build and deployment -> Source:
 # "GitHub Actions". No gh-pages branch is needed.
 #
-# What is deployed today is packages/vexana/example. Plan E replaces this with
-# the VitePress docs site at the root and the playground under /playground/;
-# the deploy step below is where that swap happens.
+# Plan E moves the playground under /playground/ and puts the VitePress docs
+# site at the root; the deploy step below is where that swap happens.
 on:
   push:
     branches:
@@ -47,20 +46,20 @@ jobs:
 
       # base-href must match the repository name, because Pages serves the
       # site from /vexana/ rather than the domain root. The placeholder lives
-      # in packages/vexana/example/web/index.html as $FLUTTER_BASE_HREF.
+      # in apps/playground/web/index.html as $FLUTTER_BASE_HREF.
       - name: Build web
-        working-directory: packages/vexana/example
+        working-directory: apps/playground
         run: flutter build web --wasm --release --base-href /vexana/
 
       - name: Add a 404 fallback
-        working-directory: packages/vexana/example
+        working-directory: apps/playground
         run: cp build/web/index.html build/web/404.html
 
       - uses: actions/configure-pages@v5
 
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: packages/vexana/example/build/web
+          path: apps/playground/build/web
 
   deploy:
     name: Deploy to Pages
