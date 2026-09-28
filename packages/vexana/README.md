@@ -26,6 +26,26 @@ Vexana is easy to use network process with dio. You can do dynamic model parsing
 
 Let's talk about usage details. **You can learn more detail about vexana in test folder.** Please check it out before using this package. I'm not good to write a readme 😅
 
+### **Use with AI assistants** 🤖
+
+vexana ships AI skills that set up the network layer, generate models, services, fakes and tests from JSON, and migrate older vexana code. They are plain Markdown playbooks in [`plugins/vexana/skills`](https://github.com/VB10/vexana/tree/master/plugins/vexana/skills), so any AI coding assistant can follow them.
+
+[Claude Code](https://claude.com/claude-code) has a ready-made plugin:
+
+```text
+/plugin marketplace add VB10/vexana
+/plugin install vexana@vexana
+```
+
+With another assistant (Cursor, GitHub Copilot, Codex, Gemini CLI, …), copy the `plugins/vexana/skills` folder into your project and ask it to follow a skill, e.g. "follow skills/add/SKILL.md for this JSON".
+
+| Skill (Claude Code command) | What it does |
+| --- | --- |
+| `/vexana:init` | Adds vexana, builds one `NetworkManager` in your existing folder structure, adds a test fixture helper. |
+| `/vexana:add` | Turns a JSON sample (or an existing model) into an `INetworkModel`, a `sendRequest` service method and a round-trip test. |
+| `/vexana:multiple-add` | Does the same for many JSON files at once, deduplicates shared types, and adds fake services and mocktail service tests. |
+| `/vexana:refactor` | Migrates a project on vexana 4.x/5.x to 6.x and flags calls whose behaviour changed. |
+
 ### **Network Manager** 😎
 
 Have a lot of options: baseurl, logger, interceptors, base model etc.

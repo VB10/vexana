@@ -1,3 +1,5 @@
+import 'dart:io';
+
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter_test/flutter_test.dart';
@@ -10,10 +12,12 @@ import 'mock_path.dart';
 
 // ignore: always_declare_return_types
 void main() {
+  late Directory documents;
   late INetworkManager networkManager;
   setUp(() {
     SharedPreferences.setMockInitialValues({}); //set values here
-    PathProviderPlatform.instance = MockPathProviderPlatform();
+    documents = Directory.systemTemp.createTempSync('vexana-cache-test-');
+    PathProviderPlatform.instance = TempDocumentsPathProvider(documents.path);
     networkManager = NetworkManager<EmptyModel>(
       fileManager: LocalFile(),
       isEnableLogger: true,
@@ -21,6 +25,8 @@ void main() {
       options: BaseOptions(baseUrl: 'https://jsonplaceholder.typicode.com/'),
     );
   });
+
+  tearDown(() => documents.deleteSync(recursive: true));
 
   test('Json Place Shared Test Holder Todos', () async {
     await networkManager.send<Todo, List<Todo>>(

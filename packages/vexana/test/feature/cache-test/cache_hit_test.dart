@@ -9,13 +9,15 @@ import '../json_place_holder/todo.dart';
 import 'mock_path.dart';
 
 void main() {
+  late Directory documents;
   late HttpServer server;
   late int requestCount;
   late INetworkManager<EmptyModel> networkManager;
 
   setUp(() async {
     SharedPreferences.setMockInitialValues({});
-    PathProviderPlatform.instance = MockPathProviderPlatform();
+    documents = Directory.systemTemp.createTempSync('vexana-cache-test-');
+    PathProviderPlatform.instance = TempDocumentsPathProvider(documents.path);
     requestCount = 0;
     server = await HttpServer.bind('localhost', 0);
     server.listen((request) async {
@@ -35,6 +37,7 @@ void main() {
 
   tearDown(() async {
     await server.close(force: true);
+    documents.deleteSync(recursive: true);
   });
 
   test('send serves the parsed body from cache on a hit', () async {

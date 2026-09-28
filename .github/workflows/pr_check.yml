@@ -119,7 +119,7 @@ jobs:
         run: flutter pub publish --dry-run
 
   example:
-    name: Build example (web + wasm)
+    name: Build example and playground (web + wasm)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -142,3 +142,7 @@ jobs:
       - name: Build wasm
         working-directory: packages/vexana/example
         run: flutter build web --wasm --release
+
+      - name: Build playground (wasm)
+        working-directory: apps/playground
+        run: flutter build web --wasm --release --base-href /vexana/
