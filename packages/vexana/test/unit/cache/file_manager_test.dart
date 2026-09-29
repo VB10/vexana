@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
@@ -8,10 +9,14 @@ import 'package:vexana/vexana.dart';
 import '../../feature/cache-test/mock_path.dart';
 
 void main() {
+  late Directory documents;
   final fileManager = LocalFileIO();
   setUp(() {
-    PathProviderPlatform.instance = MockPathProviderPlatform();
+    documents = Directory.systemTemp.createTempSync('vexana-cache-test-');
+    PathProviderPlatform.instance = TempDocumentsPathProvider(documents.path);
   });
+
+  tearDown(() => documents.deleteSync(recursive: true));
 
   test('Local file remove single item ', () async {
     await fileManager.writeUserRequestDataWithTime(

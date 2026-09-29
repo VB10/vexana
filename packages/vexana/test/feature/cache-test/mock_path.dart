@@ -55,3 +55,12 @@ class MockPathProviderPlatform extends Mock
     return kDownloadsPath;
   }
 }
+
+final class TempDocumentsPathProvider extends MockPathProviderPlatform {
+  TempDocumentsPathProvider(this.documentsPath);
+
+  final String documentsPath;
+
+  @override
+  Future<String> getApplicationDocumentsPath() async => documentsPath;
+}

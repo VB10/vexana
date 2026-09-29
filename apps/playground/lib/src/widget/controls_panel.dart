@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:playground/src/model/endpoint.dart';
 import 'package:playground/src/model/playground_options.dart';
-import 'package:playground/src/widget/cache_warning.dart';
 
 class ControlsPanel extends StatelessWidget {
   const ControlsPanel({
@@ -44,10 +43,6 @@ class ControlsPanel extends StatelessWidget {
           _actions,
           const SizedBox(height: 16),
           _ResultBox(lastResult),
-          if (options.cacheEnabled) ...[
-            const SizedBox(height: 16),
-            const CacheWarning(),
-          ],
         ],
       ),
     );

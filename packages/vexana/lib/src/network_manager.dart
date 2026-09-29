@@ -89,8 +89,13 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
     bool isErrorDialog = false,
     CancelToken? cancelToken,
   }) async {
-    final checkFormCache =
-        await _checkCache<R, T>(expiration, method, parseModel);
+    final checkFormCache = await _checkCache<R, T>(
+      expiration,
+      method,
+      parseModel,
+      path: '$path$urlSuffix',
+      queryParameters: queryParameters,
+    );
     if (checkFormCache != null) return checkFormCache;
 
     final defaultOptions = Options();
@@ -109,7 +114,13 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
 
       if (NetworkManagerUtil.isRequestSucceeded(response.statusCode)) {
         if (expiration != null) {
-          await cache.writeAll(expiration, response.data, method);
+          await cache.writeAll(
+            expiration,
+            response.data,
+            method,
+            path: '$path$urlSuffix',
+            queryParameters: queryParameters,
+          );
         }
         return successResponseFetch<T, R>(
           data: response.data,
@@ -155,6 +166,8 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
       expiration,
       method,
       parseModel,
+      path: '$path$urlSuffix',
+      queryParameters: queryParameters,
     );
     if (verifyFormCache != null) return verifyFormCache;
 
@@ -174,7 +187,13 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
 
       if (NetworkManagerUtil.isRequestSucceeded(response.statusCode)) {
         if (expiration != null) {
-          await cache.writeAll(expiration, response.data, method);
+          await cache.writeAll(
+            expiration,
+            response.data,
+            method,
+            path: '$path$urlSuffix',
+            queryParameters: queryParameters,
+          );
         }
         return fetchSuccessResponse<T, R>(
           data: response.data,
@@ -302,13 +321,17 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
   Future<ResponseModel<R?, E>?> _checkCache<R, T extends INetworkModel<T>>(
     Duration? expiration,
     RequestType method,
-    T parseModel,
-  ) async {
+    T parseModel, {
+    required String path,
+    required Map<String, dynamic>? queryParameters,
+  }) async {
     if (expiration == null) return null;
     final cacheData = await fetchDataFromCache<R, T>(
       expiration: expiration,
       type: method,
       responseModel: parseModel,
+      path: path,
+      queryParameters: queryParameters,
     );
     if (cacheData is ResponseModel<R?, E>) {
       return cacheData;
@@ -319,13 +342,17 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
   Future<NetworkResult<R, E>?> _verifyCache<R, T extends INetworkModel<T>>(
     Duration? expiration,
     RequestType method,
-    T parseModel,
-  ) async {
+    T parseModel, {
+    required String path,
+    required Map<String, dynamic>? queryParameters,
+  }) async {
     if (expiration == null) return null;
     final cacheData = await loadFromCache<R, T>(
       expiration: expiration,
       type: method,
       responseModel: parseModel,
+      path: path,
+      queryParameters: queryParameters,
     );
     return cacheData;
   }

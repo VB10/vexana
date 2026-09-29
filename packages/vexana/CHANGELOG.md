@@ -1,3 +1,20 @@
+## [6.0.1]
+
+### Fixed
+
+- **The cache key now includes the path and query.** It used to be
+  `baseUrl-METHOD`, so every cached `GET` on one manager shared a single
+  entry: after `GET /posts` was cached, `GET /posts/1` or `GET /users`
+  returned the `/posts` body. The key is now `baseUrl-METHOD-path?query`,
+  with query keys sorted so their order does not matter. `removeAll()` still
+  clears every entry of the manager. Entries written by 6.0.0 are no longer
+  read and expire on their own.
+- `LocalFile`: writing a key that was already cached kept the old value
+  instead of the new one.
+- `LocalFile` drops expired entries whenever it writes, so entries for paths
+  or queries that are never requested again no longer pile up in the cache
+  file.
+
 ## [6.0.0]
 
 > If you use caching, upgrade. The first two entries under **Fixed** had been

@@ -55,18 +55,25 @@ class _FileManager {
   /// a `LocalModel` object to a file. It
   /// takes two parameters: `key`, which is a unique identifier for the data,
   ///  and `local`, which is an
-  /// instance of the `LocalModel` class.
+  /// instance of the `LocalModel` class. Expired entries are dropped.
   Future<File> writeLocalModelInFile(String key, LocalModel local) async {
     final filePath = await _documentFilePath();
-    final sample = local.toJson();
-    final model = <String, dynamic>{key: sample};
+    final now = DateTime.now();
 
-    final oldData = await fileReadAllData();
-    model.addAll(oldData ?? {});
+    final model = <String, dynamic>{
+      ...?await fileReadAllData(),
+    }..removeWhere((_, value) => _isExpired(value, now));
+    model[key] = local.toJson();
     final newLocalData = jsonEncode(model);
 
     final userDocumentFile = File(filePath);
     return userDocumentFile.writeAsString(newLocalData, flush: true);
+  }
+
+  bool _isExpired(dynamic value, DateTime now) {
+    if (value is! Map<String, dynamic>) return false;
+    final time = DateTime.tryParse(value['time'] as String? ?? '');
+    return time != null && !now.isBefore(time);
   }
 
   /// The `readOnlyKeyData` function is responsible for retrieving data from

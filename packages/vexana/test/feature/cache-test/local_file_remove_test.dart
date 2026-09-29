@@ -28,7 +28,7 @@ void main() {
   setUp(() async {
     SharedPreferences.setMockInitialValues({});
     documents = await Directory.systemTemp.createTemp('vexana-cache-test-');
-    PathProviderPlatform.instance = _TestPathProviderPlatform(documents.path);
+    PathProviderPlatform.instance = TempDocumentsPathProvider(documents.path);
     server = await HttpServer.bind('localhost', 0);
     serveTodos(server);
     networkManager = NetworkManager<EmptyModel>(
@@ -144,13 +144,4 @@ void main() {
       isEmpty,
     );
   });
-}
-
-final class _TestPathProviderPlatform extends MockPathProviderPlatform {
-  _TestPathProviderPlatform(this.documentsPath);
-
-  final String documentsPath;
-
-  @override
-  Future<String> getApplicationDocumentsPath() async => documentsPath;
 }

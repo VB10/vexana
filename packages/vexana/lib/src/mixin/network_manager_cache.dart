@@ -13,8 +13,20 @@ mixin NetworkManagerCache<E extends INetworkModel<E>>
   @override
   NetworkManagerParameters get parameters;
 
-  String _urlKeyOnLocalData(RequestType type) =>
-      '${parameters.baseOptions.baseUrl}-${type.stringValue}';
+  /// `baseUrl-METHOD-path?query`; [removeAll] relies on the `baseUrl-` prefix.
+  String _urlKeyOnLocalData(
+    RequestType type, {
+    String path = '',
+    Map<String, dynamic>? queryParameters,
+  }) {
+    final base = '${parameters.baseOptions.baseUrl}-${type.stringValue}';
+    if (queryParameters == null || queryParameters.isEmpty) {
+      return '$base-$path';
+    }
+    final keys = queryParameters.keys.toList()..sort();
+    final query = keys.map((key) => '$key=${queryParameters[key]}').join('&');
+    return '$base-$path?$query';
+  }
 
   /// Fetch data from database
   Future<ResponseModel<R?, E>?>
@@ -22,9 +34,13 @@ mixin NetworkManagerCache<E extends INetworkModel<E>>
     required Duration? expiration,
     required RequestType type,
     required T responseModel,
+    String path = '',
+    Map<String, dynamic>? queryParameters,
   }) async {
     if (expiration == null) return null;
-    final cacheDataString = await _fetchOnlyData(type);
+    final cacheDataString = await _fetchOnlyData(
+      _urlKeyOnLocalData(type, path: path, queryParameters: queryParameters),
+    );
     if (cacheDataString == null) return null;
 
     final dynamic decodedBody;
@@ -54,9 +70,13 @@ mixin NetworkManagerCache<E extends INetworkModel<E>>
     required Duration? expiration,
     required RequestType type,
     required T responseModel,
+    String path = '',
+    Map<String, dynamic>? queryParameters,
   }) async {
     if (expiration == null) return null;
-    final cacheDataString = await _fetchOnlyData(type);
+    final cacheDataString = await _fetchOnlyData(
+      _urlKeyOnLocalData(type, path: path, queryParameters: queryParameters),
+    );
     if (cacheDataString == null) return null;
 
     final dynamic decodedBody;
@@ -80,13 +100,15 @@ mixin NetworkManagerCache<E extends INetworkModel<E>>
   Future<void> writeAll(
     Duration? expiration,
     dynamic body,
-    RequestType type,
-  ) async {
+    RequestType type, {
+    String path = '',
+    Map<String, dynamic>? queryParameters,
+  }) async {
     if (expiration == null) return;
     if (parameters.fileManager == null) throw FileManagerNotFoundException();
     final stringValues = await compute(jsonEncode, body);
     await parameters.fileManager!.writeUserRequestDataWithTime(
-      _urlKeyOnLocalData(type),
+      _urlKeyOnLocalData(type, path: path, queryParameters: queryParameters),
       stringValues,
       expiration,
     );
@@ -99,11 +121,10 @@ mixin NetworkManagerCache<E extends INetworkModel<E>>
         .removeUserRequestCache(parameters.baseOptions.baseUrl);
   }
 
-  Future<String?> _fetchOnlyData(RequestType type) async {
+  Future<String?> _fetchOnlyData(String key) async {
     if (parameters.fileManager == null) return null;
 
-    final data = await parameters.fileManager!
-        .getUserRequestDataOnString(_urlKeyOnLocalData(type));
+    final data = await parameters.fileManager!.getUserRequestDataOnString(key);
     if (data is String && data.isNotEmpty) {
       return data;
     } else {

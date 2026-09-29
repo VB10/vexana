@@ -1,0 +1,18 @@
+{
+  "name": "vexana",
+  "owner": {
+    "name": "Veli Bacik",
+    "url": "https://github.com/VB10"
+  },
+  "metadata": {
+    "description": "Claude Code skills for vexana, the dio-based networking layer for Flutter"
+  },
+  "plugins": [
+    {
+      "name": "vexana",
+      "version": "1.0.0",
+      "source": "./plugins/vexana",
+      "description": "Set up vexana, generate models, services, tests and fakes from JSON, and migrate older vexana code to 6.x"
+    }
+  ]
+}
