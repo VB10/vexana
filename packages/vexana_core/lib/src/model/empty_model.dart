@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:vexana/src/interface/index.dart';
+import 'package:vexana_core/src/interface/index.dart';
 
 /// [EmptyModel] is a model class that is used to
 /// general model or primitive type.

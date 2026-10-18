@@ -1,5 +1,5 @@
-import 'package:flutter_test/flutter_test.dart';
-import 'package:vexana/src/utility/json_encode_util.dart';
+import 'package:test/test.dart';
+import 'package:vexana_core/src/utility/json_encode_util.dart';
 
 void main() {
   setUp(() {});

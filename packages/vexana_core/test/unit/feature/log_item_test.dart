@@ -1,7 +1,7 @@
-import 'package:flutter_test/flutter_test.dart';
-import 'package:vexana/src/utility/index.dart';
-import 'package:vexana/src/utility/logger/log_items.dart';
-import 'package:vexana/vexana.dart';
+import 'package:test/test.dart';
+import 'package:vexana_core/src/utility/index.dart';
+import 'package:vexana_core/src/utility/logger/log_items.dart';
+import 'package:vexana_core/vexana_core.dart';
 
 void main() {
   const customLogger = CustomLogger(data: 'test', isEnabled: true);

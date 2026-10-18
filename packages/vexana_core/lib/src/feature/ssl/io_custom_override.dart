@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:vexana/src/feature/ssl/http_custom_override.dart';
+import 'package:vexana_core/src/feature/ssl/http_custom_override.dart';
 
 /// SSL certificate override
 HttpCustomOverride createAdapter() => _GeneralCustomOverride();

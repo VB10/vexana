@@ -1,7 +1,8 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
-import 'package:vexana/src/utility/logger/log_items.dart';
+import 'package:meta/meta.dart';
+import 'package:vexana_core/src/utility/compute/compute.dart';
+import 'package:vexana_core/src/utility/logger/log_items.dart';
 
 /// This class will help json encode operation with safety
 
@@ -22,7 +23,7 @@ final class JsonDecodeUtil {
   /// Decode your [jsonString] value or null
   static Future<dynamic> safeJsonDecodeCompute(String jsonString) async {
     try {
-      return await compute<String, dynamic>(
+      return await runCompute<String, dynamic>(
         jsonDecode,
         jsonString,
       );

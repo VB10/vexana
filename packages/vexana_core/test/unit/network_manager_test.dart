@@ -1,7 +1,7 @@
-import 'package:flutter_test/flutter_test.dart';
-import 'package:vexana/src/mixin/network_manager_cache.dart';
-import 'package:vexana/src/mixin/network_manager_parameters.dart';
-import 'package:vexana/vexana.dart';
+import 'package:test/test.dart';
+import 'package:vexana_core/src/mixin/network_manager_cache.dart';
+import 'package:vexana_core/src/mixin/network_manager_parameters.dart';
+import 'package:vexana_core/vexana_core.dart';
 
 void main() {
   test(' CustomNetworkManager test is valid', () async {

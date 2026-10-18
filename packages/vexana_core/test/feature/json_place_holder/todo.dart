@@ -1,4 +1,4 @@
-import 'package:vexana/vexana.dart';
+import 'package:vexana_core/vexana_core.dart';
 
 final class Todo extends INetworkModel<Todo> {
   const Todo({this.userId, this.id, this.title, this.completed});

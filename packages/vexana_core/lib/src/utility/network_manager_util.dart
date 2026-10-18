@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
-import 'package:vexana/src/utility/http_status.dart';
+import 'package:vexana_core/src/utility/compute/compute.dart';
+import 'package:vexana_core/src/utility/http_status.dart';
 
 /// Network manager utility class for general usage
 final class NetworkManagerUtil {
@@ -16,7 +16,7 @@ final class NetworkManagerUtil {
 
   /// Decode body with isolate
   static Future<dynamic> decodeBodyWithCompute(String body) async {
-    return compute(
+    return runCompute(
       jsonDecode,
       body,
     );

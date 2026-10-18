@@ -1,9 +1,13 @@
-import 'package:flutter/foundation.dart';
-
-/// Custom logger for io
+/// Custom logger for web
 final class Logger {
   /// Print error message
   void makeError(String message, {Object? error}) {
-    if (kDebugMode) print(message);
+    if (error != null) {
+      // ignore: avoid_print
+      print('$message: $error');
+    } else {
+      // ignore: avoid_print
+      print(message);
+    }
   }
 }

@@ -1,5 +1,5 @@
-import 'package:flutter/foundation.dart';
-import 'package:vexana/src/feature/logger/logger_io.dart'
+import 'package:meta/meta.dart';
+import 'package:vexana_core/src/feature/logger/logger_io.dart'
     if (dart.library.js_interop) '../feature/logger/logger_web.dart' as logger;
 
 @immutable
@@ -23,7 +23,6 @@ final class CustomLogger {
   /// Print error message
   void printError() {
     if (!_isEnabled) return;
-    if (!kDebugMode) return;
     logger.Logger().makeError('Error ⛔', error: _data);
   }
 }

@@ -1,5 +1,5 @@
-import 'package:flutter_test/flutter_test.dart';
-import 'package:vexana/vexana.dart';
+import 'package:test/test.dart';
+import 'package:vexana_core/vexana_core.dart';
 
 void main() {
   setUp(() {});

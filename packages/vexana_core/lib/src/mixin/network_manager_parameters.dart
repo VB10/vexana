@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
-import 'package:vexana/vexana.dart';
+import 'package:meta/meta.dart';
+import 'package:vexana_core/vexana_core.dart';
 
 typedef RefreshTokenCallBack = Future<DioException> Function(
   DioException error,
@@ -14,7 +14,7 @@ typedef OnReply = Response<dynamic> Function(
 
 @immutable
 class NetworkManagerParameters extends Equatable {
-  final VoidCallback? onRefreshFail;
+  final void Function()? onRefreshFail;
 
   final IFileManager? fileManager;
 
@@ -22,7 +22,7 @@ class NetworkManagerParameters extends Equatable {
 
   final bool? isEnableLogger;
 
-  final NoNetwork? noNetwork;
+  final INoNetworkHandler? noNetwork;
 
   final int? noNetworkTryCount;
 

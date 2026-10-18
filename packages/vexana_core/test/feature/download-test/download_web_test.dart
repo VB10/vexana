@@ -4,8 +4,8 @@ library;
 import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:vexana/vexana.dart';
+import 'package:test/test.dart';
+import 'package:vexana_core/vexana_core.dart';
 
 /// `download`'ın web sınırındaki davranışı.
 ///

@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:vexana/vexana.dart';
+import 'package:vexana_core/vexana_core.dart';
 
 /// NetworkResult is a sealed class representing the result of a request.
 /// It can either be a success or an error result.

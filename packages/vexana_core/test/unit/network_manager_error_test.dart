@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_print
 
-import 'package:flutter_test/flutter_test.dart';
-import 'package:vexana/vexana.dart';
+import 'package:test/test.dart';
+import 'package:vexana_core/vexana_core.dart';
 
 import '../utils/utils.dart';
 import 'common/mock_network_manager.dart';

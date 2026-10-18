@@ -1,10 +1,8 @@
 import 'dart:convert';
 
-import 'package:vexana/src/mixin/network_manager_parameters.dart';
-import 'package:vexana/src/utility/custom_logger.dart';
-import 'package:vexana/src/utility/json_encode_util.dart';
-import 'package:vexana/src/utility/logger/log_items.dart';
-import 'package:vexana/vexana.dart';
+import 'package:vexana_core/src/utility/custom_logger.dart';
+import 'package:vexana_core/src/utility/logger/log_items.dart';
+import 'package:vexana_core/vexana_core.dart';
 
 /// Parse response body for success and error
 mixin NetworkManagerResponse<E extends INetworkModel<E>> {

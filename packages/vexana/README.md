@@ -17,9 +17,12 @@
 
 # vexana
 
-Vexana is easy to use network process with dio. You can do dynamic model parsing, base error model, timeout and many utility functions.
+Vexana is an easy to use network process with dio. You can do dynamic model parsing, base error model, timeout and many utility functions.
 
-![Vexana-Game](https://i.redd.it/ds3z4kobyp871.jpg)
+> [!NOTE]
+> **Vexana 6.1.0 & The Pure Dart Core**:
+> `vexana` now re-exports [`vexana_core`](https://pub.dev/packages/vexana_core). Existing Flutter code continues to work with **zero breaking changes**.
+> Models written for `vexana` (`INetworkModel`) can now be shared directly with Jaspr Web apps ([`vexana_jaspr`](https://pub.dev/packages/vexana_jaspr)) or pure Dart server/CLI projects without importing Flutter SDK!
 
 
 ## Getting Started 🔥

@@ -1,4 +1,4 @@
-import 'package:vexana/src/mixin/network_manager_parameters.dart';
+import 'package:vexana_core/src/mixin/network_manager_parameters.dart';
 
 /// Network manager operation
 mixin NetworkManagerOperation {

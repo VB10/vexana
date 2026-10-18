@@ -1,4 +1,4 @@
-import 'package:vexana/vexana.dart';
+import 'package:vexana_core/vexana_core.dart';
 
 class ReqResModel extends INetworkModel<ReqResModel> {
   ReqResModel({

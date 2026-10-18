@@ -1,5 +1,5 @@
 import 'package:mockito/mockito.dart';
-import 'package:vexana/src/mixin/index.dart';
+import 'package:vexana_core/src/mixin/index.dart';
 import 'package:vexana/vexana.dart';
 
 import './index.dart';

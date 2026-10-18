@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:flutter_test/flutter_test.dart';
-import 'package:vexana/src/feature/ssl/io_custom_override.dart'
-    if (dart.library.html) 'package:vexana/src/feature/ssl/web_custom_override.dart'
+import 'package:test/test.dart';
+import 'package:vexana_core/src/feature/ssl/io_custom_override.dart'
+    if (dart.library.html) 'package:vexana_core/src/feature/ssl/web_custom_override.dart'
     as ssl;
 
 void main() {

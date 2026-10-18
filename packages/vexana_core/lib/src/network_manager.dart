@@ -1,17 +1,16 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart' as dio;
-import 'package:flutter/foundation.dart';
-import 'package:vexana/src/feature/adapter/native_adapter.dart'
-    if (dart.library.js_interop) 'package:vexana/src/feature/adapter/web_adapter.dart'
+import 'package:vexana_core/src/feature/adapter/native_adapter.dart'
+    if (dart.library.js_interop) 'package:vexana_core/src/feature/adapter/web_adapter.dart'
     as adapter;
-import 'package:vexana/src/feature/ssl/io_custom_override.dart'
-    if (dart.library.js_interop) 'package:vexana/src/feature/ssl/html_custom_override.dart'
+import 'package:vexana_core/src/feature/ssl/io_custom_override.dart'
+    if (dart.library.js_interop) 'package:vexana_core/src/feature/ssl/html_custom_override.dart'
     as ssl;
-import 'package:vexana/src/mixin/index.dart';
-import 'package:vexana/src/utility/extension/request_type_extension.dart';
-import 'package:vexana/src/utility/network_manager_util.dart';
-import 'package:vexana/vexana.dart';
+import 'package:vexana_core/src/mixin/index.dart';
+import 'package:vexana_core/src/utility/extension/request_type_extension.dart';
+import 'package:vexana_core/src/utility/network_manager_util.dart';
+import 'package:vexana_core/vexana_core.dart';
 
 part './mixin/core/network_manager_initialize.dart';
 
@@ -35,10 +34,10 @@ class NetworkManager<E extends INetworkModel<E>> extends dio.DioMixin
     this.errorModel,
     RefreshTokenCallBack? onRefreshToken,
     bool? skippingSSLCertificate,
-    NoNetwork? noNetwork,
+    INoNetworkHandler? noNetwork,
     bool? isEnableLogger,
     bool? isEnableTest,
-    VoidCallback? onRefreshFail,
+    void Function()? onRefreshFail,
     IFileManager? fileManager,
     Interceptor? interceptor,
     OnReply? onReply,

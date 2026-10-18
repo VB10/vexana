@@ -1,4 +1,4 @@
-import 'package:vexana/vexana.dart';
+import 'package:vexana_core/vexana_core.dart';
 
 /// Network request type extension for equality text value.
 extension NetworkTypeExtension on RequestType {

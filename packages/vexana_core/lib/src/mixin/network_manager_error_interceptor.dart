@@ -1,7 +1,6 @@
 import 'package:retry/retry.dart';
-import 'package:vexana/src/mixin/index.dart';
-import 'package:vexana/src/utility/http_status.dart';
-import 'package:vexana/vexana.dart';
+import 'package:vexana_core/src/utility/http_status.dart';
+import 'package:vexana_core/vexana_core.dart';
 
 /// Network manager error interceptor
 mixin NetworkManagerErrorInterceptor {

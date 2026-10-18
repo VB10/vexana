@@ -1,3 +1,11 @@
+## [6.1.0]
+
+### Added
+
+- Split core networking into pure-Dart `vexana_core` package.
+- `vexana` now re-exports `vexana_core`; zero breaking changes for Flutter applications.
+- `NoNetwork` implements `INoNetworkHandler` from `vexana_core`.
+
 ## [6.0.1]
 
 ### Fixed

@@ -1,5 +1,4 @@
-import 'package:vexana/src/mixin/network_manager_parameters.dart';
-import 'package:vexana/vexana.dart';
+import 'package:vexana_core/vexana_core.dart';
 
 /// Manage network error situation
 mixin NetworkManagerCoreOperation<E extends INetworkModel<E>> {
@@ -43,21 +42,20 @@ mixin NetworkManagerCoreOperation<E extends INetworkModel<E>> {
     CancelToken? cancelToken,
     bool? forceUpdateDecode,
   }) async {
-    if (!isErrorDialog || _noNetworkTryCount == parameters.maxRetryCount) {
+    if (!isErrorDialog ||
+        _noNetworkTryCount == parameters.maxRetryCount ||
+        parameters.noNetwork == null) {
       return onError.call(error);
     }
 
     _noNetworkTryCount = 0;
     var isRetry = false;
-    await NoNetworkManager(
-      context: parameters.noNetwork?.context,
-      customNoNetworkWidget: parameters.noNetwork?.customNoNetwork,
-      onRetry: () {
+    await parameters.noNetwork!.handle(
+      onRetry: () async {
         isRetry = true;
       },
-      isEnable: true,
       host: _baseUrlHost,
-    ).show();
+    );
 
     if (isRetry) {
       _noNetworkTryCount = _noNetworkTryCount + 1;
@@ -99,21 +97,20 @@ mixin NetworkManagerCoreOperation<E extends INetworkModel<E>> {
     CancelToken? cancelToken,
     bool? forceUpdateDecode,
   }) async {
-    if (!isErrorDialog || _noNetworkTryCount == parameters.maxRetryCount) {
+    if (!isErrorDialog ||
+        _noNetworkTryCount == parameters.maxRetryCount ||
+        parameters.noNetwork == null) {
       return onError.call(error);
     }
 
     _noNetworkTryCount = 0;
     var isRetry = false;
-    await NoNetworkManager(
-      context: parameters.noNetwork?.context,
-      customNoNetworkWidget: parameters.noNetwork?.customNoNetwork,
-      onRetry: () {
+    await parameters.noNetwork!.handle(
+      onRetry: () async {
         isRetry = true;
       },
-      isEnable: true,
       host: _baseUrlHost,
-    ).show();
+    );
 
     if (isRetry) {
       _noNetworkTryCount = _noNetworkTryCount + 1;

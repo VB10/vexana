@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:vexana/src/interface/index.dart';
-import 'package:vexana/src/utility/logger/log_items.dart';
+import 'package:vexana_core/src/interface/index.dart';
+import 'package:vexana_core/src/utility/logger/log_items.dart';
 
 /// FormData mixin for [INetworkModel]
 mixin IFormDataModel<T extends INetworkModel<T>> on INetworkModel<T> {

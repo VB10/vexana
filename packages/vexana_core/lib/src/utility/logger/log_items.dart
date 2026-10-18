@@ -1,6 +1,6 @@
 // ignore_for_file: public_member_api_docs
 
-import 'package:vexana/src/utility/index.dart';
+import 'package:vexana_core/src/utility/index.dart';
 
 final class LogItems {
   LogItems._init();

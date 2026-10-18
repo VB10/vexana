@@ -1,5 +1,5 @@
-import 'package:flutter_test/flutter_test.dart';
-import 'package:vexana/src/mixin/index.dart';
+import 'package:test/test.dart';
+import 'package:vexana_core/src/mixin/index.dart';
 
 import 'common/mock_parameters.dart';
 

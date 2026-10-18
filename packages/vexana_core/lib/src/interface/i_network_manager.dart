@@ -1,5 +1,5 @@
-import 'package:vexana/src/mixin/index.dart';
-import 'package:vexana/vexana.dart';
+import 'package:vexana_core/src/mixin/index.dart';
+import 'package:vexana_core/vexana_core.dart';
 
 /// The `INetworkManager` interface is used to define the methods that are used
 /// to send HTTP requests to a server. It extends the `NetworkManagerParameters`

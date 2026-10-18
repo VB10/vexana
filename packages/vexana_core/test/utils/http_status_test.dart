@@ -1,7 +1,7 @@
 import 'dart:io' as io;
 
-import 'package:flutter_test/flutter_test.dart';
-import 'package:vexana/src/utility/http_status.dart';
+import 'package:test/test.dart';
+import 'package:vexana_core/src/utility/http_status.dart';
 
 void main() {
   group('HttpStatus', () {

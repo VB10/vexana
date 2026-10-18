@@ -1,5 +1,5 @@
-import 'package:vexana/src/utility/http_status.dart';
-import 'package:vexana/vexana.dart';
+import 'package:vexana_core/src/utility/http_status.dart';
+import 'package:vexana_core/vexana_core.dart';
 
 /// Error model for network response
 final class ErrorModel<T extends INetworkModel<T>?> extends IErrorModel<T> {

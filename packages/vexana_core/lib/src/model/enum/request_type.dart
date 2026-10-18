@@ -1,6 +1,6 @@
 // ignore_for_file: constant_identifier_names
 
-import 'package:vexana/vexana.dart';
+import 'package:vexana_core/vexana_core.dart';
 
 /// [RequestType] is enum class for [NetworkManager] request type.
 enum RequestType {

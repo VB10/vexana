@@ -1,4 +1,4 @@
-import 'package:vexana/src/interface/index.dart';
+import 'package:vexana_core/src/interface/index.dart';
 
 /// This response model is used to represent the response received from the
 /// server. It contains a `data` field which represents the data received

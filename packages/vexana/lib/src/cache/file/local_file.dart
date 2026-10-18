@@ -1,6 +1,6 @@
 import 'package:vexana/src/cache/file/local_file_io.dart'
     if (dart.library.js_interop) 'local_file_web.dart' as adapter;
-import 'package:vexana/src/interface/i_file_manager.dart';
+import 'package:vexana_core/vexana_core.dart';
 
 /// Local file manager for a document folder
 final class LocalFile extends IFileManager {

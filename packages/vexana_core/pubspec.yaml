@@ -1,0 +1,32 @@
+name: vexana_core
+description: Pure Dart networking core for Vexana. Zero Flutter dependencies; compiles with dart2js and Jaspr.
+version: 1.0.0
+homepage: https://github.com/VB10/vexana
+issue_tracker: https://github.com/VB10/vexana/issues
+funding:
+  - https://github.com/sponsors/vb10/
+topics:
+  - dio
+  - refreshtoken
+  - networkmanager
+  - networkcache
+  - pure-dart
+
+environment:
+  sdk: ^3.6.0
+
+resolution: workspace
+
+dependencies:
+  collection: ^1.17.1
+  dio: ^5.8.0+1
+  dio_web_adapter: ^2.1.0
+  equatable: ^2.0.5
+  logger: ^2.0.2+1
+  meta: ^1.15.0
+  retry: ^3.1.2
+
+dev_dependencies:
+  mockito: ^5.0.0
+  test: ^1.25.0
+  very_good_analysis: ^6.0.0
