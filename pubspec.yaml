@@ -6,8 +6,11 @@ environment:
   sdk: ^3.6.0
 
 workspace:
+  - packages/vexana_core
   - packages/vexana
   - packages/vexana/example
+  - packages/vexana_jaspr
+  - packages/vexana_jaspr/example
   - benchmark
   - apps/playground
 
@@ -20,16 +23,31 @@ melos:
       run: dart analyze --fatal-infos --fatal-warnings
       description: Tüm paketleri analiz et
 
-    # benchmark hariç: ölçümler dakikalar sürüyor, CI'ı gereksiz uzatır.
     test:
-      run: melos exec --dir-exists=test --ignore="benchmark" -- flutter test
-      description: Testi olan her pakette flutter test koş (benchmark hariç)
+      run: melos run test:dart && melos run test:flutter
+      description: Tüm paketlerde ilgili test aracını (dart/flutter) koş
+
+    test:dart:
+      run: melos exec --scope="vexana_core,vexana_jaspr" -- dart test
+      description: Saf Dart ve Jaspr paketlerinde dart test koş
+
+    test:flutter:
+      run: melos exec --scope="vexana" -- flutter test
+      description: Flutter paketinde flutter test koş
 
     coverage:
       run: >-
         melos exec --dir-exists=test --ignore="benchmark" --
         flutter test --coverage
       description: Coverage ile test koş
+
+    purity:
+      run: dart run tool/verify_purity.dart
+      description: vexana_core saf Dart bağımlılık kontrolü
+
+    compile-guard:
+      run: dart compile js packages/vexana_core/tool/compile_guard.dart -o /tmp/guard.js
+      description: vexana_core JS derleme koruması (dart:ui sızıntısı engeli)
 
     benchmark:
       run: melos exec --scope="benchmark" -- flutter test --reporter expanded

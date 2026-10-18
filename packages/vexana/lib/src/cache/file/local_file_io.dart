@@ -4,9 +4,8 @@ import 'dart:io';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:vexana/src/interface/index.dart';
-import 'package:vexana/src/model/index.dart';
-import 'package:vexana/src/utility/json_encode_util.dart';
+import 'package:vexana_core/internal.dart';
+import 'package:vexana_core/vexana_core.dart';
 
 part 'file.dart';
 

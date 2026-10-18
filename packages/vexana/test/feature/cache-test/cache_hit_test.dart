@@ -19,15 +19,15 @@ void main() {
     documents = Directory.systemTemp.createTempSync('vexana-cache-test-');
     PathProviderPlatform.instance = TempDocumentsPathProvider(documents.path);
     requestCount = 0;
-    server = await HttpServer.bind('localhost', 0);
-    server.listen((request) async {
-      requestCount++;
-      request.response
-        ..statusCode = 200
-        ..headers.contentType = ContentType('application', 'json')
-        ..write('[{"userId":1,"id":1,"title":"cached","completed":true}]');
-      await request.response.close();
-    });
+    server = await HttpServer.bind('localhost', 0)
+      ..listen((request) async {
+        requestCount++;
+        request.response
+          ..statusCode = 200
+          ..headers.contentType = ContentType('application', 'json')
+          ..write('[{"userId":1,"id":1,"title":"cached","completed":true}]');
+        await request.response.close();
+      });
     networkManager = NetworkManager<EmptyModel>(
       isEnableTest: true,
       fileManager: LocalFile(),

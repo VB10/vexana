@@ -12,7 +12,7 @@ void main() {
   test('File Manager general check ', () async {
     final file = await fileManager.writeUserRequestDataWithTime(
       'test',
-      jsonEncode(EmptyModel(name: 'test')),
+      jsonEncode(const EmptyModel(name: 'test')),
       const Duration(seconds: 5),
     );
     expect(file, isTrue);
@@ -25,7 +25,7 @@ void main() {
 
     await fileManager.writeUserRequestDataWithTime(
       'test',
-      jsonEncode(EmptyModel(name: 'test')),
+      jsonEncode(const EmptyModel(name: 'test')),
       const Duration(seconds: 5),
     );
     await fileManager.removeUserRequestCache('test');

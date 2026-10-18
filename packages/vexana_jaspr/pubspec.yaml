@@ -1,0 +1,27 @@
+name: vexana_jaspr
+description: Jaspr web networking package for Vexana. Includes localStorage cache, Jaspr components and web connectivity check.
+version: 0.1.0
+homepage: https://github.com/VB10/vexana
+issue_tracker: https://github.com/VB10/vexana/issues
+funding:
+  - https://github.com/sponsors/vb10/
+topics:
+  - dio
+  - jaspr
+  - web
+  - networkmanager
+
+environment:
+  sdk: ^3.6.0
+
+resolution: workspace
+
+dependencies:
+  jaspr: ^0.23.5
+  meta: ^1.15.0
+  vexana_core: ^1.0.0
+  web: ^1.0.0
+
+dev_dependencies:
+  test: ^1.25.0
+  very_good_analysis: ^6.0.0

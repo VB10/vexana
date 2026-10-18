@@ -102,9 +102,12 @@ run_step() {
 }
 
 melos_analyze() { "$DART" run melos run analyze; }
+melos_purity() { "$DART" run melos run purity; }
+melos_compile_guard() { "$DART" run melos run compile-guard; }
 melos_test() { "$DART" run melos run test; }
 build_example_wasm() { (cd packages/vexana/example && "$FLUTTER" build web --wasm); }
 build_playground() { (cd apps/playground && "$FLUTTER" build web); }
+build_jaspr_example() { (cd packages/vexana_jaspr/example && jaspr build); }
 
 # --------------------------------------------------------------------- run ---
 
@@ -116,12 +119,15 @@ echo "${DIM}  loglar  : .verify-logs/${RESET}"
 echo
 
 run_step "Statik analiz (--fatal-infos)" melos_analyze
+run_step "vexana_core saflık kontrolü" melos_purity
+run_step "vexana_core JS derleme koruması" melos_compile_guard
 run_step "Testler" melos_test
 
 # Test sayısını log'dan çek.
 if [[ -f "$LOG_DIR/Testler.log" ]]; then
-  TEST_COUNT="$(grep -oE '\+[0-9]+: All tests passed' "$LOG_DIR/Testler.log" |
-    tail -1 | grep -oE '[0-9]+')"
+  TEST_COUNT="$(grep -oE '\+[0-9]+( ~[0-9]+)?: All tests passed' \
+    "$LOG_DIR/Testler.log" | sed -E 's/^\+([0-9]+).*/\1/' |
+    awk '{ sum += $1 } END { if (NR) print sum }')"
 fi
 
 if [[ "$QUICK" == false ]]; then
@@ -129,6 +135,7 @@ if [[ "$QUICK" == false ]]; then
   if [[ -d "apps/playground" ]]; then
     run_step "playground · web derleme" build_playground
   fi
+  run_step "jaspr example · web derleme" build_jaspr_example
 else
   printf "  %-34s%sATLANDI%s ${DIM}(--quick)%s\n" \
     "Web derlemeleri" "$YELLOW" "$RESET" "$RESET"

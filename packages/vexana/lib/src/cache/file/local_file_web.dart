@@ -1,4 +1,4 @@
-import 'package:vexana/src/interface/index.dart';
+import 'package:vexana_core/vexana_core.dart';
 
 /// The `createFileAdapter()` function is responsible for creating a
 /// for web usage

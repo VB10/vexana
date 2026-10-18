@@ -1,9 +1,8 @@
 import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:vexana/src/interface/i_file_manager.dart';
-import 'package:vexana/src/model/local_data.dart';
-import 'package:vexana/src/utility/json_encode_util.dart';
+import 'package:vexana_core/internal.dart';
+import 'package:vexana_core/vexana_core.dart';
 
 part 'preferences.dart';
 

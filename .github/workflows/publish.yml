@@ -1,27 +1,71 @@
 name: Publish to pub.dev
 
-# Publishing used to run `flutter pub publish --force`, which needs a
-# credential in the runner. This uses pub.dev's OIDC automated publishing
-# through Dart's official reusable workflow instead, so no long lived
-# credentials are stored in the repo.
-#
-# The tag scheme is the existing one (script/push_version.sh writes
-# publish_<version>), so pub.dev's automated publishing configuration does not
-# need to change.
-#
-# One time setup on pub.dev: Admin -> Automated publishing -> enable GitHub
-# Actions for VB10/vexana with the tag pattern publish_{{version}}.
+# Each package has its own tag, because pub.dev checks that the tag matches
+# the package version (pattern per package on pub.dev admin):
+#   vexana_core  -> vexana_core-v{{version}}
+#   vexana       -> vexana-v{{version}}
+#   vexana_jaspr -> vexana_jaspr-v{{version}}
+# Push the vexana_core tag first when the others depend on a new core version.
 on:
   push:
     tags:
-      - "publish_[0-9]+.[0-9]+.[0-9]+*"
+      - "vexana_core-v[0-9]+.[0-9]+.[0-9]+*"
+      - "vexana-v[0-9]+.[0-9]+.[0-9]+*"
+      - "vexana_jaspr-v[0-9]+.[0-9]+.[0-9]+*"
+
+  workflow_dispatch:
+    inputs:
+      package:
+        description: "Package to publish to pub.dev"
+        required: true
+        type: choice
+        default: "all"
+        options:
+          - "all"
+          - "vexana_core"
+          - "vexana"
+          - "vexana_jaspr"
 
 jobs:
-  publish:
+  publish-core:
+    name: Publish vexana_core
+    if: |
+      (github.event_name == 'workflow_dispatch' && (inputs.package == 'all' || inputs.package == 'vexana_core')) ||
+      (github.event_name == 'push' && startsWith(github.ref_name, 'vexana_core-v'))
     permissions:
-      # Required to mint the OIDC token pub.dev verifies.
       id-token: write
     uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
     with:
-      # The published package is no longer at the repo root.
+      working-directory: packages/vexana_core
+
+  publish-vexana:
+    name: Publish vexana
+    needs: [publish-core]
+    if: |
+      always() &&
+      (needs.publish-core.result == 'success' || needs.publish-core.result == 'skipped') &&
+      (
+        (github.event_name == 'workflow_dispatch' && (inputs.package == 'all' || inputs.package == 'vexana')) ||
+        (github.event_name == 'push' && startsWith(github.ref_name, 'vexana-v'))
+      )
+    permissions:
+      id-token: write
+    uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
+    with:
       working-directory: packages/vexana
+
+  publish-jaspr:
+    name: Publish vexana_jaspr
+    needs: [publish-core]
+    if: |
+      always() &&
+      (needs.publish-core.result == 'success' || needs.publish-core.result == 'skipped') &&
+      (
+        (github.event_name == 'workflow_dispatch' && (inputs.package == 'all' || inputs.package == 'vexana_jaspr')) ||
+        (github.event_name == 'push' && startsWith(github.ref_name, 'vexana_jaspr-v'))
+      )
+    permissions:
+      id-token: write
+    uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
+    with:
+      working-directory: packages/vexana_jaspr

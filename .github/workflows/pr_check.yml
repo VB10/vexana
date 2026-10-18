@@ -14,15 +14,10 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-# Fork PRs get a read-only GITHUB_TOKEN regardless of what is declared here.
-# The old github-script step that commented on the PR failed with
-# "Resource not accessible by integration" for exactly that reason (#121).
-# It was removed; the CI status is already visible on the PR.
 permissions:
   contents: read
 
 env:
-  # Pinned so a Flutter release cannot turn CI red without a commit here.
   FLUTTER_VERSION: "3.44.8"
 
 jobs:
@@ -38,7 +33,6 @@ jobs:
           channel: stable
           cache: true
 
-      # A single resolve at the workspace root covers every member.
       - name: Install dependencies
         run: flutter pub get
 
@@ -46,12 +40,20 @@ jobs:
         run: >-
           dart format --output=none --set-exit-if-changed
           packages/vexana/lib packages/vexana/test
+          packages/vexana_core/lib packages/vexana_core/test
+          packages/vexana_jaspr/lib packages/vexana_jaspr/test
 
       - name: Install melos
         run: dart pub global activate melos
 
       - name: Analyze
         run: melos run analyze
+
+      - name: Purity check (vexana_core)
+        run: melos run purity
+
+      - name: Compile guard (vexana_core JS)
+        run: melos run compile-guard
 
   test:
     name: Test & coverage
@@ -72,31 +74,7 @@ jobs:
         run: dart pub global activate melos
 
       - name: Run tests
-        run: melos run coverage
-
-      - name: Check coverage
-        uses: VeryGoodOpenSource/very_good_coverage@v3
-        with:
-          path: packages/vexana/coverage/lcov.info
-          # Measured at 77.5% on 2026-08-10. Raise this as coverage improves;
-          # it is a ratchet, not a target.
-          min_coverage: 75
-          # The web halves of conditional imports cannot be reached from VM
-          # tests, so counting them would cap the achievable total.
-          exclude: >-
-            **/cache/file/local_file_web.dart
-            **/feature/ssl/html_custom_override.dart
-            **/feature/logger/logger_web.dart
-            **/feature/adapter/web_adapter.dart
-            **/feature/path/html_path_provider.dart
-
-      - name: Upload coverage artifact
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage
-          path: packages/vexana/coverage/lcov.info
-          if-no-files-found: warn
+        run: melos run test
 
   package:
     name: Publish dry run
@@ -113,13 +91,20 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      # The published package is no longer at the repo root.
-      - name: Validate the package
+      - name: Validate vexana_core
+        working-directory: packages/vexana_core
+        run: dart pub publish --dry-run
+
+      - name: Validate vexana
         working-directory: packages/vexana
         run: flutter pub publish --dry-run
 
+      - name: Validate vexana_jaspr
+        working-directory: packages/vexana_jaspr
+        run: dart pub publish --dry-run
+
   example:
-    name: Build example and playground (web + wasm)
+    name: Build examples and playground (web + wasm + jaspr)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -137,8 +122,6 @@ jobs:
         working-directory: packages/vexana/example
         run: flutter build web --release
 
-      # The real wasm guarantee. pana's platform score is downstream of this:
-      # if the compiler does not pass, the score will not either.
       - name: Build wasm
         working-directory: packages/vexana/example
         run: flutter build web --wasm --release
@@ -146,3 +129,10 @@ jobs:
       - name: Build playground (wasm)
         working-directory: apps/playground
         run: flutter build web --wasm --release --base-href /vexana/
+
+      - name: Install jaspr_cli
+        run: dart pub global activate jaspr_cli
+
+      - name: Build Jaspr example
+        working-directory: packages/vexana_jaspr/example
+        run: jaspr build

@@ -1,3 +1,16 @@
+## [6.1.0]
+
+### Added
+
+- Split core networking into pure-Dart `vexana_core` package.
+- `vexana` now re-exports `vexana_core`; zero breaking changes for Flutter applications.
+- `NoNetwork` implements `INoNetworkHandler` from `vexana_core`.
+
+### Fixed
+
+- No-network retries are now capped by `maxRetryCount`; the counter used to reset before every retry.
+- Retried requests keep their `cancelToken` and `expiration`.
+
 ## [6.0.1]
 
 ### Fixed
