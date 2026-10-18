@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:vexana_core/internal.dart';
 import 'package:vexana_core/vexana_core.dart';
 
 part 'file.dart';

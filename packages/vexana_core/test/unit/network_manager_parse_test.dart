@@ -13,7 +13,7 @@ void main() {
 
     final response = testParseManager.successResponseFetch<Post, List<Post>>(
       data: data,
-      parserModel: Post(),
+      parserModel: const Post(),
     );
 
     expect(response.data, isNotEmpty);
@@ -23,7 +23,7 @@ void main() {
 
     final responseSingle = testParseManager.successResponseFetch<Post, Post>(
       data: singleData,
-      parserModel: Post(),
+      parserModel: const Post(),
     );
 
     expect(responseSingle.data, isNotNull);

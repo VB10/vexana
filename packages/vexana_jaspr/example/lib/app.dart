@@ -39,6 +39,7 @@ class _AppState extends State<App> {
   late final INetworkManager<EmptyModel> _networkManager;
   String _status = 'Idle';
   String? _todoTitle;
+  JasprRetryCallback? _pendingRetry;
 
   @override
   void initState() {
@@ -46,8 +47,18 @@ class _AppState extends State<App> {
     _networkManager = NetworkManager<EmptyModel>(
       options: BaseOptions(baseUrl: 'https://jsonplaceholder.typicode.com'),
       fileManager: JasprLocalStorageFileManager(),
-      noNetwork: JasprNoNetwork(),
+      noNetwork: JasprNoNetwork(
+        onNetworkLoss: (retry, dismiss) {
+          setState(() => _pendingRetry = retry);
+        },
+      ),
     );
+  }
+
+  void _retry() {
+    final retry = _pendingRetry;
+    setState(() => _pendingRetry = null);
+    retry?.call();
   }
 
   Future<void> _fetchTodo() async {
@@ -56,6 +67,7 @@ class _AppState extends State<App> {
       '/todos/1',
       parseModel: const TodoItem(),
       method: RequestType.GET,
+      isErrorDialog: true,
     );
 
     if (response.data != null) {
@@ -73,6 +85,7 @@ class _AppState extends State<App> {
   @override
   Component build(BuildContext context) {
     return div([
+      if (_pendingRetry != null) JasprNoNetworkComponent(onRetry: _retry),
       h1([Component.text('Vexana Jaspr Demo')]),
       p([Component.text('Status: $_status')]),
       if (_todoTitle != null) p([Component.text('Todo: $_todoTitle')]),

@@ -18,7 +18,7 @@ void main() {
   test('Json Place Holder Todos', () async {
     final response = await networkManager.send<Todo, List<Todo>>(
       '/todos',
-      parseModel: Todo(),
+      parseModel: const Todo(),
       method: RequestType.GET,
     );
 
@@ -28,7 +28,7 @@ void main() {
   test('First value add to all every request headers.', () async {
     final response = await networkManager.send<Todo, List<Todo>>(
       '/todos',
-      parseModel: Todo(),
+      parseModel: const Todo(),
       method: RequestType.GET,
     );
 

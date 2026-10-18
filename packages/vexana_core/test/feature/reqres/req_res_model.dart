@@ -16,12 +16,10 @@ class ReqResModel extends INetworkModel<ReqResModel> {
     total = json['total'] is int ? json['total'] as int : 0;
     totalPages = json['total_pages'] is int ? json['total_pages'] as int : 0;
     if (json['data'] != null) {
-      data = <Data>[];
-      json['data'].forEach((v) {
-        if (v is Map<String, dynamic>) {
-          data?.add(Data.fromJson(v));
-        }
-      });
+      data = [
+        for (final v in json['data'] as List<dynamic>)
+          if (v is Map<String, dynamic>) Data.fromJson(v),
+      ];
     }
     support = json['support'] is Map<String, dynamic>
         ? Support.fromJson(json['support'] as Map<String, dynamic>)

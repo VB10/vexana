@@ -137,19 +137,16 @@ melos run compile-guard
 
 ## Publishing to pub.dev
 
-Automated publishing is powered by GitHub Actions and pub.dev OIDC.
+Automated publishing is powered by GitHub Actions and pub.dev OIDC. Each
+package has its own tag; the version is read from the package's
+`pubspec.yaml`. On pub.dev admin, set the tag pattern per package:
+`vexana_core-v{{version}}`, `vexana-v{{version}}`, `vexana_jaspr-v{{version}}`.
 
-- **Publish all 3 packages in topological order**:
+- **Publish a package** (push `core` first when the others need a new core):
   ```bash
-  ./script/push_version.sh 6.1.0
-  # Pushes tag: publish_6.1.0 -> triggers vexana_core -> vexana -> vexana_jaspr
-  ```
-
-- **Publish an individual package**:
-  ```bash
-  ./script/push_version.sh core 1.0.0     # Pushes vexana_core-v1.0.0
-  ./script/push_version.sh vexana 6.1.0   # Pushes vexana-v6.1.0
-  ./script/push_version.sh jaspr 0.1.0    # Pushes vexana_jaspr-v0.1.0
+  ./script/push_version.sh core     # Pushes vexana_core-v<version>
+  ./script/push_version.sh vexana   # Pushes vexana-v<version>
+  ./script/push_version.sh jaspr    # Pushes vexana_jaspr-v<version>
   ```
 
 - **Manual Trigger**:

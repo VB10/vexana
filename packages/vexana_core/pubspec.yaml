@@ -18,9 +18,7 @@ environment:
 resolution: workspace
 
 dependencies:
-  collection: ^1.17.1
   dio: ^5.8.0+1
-  dio_web_adapter: ^2.1.0
   equatable: ^2.0.5
   logger: ^2.0.2+1
   meta: ^1.15.0

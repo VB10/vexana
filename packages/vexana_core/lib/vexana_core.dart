@@ -11,8 +11,6 @@ export 'src/model/empty_model.dart';
 export 'src/model/enum/request_type.dart';
 export 'src/model/error/file_manager_not_found_exception.dart';
 export 'src/model/error_model.dart';
-export 'src/model/local_data.dart';
 export 'src/model/network_result.dart';
 export 'src/model/response_model.dart';
 export 'src/network_manager.dart';
-export 'src/utility/json_encode_util.dart';

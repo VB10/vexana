@@ -7,7 +7,6 @@ import 'index.dart';
 
 class MockException extends Mock implements DioException {
   @override
-  // TODO: implement requestOptions
   RequestOptions get requestOptions =>
       RequestOptions(baseUrl: 'https://pub.dev/', path: 'mock');
 

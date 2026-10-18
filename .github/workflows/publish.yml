@@ -1,20 +1,17 @@
 name: Publish to pub.dev
 
+# Each package has its own tag, because pub.dev checks that the tag matches
+# the package version (pattern per package on pub.dev admin):
+#   vexana_core  -> vexana_core-v{{version}}
+#   vexana       -> vexana-v{{version}}
+#   vexana_jaspr -> vexana_jaspr-v{{version}}
+# Push the vexana_core tag first when the others depend on a new core version.
 on:
   push:
     tags:
-      # Unified tag (publishes all 3 packages in sequence)
-      - "publish_[0-9]+.[0-9]+.[0-9]+*"
-      - "v[0-9]+.[0-9]+.[0-9]+*"
-      # Individual package tags
       - "vexana_core-v[0-9]+.[0-9]+.[0-9]+*"
-      - "core-v[0-9]+.[0-9]+.[0-9]+*"
-      - "publish_core_[0-9]+.[0-9]+.[0-9]+*"
       - "vexana-v[0-9]+.[0-9]+.[0-9]+*"
-      - "publish_vexana_[0-9]+.[0-9]+.[0-9]+*"
       - "vexana_jaspr-v[0-9]+.[0-9]+.[0-9]+*"
-      - "jaspr-v[0-9]+.[0-9]+.[0-9]+*"
-      - "publish_jaspr_[0-9]+.[0-9]+.[0-9]+*"
 
   workflow_dispatch:
     inputs:
@@ -34,13 +31,7 @@ jobs:
     name: Publish vexana_core
     if: |
       (github.event_name == 'workflow_dispatch' && (inputs.package == 'all' || inputs.package == 'vexana_core')) ||
-      (github.event_name == 'push' && (
-        startsWith(github.ref_name, 'vexana_core-v') ||
-        startsWith(github.ref_name, 'core-v') ||
-        startsWith(github.ref_name, 'publish_core_') ||
-        startsWith(github.ref_name, 'publish_') ||
-        startsWith(github.ref_name, 'v')
-      ))
+      (github.event_name == 'push' && startsWith(github.ref_name, 'vexana_core-v'))
     permissions:
       id-token: write
     uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
@@ -55,12 +46,7 @@ jobs:
       (needs.publish-core.result == 'success' || needs.publish-core.result == 'skipped') &&
       (
         (github.event_name == 'workflow_dispatch' && (inputs.package == 'all' || inputs.package == 'vexana')) ||
-        (github.event_name == 'push' && (
-          startsWith(github.ref_name, 'vexana-v') ||
-          startsWith(github.ref_name, 'publish_vexana_') ||
-          startsWith(github.ref_name, 'publish_') ||
-          startsWith(github.ref_name, 'v')
-        ))
+        (github.event_name == 'push' && startsWith(github.ref_name, 'vexana-v'))
       )
     permissions:
       id-token: write
@@ -70,19 +56,13 @@ jobs:
 
   publish-jaspr:
     name: Publish vexana_jaspr
-    needs: [publish-vexana]
+    needs: [publish-core]
     if: |
       always() &&
-      (needs.publish-vexana.result == 'success' || needs.publish-vexana.result == 'skipped') &&
+      (needs.publish-core.result == 'success' || needs.publish-core.result == 'skipped') &&
       (
         (github.event_name == 'workflow_dispatch' && (inputs.package == 'all' || inputs.package == 'vexana_jaspr')) ||
-        (github.event_name == 'push' && (
-          startsWith(github.ref_name, 'vexana_jaspr-v') ||
-          startsWith(github.ref_name, 'jaspr-v') ||
-          startsWith(github.ref_name, 'publish_jaspr_') ||
-          startsWith(github.ref_name, 'publish_') ||
-          startsWith(github.ref_name, 'v')
-        ))
+        (github.event_name == 'push' && startsWith(github.ref_name, 'vexana_jaspr-v'))
       )
     permissions:
       id-token: write

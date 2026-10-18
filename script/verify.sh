@@ -125,8 +125,9 @@ run_step "Testler" melos_test
 
 # Test sayısını log'dan çek.
 if [[ -f "$LOG_DIR/Testler.log" ]]; then
-  TEST_COUNT="$(grep -oE '\+[0-9]+: All tests passed' "$LOG_DIR/Testler.log" |
-    tail -1 | grep -oE '[0-9]+')"
+  TEST_COUNT="$(grep -oE '\+[0-9]+( ~[0-9]+)?: All tests passed' \
+    "$LOG_DIR/Testler.log" | sed -E 's/^\+([0-9]+).*/\1/' |
+    awk '{ sum += $1 } END { if (NR) print sum }')"
 fi
 
 if [[ "$QUICK" == false ]]; then

@@ -1,6 +1,5 @@
 import 'package:test/test.dart';
 import 'package:vexana_core/src/mixin/network_manager_cache.dart';
-import 'package:vexana_core/src/mixin/network_manager_parameters.dart';
 import 'package:vexana_core/vexana_core.dart';
 
 void main() {
@@ -34,7 +33,7 @@ class CustomNetworkManager extends INetworkManager<EmptyModel> {
     ProgressCallback? callback, {
     RequestType? method,
     Options? options,
-    data,
+    dynamic data,
   }) {
     return Future.value(
       Response<List<int>>(requestOptions: RequestOptions(), data: [1, 2, 3]),
@@ -63,7 +62,7 @@ class CustomNetworkManager extends INetworkManager<EmptyModel> {
     Map<String, dynamic>? queryParameters,
     Options? options,
     Duration? expiration,
-    data,
+    dynamic data,
     ProgressCallback? onReceiveProgress,
     CancelToken? cancelToken,
     bool isErrorDialog = false,
@@ -95,7 +94,7 @@ class CustomNetworkManager extends INetworkManager<EmptyModel> {
     Map<String, dynamic>? queryParameters,
     Options? options,
     Duration? expiration,
-    data,
+    dynamic data,
     ProgressCallback? onReceiveProgress,
     CancelToken? cancelToken,
     bool isErrorDialog = false,

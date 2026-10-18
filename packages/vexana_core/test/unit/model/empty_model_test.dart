@@ -4,7 +4,8 @@ import 'package:vexana_core/vexana_core.dart';
 void main() {
   setUp(() {});
   test('Empty model is valid', () {
-    final emptyModel = EmptyModel().fromJson({'name': 'test', 'n': 'test'});
+    final emptyModel =
+        const EmptyModel().fromJson({'name': 'test', 'n': 'test'});
 
     expect(emptyModel.name, 'test');
 

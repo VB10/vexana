@@ -3,7 +3,6 @@ library;
 
 import 'dart:typed_data';
 
-import 'package:dio/dio.dart';
 import 'package:test/test.dart';
 import 'package:vexana_core/vexana_core.dart';
 
@@ -46,7 +45,7 @@ NetworkManager<EmptyModel> _managerWith(_ResponseAdapter adapter) {
 }
 
 void main() {
-  test('download web tarafında manager adapter\'ını kullanır', () async {
+  test("download web tarafında manager adapter'ını kullanır", () async {
     final adapter = _ResponseAdapter();
 
     final response = await _managerWith(adapter).download(
@@ -62,7 +61,7 @@ void main() {
     expect(response.data, 'hello'.codeUnits);
   });
 
-  test('append modu web\'de desteklenmez ve isteğe hiç çıkılmaz', () async {
+  test("append modu web'de desteklenmez ve isteğe hiç çıkılmaz", () async {
     final adapter = _ResponseAdapter();
 
     await expectLater(

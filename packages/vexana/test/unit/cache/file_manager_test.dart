@@ -21,7 +21,7 @@ void main() {
   test('Local file remove single item ', () async {
     await fileManager.writeUserRequestDataWithTime(
       'test',
-      jsonEncode(EmptyModel(name: 'test')),
+      jsonEncode(const EmptyModel(name: 'test')),
       const Duration(seconds: 5),
     );
 

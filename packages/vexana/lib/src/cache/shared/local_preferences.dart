@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vexana_core/internal.dart';
 import 'package:vexana_core/vexana_core.dart';
 
 part 'preferences.dart';

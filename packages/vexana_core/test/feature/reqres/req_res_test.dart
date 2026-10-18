@@ -14,20 +14,18 @@ void main() {
   });
   test('Delay Request', () async {
     final cancelToken = CancelToken();
-    await networkManager
-        .send<ReqResModel, ReqResModel>(
-      '/users?delay=5',
-      parseModel: ReqResModel(),
-      method: RequestType.GET,
-      cancelToken: cancelToken,
-    )
-        .catchError((err) {
-      if (err is DioException) {
-        if (CancelToken.isCancel(err)) {
-          print('Request canceled! ${err.message}');
-        }
+    try {
+      await networkManager.send<ReqResModel, ReqResModel>(
+        '/users?delay=5',
+        parseModel: ReqResModel(),
+        method: RequestType.GET,
+        cancelToken: cancelToken,
+      );
+    } on DioException catch (err) {
+      if (CancelToken.isCancel(err)) {
+        print('Request canceled! ${err.message}');
       }
-    });
+    }
 
     cancelToken.cancel('canceled');
   });

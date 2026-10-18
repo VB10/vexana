@@ -1,5 +1,4 @@
 import 'package:mockito/mockito.dart';
-import 'package:vexana_core/src/mixin/network_manager_parameters.dart';
 import 'package:vexana_core/vexana_core.dart';
 
 class MockNetworkManagerParameters extends Mock

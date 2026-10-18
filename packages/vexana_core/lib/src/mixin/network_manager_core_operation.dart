@@ -2,6 +2,8 @@ import 'package:vexana_core/vexana_core.dart';
 
 /// Manage network error situation
 mixin NetworkManagerCoreOperation<E extends INetworkModel<E>> {
+  /// Number of retries currently in flight; caps the retry chain at
+  /// [NetworkManagerParameters.maxRetryCount].
   int _noNetworkTryCount = 0;
 
   /// Network manager parameters
@@ -18,6 +20,30 @@ mixin NetworkManagerCoreOperation<E extends INetworkModel<E>> {
     final host = Uri.tryParse(parameters.baseOptions.baseUrl)?.host;
     if (host == null || host.isEmpty) return null;
     return host;
+  }
+
+  Future<bool> _shouldRetry({required bool isErrorDialog}) async {
+    final noNetwork = parameters.noNetwork;
+    if (!isErrorDialog || noNetwork == null) return false;
+    if (_noNetworkTryCount >= parameters.maxRetryCount) return false;
+
+    var isRetry = false;
+    await noNetwork.handle(
+      onRetry: () async {
+        isRetry = true;
+      },
+      host: _baseUrlHost,
+    );
+    return isRetry;
+  }
+
+  Future<T> _retry<T>(Future<T> Function() request) async {
+    _noNetworkTryCount++;
+    try {
+      return await request();
+    } finally {
+      _noNetworkTryCount--;
+    }
   }
 
   /// Manage any error according from server
@@ -42,38 +68,24 @@ mixin NetworkManagerCoreOperation<E extends INetworkModel<E>> {
     CancelToken? cancelToken,
     bool? forceUpdateDecode,
   }) async {
-    if (!isErrorDialog ||
-        _noNetworkTryCount == parameters.maxRetryCount ||
-        parameters.noNetwork == null) {
+    if (!await _shouldRetry(isErrorDialog: isErrorDialog)) {
       return onError.call(error);
     }
 
-    _noNetworkTryCount = 0;
-    var isRetry = false;
-    await parameters.noNetwork!.handle(
-      onRetry: () async {
-        isRetry = true;
-      },
-      host: _baseUrlHost,
-    );
-
-    if (isRetry) {
-      _noNetworkTryCount = _noNetworkTryCount + 1;
-
-      return instance.send(
+    return _retry(
+      () => instance.send(
         path,
         parseModel: parseModel,
         method: method,
         data: data,
         queryParameters: queryParameters,
         options: options,
+        expiration: expiration,
         isErrorDialog: isErrorDialog,
         urlSuffix: urlSuffix,
-      );
-    }
-
-    _noNetworkTryCount = 0;
-    return onError.call(error);
+        cancelToken: cancelToken,
+      ),
+    );
   }
 
   /// The handleErrorResponse method handles network errors by either invoking
@@ -97,37 +109,23 @@ mixin NetworkManagerCoreOperation<E extends INetworkModel<E>> {
     CancelToken? cancelToken,
     bool? forceUpdateDecode,
   }) async {
-    if (!isErrorDialog ||
-        _noNetworkTryCount == parameters.maxRetryCount ||
-        parameters.noNetwork == null) {
+    if (!await _shouldRetry(isErrorDialog: isErrorDialog)) {
       return onError.call(error);
     }
 
-    _noNetworkTryCount = 0;
-    var isRetry = false;
-    await parameters.noNetwork!.handle(
-      onRetry: () async {
-        isRetry = true;
-      },
-      host: _baseUrlHost,
-    );
-
-    if (isRetry) {
-      _noNetworkTryCount = _noNetworkTryCount + 1;
-
-      return instance.sendRequest(
+    return _retry(
+      () => instance.sendRequest(
         path,
         parseModel: parseModel,
         method: method,
         data: data,
         queryParameters: queryParameters,
         options: options,
+        expiration: expiration,
         isErrorDialog: isErrorDialog,
         urlSuffix: urlSuffix,
-      );
-    }
-
-    _noNetworkTryCount = 0;
-    return onError.call(error);
+        cancelToken: cancelToken,
+      ),
+    );
   }
 }

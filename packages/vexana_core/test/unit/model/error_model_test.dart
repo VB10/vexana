@@ -6,7 +6,7 @@ import 'package:vexana_core/vexana_core.dart';
 void main() {
   setUp(() {});
   test('Error model is valid', () {
-    final errorModel =
+    const errorModel =
         ErrorModel(description: 'test', statusCode: 200, model: EmptyModel());
 
     expect(errorModel.description, 'test');

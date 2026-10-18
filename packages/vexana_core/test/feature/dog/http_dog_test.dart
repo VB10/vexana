@@ -22,7 +22,7 @@ void main() {
   test('Primitive Type', () async {
     final response = await networkManager.send<EmptyModel, EmptyModel>(
       '/dogs/0/code.json',
-      parseModel: EmptyModel(),
+      parseModel: const EmptyModel(),
       method: RequestType.GET,
     );
     expect(response.data, isNotNull);

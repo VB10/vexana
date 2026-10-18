@@ -65,8 +65,6 @@ final class Post extends INetworkModel<Post> {
 ```dart
 import 'package:vexana_jaspr/vexana_jaspr.dart';
 
-final jasprNoNetwork = JasprNoNetwork();
-
 final networkManager = NetworkManager<EmptyModel>(
   isEnableLogger: true,
   options: BaseOptions(
@@ -75,36 +73,70 @@ final networkManager = NetworkManager<EmptyModel>(
   ),
   // Caches responses in browser window.localStorage
   fileManager: JasprLocalStorageFileManager(),
-  // Handles offline requests
-  noNetwork: jasprNoNetwork,
 );
 ```
 
 ### 3. Display Offline Banner in your Jaspr Component Tree
 
-Use `JasprNoNetworkComponent` anywhere in your Jaspr component tree to automatically notify users when requests fail due to lack of network:
+`JasprNoNetwork` only acts when the browser is offline (`navigator.onLine`)
+and the request was sent with `isErrorDialog: true`. `onNetworkLoss` receives
+`retry` and `dismiss`; the failed request waits until one of them is called.
+Retries are capped by `maxRetryCount`.
 
 ```dart
 import 'package:jaspr/dom.dart';
 import 'package:jaspr/jaspr.dart';
 import 'package:vexana_jaspr/vexana_jaspr.dart';
 
-class App extends StatelessComponent {
-  const App({required this.noNetwork, super.key});
+class App extends StatefulComponent {
+  const App({super.key});
 
-  final JasprNoNetwork noNetwork;
+  @override
+  State<App> createState() => _AppState();
+}
+
+class _AppState extends State<App> {
+  late final NetworkManager<EmptyModel> _manager;
+  JasprRetryCallback? _pendingRetry;
+
+  @override
+  void initState() {
+    super.initState();
+    _manager = NetworkManager<EmptyModel>(
+      options: BaseOptions(baseUrl: 'https://jsonplaceholder.typicode.com'),
+      noNetwork: JasprNoNetwork(
+        onNetworkLoss: (retry, dismiss) {
+          setState(() => _pendingRetry = retry);
+        },
+      ),
+    );
+  }
+
+  void _retry() {
+    final retry = _pendingRetry;
+    setState(() => _pendingRetry = null);
+    retry?.call();
+  }
 
   @override
   Component build(BuildContext context) {
     return div([
-      // Renders an offline alert bar with a "Retry" button when offline
-      JasprNoNetworkComponent(noNetwork: noNetwork),
-
+      if (_pendingRetry != null) JasprNoNetworkComponent(onRetry: _retry),
       h1([Component.text('Welcome to My Jaspr App')]),
-      // ... your other components
     ]);
   }
 }
+```
+
+Requests opt in per call:
+
+```dart
+await _manager.send<Post, List<Post>>(
+  '/posts',
+  parseModel: Post(),
+  method: RequestType.GET,
+  isErrorDialog: true,
+);
 ```
 
 ---

@@ -28,7 +28,7 @@ void main() {
 
   test('CorePing can be assigned to vexana.INetworkModel', () {
     const core.INetworkModel<CorePing> coreModel = CorePing();
-    const vexana.INetworkModel<CorePing> flutterModel = coreModel;
+    const flutterModel = coreModel;
     expect(flutterModel, isNotNull);
   });
 

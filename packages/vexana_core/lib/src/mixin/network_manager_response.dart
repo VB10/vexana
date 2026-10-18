@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:vexana_core/src/utility/custom_logger.dart';
+import 'package:vexana_core/src/utility/json_encode_util.dart';
 import 'package:vexana_core/src/utility/logger/log_items.dart';
 import 'package:vexana_core/vexana_core.dart';
 

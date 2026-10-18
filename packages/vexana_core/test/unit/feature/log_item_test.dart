@@ -17,7 +17,7 @@ void main() {
       LogItems.bodyParseGeneralLog<EmptyModel, EmptyModel>(
         data: customLogger,
         isEnableLogger: false,
-        responseBody: EmptyModel(),
+        responseBody: const EmptyModel(),
       );
 
       LogItems.formDataLog<EmptyModel>(isEnableLogger: true);

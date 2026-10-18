@@ -70,19 +70,8 @@ void main() {
     expect(await fileManager.getUserRequestDataOnString('api_users_1'), isNull);
     expect(await fileManager.getUserRequestDataOnString('api_users_2'), isNull);
     expect(
-        await fileManager.getUserRequestDataOnString('other_key'), isNotNull);
-  });
-
-  test('JasprNoNetwork handler triggers onRetry', () async {
-    var retryCalled = false;
-    final handler = JasprNoNetwork();
-
-    await handler.handle(
-      onRetry: () async {
-        retryCalled = true;
-      },
+      await fileManager.getUserRequestDataOnString('other_key'),
+      isNotNull,
     );
-
-    expect(retryCalled, isTrue);
   });
 }

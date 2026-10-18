@@ -22,17 +22,17 @@ void main() {
   setUp(() async {
     receivedPaths = [];
     receivedHeaders = [];
-    server = await HttpServer.bind(InternetAddress.loopbackIPv4, 0);
-    server.listen((request) async {
-      receivedPaths.add(request.uri.path);
-      receivedHeaders.add(request.headers.value('x-from-interceptor'));
+    server = await HttpServer.bind(InternetAddress.loopbackIPv4, 0)
+      ..listen((request) async {
+        receivedPaths.add(request.uri.path);
+        receivedHeaders.add(request.headers.value('x-from-interceptor'));
 
-      request.response
-        ..statusCode = 200
-        ..headers.contentType = ContentType.json
-        ..write(jsonEncode({'ok': true}));
-      await request.response.close();
-    });
+        request.response
+          ..statusCode = 200
+          ..headers.contentType = ContentType.json
+          ..write(jsonEncode({'ok': true}));
+        await request.response.close();
+      });
 
     /// Sondaki `/` kasıtlı: eski `sendPrimitive` `baseUrl + path` şeklinde elle
     /// birleştirdiği için `//ping` üretiyordu. Sunucu bunu scheme-relative bir
@@ -42,7 +42,7 @@ void main() {
 
   tearDown(() async => server.close(force: true));
 
-  test('sendPrimitive baseUrl ile path\'i doğru birleştirir', () async {
+  test("sendPrimitive baseUrl ile path'i doğru birleştirir", () async {
     final manager = NetworkManager<EmptyModel>(
       options: BaseOptions(baseUrl: baseUrl),
     );
@@ -52,7 +52,7 @@ void main() {
     expect(receivedPaths.single, '/ping');
   });
 
-  test('sendPrimitive manager interceptor\'ından geçer', () async {
+  test("sendPrimitive manager interceptor'ından geçer", () async {
     final manager = NetworkManager<EmptyModel>(
       options: BaseOptions(baseUrl: baseUrl),
       interceptor: _StampInterceptor(),
@@ -67,7 +67,7 @@ void main() {
     );
   });
 
-  test('downloadFileSimple manager interceptor\'ından geçer', () async {
+  test("downloadFileSimple manager interceptor'ından geçer", () async {
     final manager = NetworkManager<EmptyModel>(
       options: BaseOptions(baseUrl: baseUrl),
       interceptor: _StampInterceptor(),
@@ -79,7 +79,7 @@ void main() {
     expect(receivedPaths.single, '/file.bin');
   });
 
-  test('downloadFileSimple mutlak URL ile baseUrl\'i yok sayar', () async {
+  test("downloadFileSimple mutlak URL ile baseUrl'i yok sayar", () async {
     final manager = NetworkManager<EmptyModel>(
       options: BaseOptions(baseUrl: 'https://baska-bir-host.example/'),
     );

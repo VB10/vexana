@@ -30,19 +30,19 @@ void main() {
   test('Retry Auth Test', () async {
     await networkManager.send<EmptyModel, EmptyModel>(
       '/words.json',
-      parseModel: EmptyModel(),
+      parseModel: const EmptyModel(),
       method: RequestType.GET,
     );
 
     await networkManager.send<EmptyModel, EmptyModel>(
       '/words2.json',
-      parseModel: EmptyModel(),
+      parseModel: const EmptyModel(),
       method: RequestType.GET,
     );
 
     final response = await networkManager.send<EmptyModel, EmptyModel>(
       '/words2.json',
-      parseModel: EmptyModel(),
+      parseModel: const EmptyModel(),
       method: RequestType.GET,
     );
 

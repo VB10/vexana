@@ -3,10 +3,8 @@ import 'package:vexana_core/vexana_core.dart';
 
 import 'user.dart';
 
-// ignore: always_declare_return_types
 void main() {
   late INetworkManager<EmptyModel> networkManager;
-  const isServiceOn = false;
 
   setUp(() {
     networkManager = NetworkManager<EmptyModel>(
@@ -23,9 +21,8 @@ void main() {
     );
   });
 
-  test('Json Place Holder Todos', () async {
-    if (!isServiceOn) return;
-
+  test('Json Place Holder Todos', skip: 'needs a local server on :3000',
+      () async {
     final response = await networkManager.send<User, User>(
       '/user',
       parseModel: User(),
